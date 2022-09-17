@@ -1,0 +1,18 @@
+
+;; ----- amx-history -----
+(
+ list-packages
+ eval-buffer
+ org-capture
+ cd
+ 5x5
+ amx
+ arp
+)
+
+;; ----- amx-data -----
+(
+ (list-packages . 13)
+ (eval-buffer . 12)
+ (org-capture . 2)
+)
