@@ -44,6 +44,10 @@ nmap <silent> <Leader>r :LspReferences<CR>
 nmap <silent> <Leader>i :LspImplementation<CR>
 nmap <silent> <Leader>s :split \| :LspDefinition <CR>
 nmap <silent> <Leader>v :vsplit \| :LspDefinition <CR>
+nnoremap <silent> ]e  :LspNextError<CR>
+nnoremap <silent> [e  :LspPreviousError<CR> 
+nnoremap <silent> ]w  :LspNextWarning<CR>
+nnoremap <silent> [w  :LspPreviousWarning<CR> 
 
 " line number
 set number
@@ -116,8 +120,8 @@ let g:vimfiler_force_overwrite_statusline = 0
 let g:vimshell_force_overwrite_statusline = 0
 
 "set termguicolors
-let g:tokyonight_style = 'storm' " available: night, storm
-let g:lightline = {'colorscheme' : 'tokyonight'}
+"let g:tokyonight_style = 'storm' " available: night, storm
+"let g:lightline = {'colorscheme' : 'tokyonight'}
 
 " set quickrun config
 nnoremap <Leader>q :QuickRun<CR>
@@ -128,5 +132,5 @@ let g:quickrun_config._ = {
       \ 'outputter/buffer/close_on_empty': 1,
       \ }
 
-colorscheme tokyonight
+"colorscheme tokyonight
 syntax enable
