@@ -142,7 +142,7 @@ alias mkdir='mkdir -p'
 alias vi='vim'
 alias ga='git add'
 alias gl='git log'
-alias gm='git commit'
+alias gc='git commit'
 alias gs='git status'
  
 # sudo の後のコマンドでエイリアスを有効にする
@@ -194,9 +194,10 @@ zplug "zsh-users/zsh-syntax-highlighting"
 zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-completions"
 zplug "zsh-users/zsh-history-substring-search"
-zplug "spaceship-prompt/spaceship-prompt"
+#zplug "spaceship-prompt/spaceship-prompt"
 zplug "chrissicool/zsh-256color"
 zplug "mrowa44/emojify", as:command
+#zplug "yuki-yano/zeno" <= error
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
@@ -206,21 +207,15 @@ if ! zplug check --verbose; then
   fi
 fi
 
-
-#=============================
-# source zsh-history-substring-search
-#=============================
-#if [ -f ~/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh ]; then
-#  source ~/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
-#fi
-
-#=============================
-# source spaceship-prompt
-#=============================
-#if [ -f ~/.zsh/spaceship-prompt/spaceship-prompt.zsh ]; then
-#  source ~/.zsh/spaceship-prompt/spaceship-prompt.zsh
-#fi
-
 zplug load
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+if type brew &>/dev/null; then
+  FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+
+  autoload -Uz compinit
+  compinit
+fi
+
+chmod go-w '/usr/local/share'
