@@ -1,5 +1,4 @@
 "--- keymap ---
-inoremap <silent> <C-j> <ESC>
 let g:mapleader = "\<Space>"
 
 " スペース＋wでファイル保存
@@ -14,14 +13,16 @@ noremap <Leader>h ^
 noremap <Leader>H 0
 noremap <Leader>l $
 
-" lsp setting
-
 " move pair ()
 nnoremap <Leader>m %
 
+" pairlenthesis plugin
 if filereadable(expand('~/.vim/vimrc_parenthesis.plugin'))
   source ~/.vim/vimrc_parenthesis.plugin
 endif
+
+nnoremap j gj
+nnoremap k gk
 
 
 " Ctrl + j & Ctrl + k で段落前後移動
@@ -51,7 +52,6 @@ nnoremap <silent> [w  :LspPreviousWarning<CR>
 
 " line number
 set number
-set relativenumber
 set cursorline
 
 " tab
@@ -81,6 +81,21 @@ set matchpairs& matchpairs+=<:>
 
 " if you have not already installed lightline, commenn out.
 set noshowmode
+
+" クリップボードのペースト
+" 挿入モードでペーストする際自動でインデントさせない
+if &term =~ "xtern"
+  let &t_SI .= "\e[?2004h"
+  let &t_EI .= "\e[?2004l"
+  let &pastetoggle = "\e[201~"
+
+  function XTermPasteBegin(ret)
+    set paste
+    return a:ret
+  endfunction
+
+  inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
+endif
 
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
