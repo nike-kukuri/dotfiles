@@ -144,6 +144,9 @@ alias ga='git add'
 alias gl='git log'
 alias gc='git commit'
 alias gs='git status'
+
+# pass: 簡易
+alias ssh_winnote='ssh -i ~/.ssh/windows_note yeahg@192.168.1.18'
  
 # sudo の後のコマンドでエイリアスを有効にする
 alias sudo='sudo '

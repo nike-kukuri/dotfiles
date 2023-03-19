@@ -1,29 +1,196 @@
 "--- keymap ---
 let g:mapleader = "\<Space>"
 
+"--- Plugin Install by vim-plug ---
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin('~/.vim/plugged')
+
+Plug 'vim-jp/vimdoc-ja'
+Plug 'ghifarit53/tokyonight-vim'
+Plug 'itchyny/lightline.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'thinca/vim-quickrun'
+Plug 'EdenEast/nightfox.nvim'
+Plug 'sainnhe/edge'
+Plug 'lambdalisue/fern.vim'
+Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+Plug 'lambdalisue/nerdfont.vim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+call plug#end()
+
+" --- setup Plugins ---
+" fzf.vim
+nnoremap <C-P> :Files<CR>
+" fern.vim
+let g:fern#renderer = "nerdfont"
+let g:fern#window_selector_use_popup = 1
+function! s:fern_init() abort
+  nnoremap <buffer> <silent> q :q<CR>
+  map <buffer> <silent> <C-x> <Plug>(fern-action-open:split)
+  map <buffer> <silent> <C-v> <Plug>(fern-action-open:vsplit)
+  map <buffer> <silent> <C-t> <Plug>(fern-action-tcd)
+endfunction
+
+let g:fern#default_hidden = 1
+let g:fern#default_exclude = '.git$'
+
+augroup fern-settings
+  au!
+  au FileType fern call s:fern_init()
+augroup END
+
+nnoremap <silent> <Leader>f :Fern . -drawer<CR>
+
+" lightline.vim
+function! LightlineFilename()
+  return &filetype ==# 'vimfiler' ? vimfiler#get_status_string() :
+        \ &filetype ==# 'unite' ? unite#get_status_string() :
+        \ &filetype ==# 'vimshell' ? vimshell#get_status_string() :
+        \ expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
+endfunction
+
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ 'component_function': {
+      \   'filename': 'LightlineFilename',
+      \ },
+      \ }
+
+" vim-lsp.vim
+nmap <silent> <Leader>d :LspDefinition<CR>
+nmap <silent> <Leader>p :LspHover<CR>
+nmap <silent> <Leader>r :LspReferences<CR>
+nmap <silent> <Leader>i :LspImplementation<CR>
+nmap <silent> <Leader>s :split \| :LspDefinition <CR>
+nmap <silent> <Leader>v :vsplit \| :LspDefinition <CR>
+nnoremap <silent> ]e  :LspNextError<CR>
+nnoremap <silent> [e  :LspPreviousError<CR> 
+nnoremap <silent> ]w  :LspNextWarning<CR>
+nnoremap <silent> [w  :LspPreviousWarning<CR> 
+
+" quickrun.vim
+nnoremap <Leader>q :QuickRun<CR>
+let g:quickrun_config = get(g:, 'quickrun_config', {})
+let g:quickrun_config._ = {
+      \ 'outputter/buffer/opener': 'new',
+      \ 'outputter/buffer/into': 1,
+      \ 'outputter/buffer/close_on_empty': 1,
+      \ }
+
+" --- color scheme ---
+set termguicolors
+colorscheme edge
+set background=dark
+" visual modeのhighlight変更
+hi Visual ctermfg=159 ctermbg=23 guifg=#b3c3cc guibg=#384851
+
+" --- setup options ---
+syntax enable
+filetype plugin indent on
+set number
+set cursorline
+set scrolloff=100
+set expandtab
+set smartindent
+set autoindent
+set incsearch
+set wildmenu
+set showmatch
+set matchtime=1
+set matchpairs& matchpairs+=<:>
+set noshowmode
+set undolevels=1000
+set helplang=ja
+set autowrite 
+set noswapfile
+set laststatus=2
+set wildcharm=<Tab> " cnnoremap <expr> で <Tab> を有効にする
+
+" 拡張子ごとのインデント設定
+set tabstop=2 shiftwidth=2 softtabstop=2
+
+augroup fileTypeIndent
+  au!
+  au FileType go setlocal tabstop=4 shiftwidth=4
+  au FileType vim setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+  au FileType php setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+  au FileType html setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+  au FileType javascript,javascriptreact setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+  au FileType typescript,typescriptreact setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+  au FileType vue  setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+  au FileType yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+  au FileType json setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+  au FileType sh setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+  au FileType fish setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+  au FileType zsh setlocal tabstop=2 shiftwidth=2 expandtab
+  au FileType rust setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
+  au FileType markdown setlocal tabstop=2 shiftwidth=2 expandtab
+augroup END
+
+" --- keymaps ---
 " スペース＋wでファイル保存
 nnoremap <Leader>w :w<CR>
 
 " Escを２回押すとハイライトを消す
-nnoremap <Esc><Esc> :nohlsearch<CR> " スペース＋.でvimrcを開く
+nnoremap <Esc><Esc> :nohlsearch<CR> 
+" スペース＋.でvimrcを開く
 nnoremap <Leader>. :new ~/.vimrc<CR>
 
+" 検索
+nnoremap <C-G><C-G> :Ripgrep <C-R><C-W><CR>
+
+" 置換
+nnoremap <Leader>re :%s;\<<C-R><C-W>\>;g<Left><Left>;
+
 " Home / End
-noremap <Leader>h ^
-noremap <Leader>H 0
-noremap <Leader>l $
+nnoremap H ^
+nnoremap L $
+vnoremap H ^
+vnoremap L $
+onoremap H ^
+onoremap L $
+
+" Emacs風のキーマップ
+imap <C-h> <BS>
+inoremap <C-k> <C-o>C
+inoremap <silent> <C-f> <Right>
+inoremap <silent> <C-b> <Left>
+inoremap <silent> <C-e> <C-o>A
+inoremap <silent> <C-a> <C-o>I
+
+" コマンドラインで単語移動
+cnoremap <C-b> <Left>
+cnoremap <C-f> <Right>
+cnoremap <C-a> <Home>
+
+" Better <C-n>/<C-p> in Command
+cnoremap <expr> <C-p> pumvisible() ? '<C-p>' : '<Up>'
+cnoremap <expr> <C-n> pumvisible() ? '<C-n>' : '<Down>'
+cnoremap <Up> <C-p>
+cnoremap <Down> <C-n>
+
+cnoremap <expr> <Tab> pumvisible() ? '<C-y><Tab>' : '<Tab>'
 
 " move pair ()
-nnoremap <Leader>m %
+nnoremap <Tab> %
 
-" pairlenthesis plugin
-if filereadable(expand('~/.vim/vimrc_parenthesis.plugin'))
-  source ~/.vim/vimrc_parenthesis.plugin
+" parenthesis plugin
+if filereadable(expand('~/dotfiles/vim/vimrc_parenthesis.plug'))
+  source ~/dotfiles/vim/vimrc_parenthesis.plug
 endif
 
 nnoremap j gj
 nnoremap k gk
-
 
 " Ctrl + j & Ctrl + k で段落前後移動
 nnoremap <C-j> }
@@ -38,49 +205,11 @@ nnoremap sh <C-w>h
 nnoremap ss :<C-u>sp<CR><C-w>j
 nnoremap sv :<C-u>vs<CR><C-w>l
 
-" lsp 定義ジャンプなど
-nmap <silent> <Leader>d :LspDefinition<CR>
-nmap <silent> <Leader>p :LspHover<CR>
-nmap <silent> <Leader>r :LspReferences<CR>
-nmap <silent> <Leader>i :LspImplementation<CR>
-nmap <silent> <Leader>s :split \| :LspDefinition <CR>
-nmap <silent> <Leader>v :vsplit \| :LspDefinition <CR>
-nnoremap <silent> ]e  :LspNextError<CR>
-nnoremap <silent> [e  :LspPreviousError<CR> 
-nnoremap <silent> ]w  :LspNextWarning<CR>
-nnoremap <silent> [w  :LspPreviousWarning<CR> 
-
-" line number
-set number
-set cursorline
-
-" tab
-set expandtab
-set tabstop=4
-set shiftwidth=4
-
 " when you open Makefile, noexpandtab
 let _curfile=expand("%:r")
 if _curfile == 'Makefile'
   set noexpandtab
 endif
-
-" auto indent
-set smartindent
-set autoindent
-
-set incsearch
-set wildmenu
-
-filetype plugin indent on
-
-" highlight pair () 
-set showmatch
-set matchtime=1
-set matchpairs& matchpairs+=<:>
-
-" if you have not already installed lightline, commenn out.
-set noshowmode
 
 " クリップボードのペースト
 " 挿入モードでペーストする際自動でインデントさせない
@@ -96,56 +225,3 @@ if &term =~ "xtern"
 
   inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
 endif
-
-let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
-if empty(glob(data_dir . '/autoload/plug.vim'))
-  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-
-call plug#begin()
-
-Plug 'ghifarit53/tokyonight-vim'
-Plug 'itchyny/lightline.vim'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'mattn/vim-lsp-settings'
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
-Plug 'thinca/vim-quickrun'
-
-call plug#end()
-
-" set lightline
-let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ 'component_function': {
-      \   'filename': 'LightlineFilename',
-      \ },
-      \ }
-
-function! LightlineFilename()
-  return &filetype ==# 'vimfiler' ? vimfiler#get_status_string() :
-        \ &filetype ==# 'unite' ? unite#get_status_string() :
-        \ &filetype ==# 'vimshell' ? vimshell#get_status_string() :
-        \ expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
-endfunction
-
-let g:unite_force_overwrite_statusline = 0
-let g:vimfiler_force_overwrite_statusline = 0
-let g:vimshell_force_overwrite_statusline = 0
-
-"set termguicolors
-"let g:tokyonight_style = 'storm' " available: night, storm
-"let g:lightline = {'colorscheme' : 'tokyonight'}
-
-" set quickrun config
-nnoremap <Leader>q :QuickRun<CR>
-let g:quickrun_config = get(g:, 'quickrun_config', {})
-let g:quickrun_config._ = {
-      \ 'outputter/buffer/opener': 'new',
-      \ 'outputter/buffer/into': 1,
-      \ 'outputter/buffer/close_on_empty': 1,
-      \ }
-
-"colorscheme tokyonight
-syntax enable

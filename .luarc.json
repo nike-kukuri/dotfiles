@@ -1,0 +1,39 @@
+{
+    "$schema": "https://raw.githubusercontent.com/sumneko/vscode-lua/master/setting/schema.json",
+    "Lua.diagnostics.disable": [
+        "redundant-parameter"
+    ],
+    "Lua.diagnostics.globals": [
+        "vim",
+        "map",
+        "nmap",
+        "vmap",
+        "imap",
+        "omap",
+        "cmap",
+        "tmap",
+        "xmap",
+        "g",
+        "opt",
+        "cmd",
+        "fn",
+        "api"
+    ],
+    "workspace.library": [
+        "/Users/yamasotokeita/.config/nvim",
+        "/Users/yamasotokeita/.local/share/nvim/lazy/lazy.nvim",
+        "/Users/yamasotokeita/.local/share/nvim/lazy/mason.nvim",
+        "/Users/yamasotokeita/.local/share/nvim/lazy/nvim-lspconfig",
+        "/Users/yamasotokeita/.local/share/nvim/lazy/mason-lspconfig.nvim",
+        "/Users/yamasotokeita/.local/share/nvim/lazy/indent-blankline.nvim",
+        "/Users/yamasotokeita/.local/share/nvim/lazy/nvim-treesitter",
+        "/Users/yamasotokeita/.local/share/nvim/lazy/fern.vim",
+        "/Users/yamasotokeita/.local/share/nvim/lazy/fern-hijack.vim",
+        "/Users/yamasotokeita/.local/share/nvim/lazy/fidget.nvim",
+        "/usr/local/Cellar/neovim/0.8.0/share/nvim/runtime",
+        "/usr/local/Cellar/neovim/0.8.0/lib/nvim",
+        "/Users/yamasotokeita/.local/state/nvim/lazy/readme",
+        "${3rd}/luassert/library",
+    ],
+    "workspace.checkThirdParty": false
+}
