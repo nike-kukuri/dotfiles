@@ -20,8 +20,7 @@ local disable_plugins = {
   "loaded_tarPlugin",
   "loaded_zip",
   "loaded_zipPlugin",
-  "loaded_rrhelper",
-  "loaded_2html_plugin",
+  "loaded_rrhelper", "loaded_2html_plugin",
   "loaded_vimball",
   "loaded_vimballPlugin",
   "loaded_getscript",
@@ -58,41 +57,45 @@ end
 cmd('syntax enable')
 cmd('filetype plugin indent on')
 
-g.mapleader = " "
-opt.breakindent = true
-opt.number = false
-opt.incsearch = true
-opt.ignorecase = true
-opt.smartcase = true
-opt.hlsearch = true
-opt.autoindent = true
-opt.smartindent = true
-opt.virtualedit = "block"
-opt.showtabline = 1
-opt.tabstop = 2
-opt.shiftwidth = 2
-opt.softtabstop = 2
-opt.completeopt = 'menu,menuone,noselect'
-opt.laststatus = 3
-opt.scrolloff = 100
-opt.cursorline = true
-opt.helplang = 'ja'
-opt.autowrite = true
-opt.swapfile = false
-opt.showtabline = 1
--- opt.diffopt = 'vertical,internal'
+g.mapleader      = " "
+opt.breakindent  = true
+opt.number       = false
+opt.incsearch    = true
+opt.ignorecase   = true
+opt.smartcase    = true
+opt.hlsearch     = true
+opt.autoindent   = true
+opt.smartindent  = true
+opt.virtualedit  = "block"
+opt.showtabline  = 1
+opt.tabstop      = 2
+opt.shiftwidth   = 2
+opt.softtabstop  = 2
+opt.completeopt  = 'menu,menuone,noselect'
+opt.laststatus   = 3
+opt.scrolloff    = 100
+opt.cursorline   = true
+opt.helplang     = 'ja'
+opt.autowrite    = true
+opt.swapfile     = false
+opt.showtabline  = 1
+-- opt.diffopt   = 'vertical,internal'
 -- opt.wildcharm = ('<Tab>'):byte()
-opt.tabstop = 2
-opt.shiftwidth = 2
-opt.softtabstop = 2
+opt.tabstop      = 2
+opt.shiftwidth   = 2
+opt.softtabstop  = 2
+opt.grepprg      = 'rg --vimgrep'
+opt.grepformat   = '%f:%l:%c:%m'
+opt.mouse        = 'a'
 opt.clipboard:append({ fn.has('mac') == 1 and 'unnamed' or 'unnamedplus' })
-opt.grepprg = 'rg --vimgrep'
-opt.grepformat = '%f:%l:%c:%m'
-opt.mouse = 'a'
 
 -- file indent
 local filetype_indent_group = api.nvim_create_augroup('fileTypeIndent', { clear = true })
 local file_indents = {
+  {
+    pattern = 'make',
+    command = 'setlocal tabstop=8 shiftwidth=8 noexpandtab'
+  },
   {
     pattern = 'go',
     command = 'setlocal tabstop=4 shiftwidth=4'
@@ -191,6 +194,12 @@ imap('<C-b>', '<Left>')
 imap('<C-e>', '<C-o>A')
 imap('<C-a>', '<C-o>I')
 
+-- swap ; and : in n, v mode
+nmap(';', ':')
+nmap(':', ';')
+vmap(';', ':')
+vmap(':', ';')
+
 xmap("*",
   table.concat {
     -- 選択範囲を検索クエリに用いるため、m レジスタに格納。
@@ -237,16 +246,17 @@ api.nvim_create_autocmd('FileType', {
 map({ 'c', 'i' }, '<C-v>', 'printf("<C-r><C-o>%s", v:register)', { expr = true })
 
 -- other keymap
--- TODO: splitの設定
-nmap('Y', 'Y')
+nmap('<Leader>.', ':tabnew ~/.config/nvim/init.lua<CR>')
+nmap('j', 'gj')
+nmap('k', 'gk')
 nmap('R', 'gR')
 nmap('*', '*N')
 nmap('<Esc><Esc>', '<Cmd>nohlsearch<CR>')
 nmap('H', '^')
 nmap('L', 'g_')
-nmap('<Tab>', '%')
-nmap('sv', ':vsplit')
-nmap('ss', ':split')
+nmap('<Leader><Tab>', '%')
+nmap('sv', ':vsplit<CR>')
+nmap('ss', ':split<CR>')
 nmap('sh', '<C-w>h')
 nmap('sj', '<C-w>j')
 nmap('sk', '<C-w>k')
@@ -263,6 +273,12 @@ vmap('L', 'g_')
 vmap('<Tab>', '%')
 
 -- ############################# plugin config section ###############################
+-- vim-easy-align
+local vim_easy_align_config = function()
+  nmap('ga', '<Plug>(EasyAlign)')
+  vmap('ga', '<Plug>(EasyAlign)')
+end
+
 -- nvim-cmp
 local nvim_cmp_config = function()
   local cmp = require('cmp')
@@ -409,7 +425,7 @@ end
 local colorscheme_config = function()
   opt.termguicolors = true
   cmd([[
-      colorscheme carbonfox
+      colorscheme nightfox
       hi VertSplit guifg=#535353
       hi Visual ctermfg=159 ctermbg=23 guifg=#b3c3cc guibg=#384851
       hi DiffAdd guifg=#25be6a
@@ -547,6 +563,8 @@ local lsp_config = function()
     'yamlls',
     'jsonls',
     'vimls',
+    'pylsp',
+    'clangd',
   }
 
   local node_root_dir = lspconfig.util.root_pattern("package.json")
@@ -744,6 +762,7 @@ end
 -- open-browser.vim
 local openbrowser_config = function()
   nmap('gop', '<Plug>(openbrowser-open)')
+  xmap('gop', '<Plug>(openbrowser-open)')
 end
 
 -- lualine
@@ -784,6 +803,23 @@ local indent_blankline = function()
   })
 end
 
+-- experiment
+function url_encode(str)
+  if (str) then
+    -- マルチバイト文字が含まれているかどうかを判断
+    local has_multibyte = string.find(str, "[^\128-\191]") ~= nil
+
+    -- マルチバイト文字が含まれている場合のみURLエンコーディングを行う
+    if has_multibyte then
+      str = string.gsub(str, "\n", "\r\n")
+      str = string.gsub(str, "([^%w%-%_%.%~])", -- 英数字(%w), -,_,.,~ 以外を置換する
+          function (c) return string.format("%%%02X", string.byte(c)) end)
+      str = string.gsub(str, " ", "+")
+    end
+  end
+  return str
+end
+
 -- ############################# lazy config section ###############################
 -- lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -801,6 +837,10 @@ vim.opt.rtp:prepend(lazypath)
 
 -- lazy settings
 require("lazy").setup({
+  {
+    'junegunn/vim-easy-align',
+    config = vim_easy_align_config,
+  },
   {
     'vim-skk/skkeleton',
     config = function()
@@ -884,7 +924,7 @@ require("lazy").setup({
   },
   {
     'EdenEast/nightfox.nvim',
-    lazy = false,
+    -- lazy = false,
     config = colorscheme_config,
   },
   {
@@ -1048,4 +1088,5 @@ require("lazy").setup({
   { 'vim-jp/vital.vim' },
   { 'thinca/vim-themis', ft = 'vim' },
   { 'tyru/capture.vim' },
+  { 'mattn/webapi-vim' },
 })

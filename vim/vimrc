@@ -7,16 +7,14 @@ if empty(glob(data_dir . '/autoload/plug.vim'))
   silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
-
 call plug#begin('~/.vim/plugged')
 
-Plug 'vim-jp/vimdoc-ja'
 Plug 'ghifarit53/tokyonight-vim'
 Plug 'itchyny/lightline.vim'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'mattn/vim-lsp-settings'
 Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'mattn/vim-lsp-settings'
 Plug 'thinca/vim-quickrun'
 Plug 'EdenEast/nightfox.nvim'
 Plug 'sainnhe/edge'
@@ -25,10 +23,13 @@ Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 Plug 'lambdalisue/nerdfont.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'vim-jp/vimdoc-ja'
 
 call plug#end()
 
 " --- setup Plugins ---
+" asyncomplete.vim
+
 " fzf.vim
 nnoremap <C-P> :Files<CR>
 " fern.vim
@@ -107,6 +108,7 @@ set incsearch
 set wildmenu
 set showmatch
 set matchtime=1
+set completeopt=menu,menuone,preview
 set matchpairs& matchpairs+=<:>
 set noshowmode
 set undolevels=1000
@@ -135,6 +137,7 @@ augroup fileTypeIndent
   au FileType zsh setlocal tabstop=2 shiftwidth=2 expandtab
   au FileType rust setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
   au FileType markdown setlocal tabstop=2 shiftwidth=2 expandtab
+  au FileType make setlocal tabstop=8 softtabstop=8 shiftwidth=8 noexpandtab
 augroup END
 
 " --- keymaps ---
@@ -172,6 +175,7 @@ inoremap <silent> <C-a> <C-o>I
 cnoremap <C-b> <Left>
 cnoremap <C-f> <Right>
 cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
 
 " Better <C-n>/<C-p> in Command
 cnoremap <expr> <C-p> pumvisible() ? '<C-p>' : '<Up>'
@@ -184,6 +188,12 @@ cnoremap <expr> <Tab> pumvisible() ? '<C-y><Tab>' : '<Tab>'
 " move pair ()
 nnoremap <Tab> %
 
+" swap ; and :
+nnoremap ; :
+nnoremap : ;
+vnoremap ; :
+vnoremap : ;
+
 " parenthesis plugin
 if filereadable(expand('~/dotfiles/vim/vimrc_parenthesis.plug'))
   source ~/dotfiles/vim/vimrc_parenthesis.plug
@@ -191,10 +201,6 @@ endif
 
 nnoremap j gj
 nnoremap k gk
-
-" Ctrl + j & Ctrl + k で段落前後移動
-nnoremap <C-j> }
-nnoremap <C-k> {
 
 " 画面分割
 nnoremap <Leader><Tab> <C-w>w
@@ -204,12 +210,6 @@ nnoremap sl <C-w>l
 nnoremap sh <C-w>h
 nnoremap ss :<C-u>sp<CR><C-w>j
 nnoremap sv :<C-u>vs<CR><C-w>l
-
-" when you open Makefile, noexpandtab
-let _curfile=expand("%:r")
-if _curfile == 'Makefile'
-  set noexpandtab
-endif
 
 " クリップボードのペースト
 " 挿入モードでペーストする際自動でインデントさせない

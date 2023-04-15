@@ -19,6 +19,7 @@
         "fn",
         "api"
     ],
+    "workspace.checkThirdParty": false,
     "workspace.library": [
         "/Users/yamasotokeita/.config/nvim",
         "/Users/yamasotokeita/.local/share/nvim/lazy/lazy.nvim",
@@ -27,13 +28,23 @@
         "/Users/yamasotokeita/.local/share/nvim/lazy/mason-lspconfig.nvim",
         "/Users/yamasotokeita/.local/share/nvim/lazy/indent-blankline.nvim",
         "/Users/yamasotokeita/.local/share/nvim/lazy/nvim-treesitter",
-        "/Users/yamasotokeita/.local/share/nvim/lazy/fern.vim",
-        "/Users/yamasotokeita/.local/share/nvim/lazy/fern-hijack.vim",
+        "/Users/yamasotokeita/.local/share/nvim/lazy/denops-silicon.vim",
         "/Users/yamasotokeita/.local/share/nvim/lazy/fidget.nvim",
+        "/Users/yamasotokeita/.local/share/nvim/lazy/denops-translate.vim",
+        "/Users/yamasotokeita/.local/share/nvim/lazy/open-browser.vim",
+        "/Users/yamasotokeita/.local/share/nvim/lazy/open-browser-github.vim",
+        "/Users/yamasotokeita/.local/share/nvim/lazy/denops-graphql.vim",
+        "/Users/yamasotokeita/.local/share/nvim/lazy/quickrun-neoterm.vim",
+        "/Users/yamasotokeita/.local/share/nvim/lazy/vim-quickrun",
+        "/Users/yamasotokeita/.local/share/nvim/lazy/kensaku.vim",
+        "/Users/yamasotokeita/.local/share/nvim/lazy/winselector.vim",
+        "/Users/yamasotokeita/.local/share/nvim/lazy/denops-docker.vim",
+        "/Users/yamasotokeita/.local/share/nvim/lazy/kensaku-search.vim",
+        "/Users/yamasotokeita/.local/share/nvim/lazy/nightfox.nvim",
+        "/Users/yamasotokeita/.local/share/nvim/lazy/denops-gh.vim",
         "/usr/local/Cellar/neovim/0.8.0/share/nvim/runtime",
         "/usr/local/Cellar/neovim/0.8.0/lib/nvim",
         "/Users/yamasotokeita/.local/state/nvim/lazy/readme",
         "${3rd}/luassert/library",
-    ],
-    "workspace.checkThirdParty": false
+    ]
 }
