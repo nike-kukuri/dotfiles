@@ -54,8 +54,8 @@ for _, mode in pairs({ 'n', 'v', 'i', 'o', 'c', 't', 'x', 't' }) do
 end
 
 -- options
-cmd('syntax enable')
 cmd('filetype plugin indent on')
+cmd('syntax enable')
 
 g.mapleader      = " "
 opt.breakindent  = true
@@ -88,6 +88,8 @@ opt.grepprg      = 'rg --vimgrep'
 opt.grepformat   = '%f:%l:%c:%m'
 opt.mouse        = 'a'
 opt.clipboard:append({ fn.has('mac') == 1 and 'unnamed' or 'unnamedplus' })
+opt.termguicolors = true
+
 
 -- file indent
 local filetype_indent_group = api.nvim_create_augroup('fileTypeIndent', { clear = true })
@@ -261,6 +263,8 @@ nmap('sh', '<C-w>h')
 nmap('sj', '<C-w>j')
 nmap('sk', '<C-w>k')
 nmap('sl', '<C-w>l')
+nmap('[b', '<Cmd>bnext<CR>')
+nmap(']b', '<Cmd>bprevious<CR>')
 omap('H', '^')
 omap('L', 'g_')
 omap('<Tab>', '%')
@@ -273,6 +277,29 @@ vmap('L', 'g_')
 vmap('<Tab>', '%')
 
 -- ############################# plugin config section ###############################
+-- noice.nvim
+local noice_config = function()
+  local noice = require("noice")
+  noice.setup({
+    lsp = {
+      -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+      override = {
+        ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+        ["vim.lsp.util.stylize_markdown"] = true,
+        ["cmp.entry.get_documentation"] = true,
+      },
+    },
+    -- you can enable a preset for easier configuration
+    presets = {
+      bottom_search = true, -- use a classic bottom cmdline for search
+      command_palette = true, -- position the cmdline and popupmenu together
+      long_message_to_split = true, -- long messages will be sent to a split
+      inc_rename = false, -- enables an input dialog for inc-rename.nvim
+      lsp_doc_border = false, -- add a border to hover docs and signature help
+    },
+  })
+end
+
 -- vim-easy-align
 local vim_easy_align_config = function()
   nmap('ga', '<Plug>(EasyAlign)')
@@ -837,21 +864,38 @@ vim.opt.rtp:prepend(lazypath)
 
 -- lazy settings
 require("lazy").setup({
+  -- {
+  --   'folke/noice.nvim',
+  --   dependencies = {
+  --     'MunifTanjim/nui.nvim',
+  --     'rcarriga/nvim-notify',
+  --   },
+  --   config = noice_config,
+  -- },
+  { 'echasnovski/mini.surround', version = '*' },
   {
     'junegunn/vim-easy-align',
     config = vim_easy_align_config,
   },
   {
     'vim-skk/skkeleton',
-    config = function()
-      vim.call('skkeleton#config', {
-        globalJisyo = vim.fn.expand('~/.config/skk/SKK-JISYO.L'),
-        eggLikeNewline = true,
-        keepState = true
+    init = function()
+      api.nvim_create_autocmd('User', {
+        pattern = 'skkeleton-initialize-pre',
+        callback = function()
+          vim.call('skkeleton#config', {
+            globalJisyo = vim.fn.expand('~/.config/skk/SKK-JISYO.L'),
+            eggLikeNewline = true,
+            keepState = true
+          })
+        end,
+        group = api.nvim_create_augroup('skkeletonInitPre', { clear = true }),
       })
+    end,
+    config = function()
       imap('<C-j>', '<Plug>(skkeleton-toggle)')
       cmap('<C-j>', '<Plug>(skkeleton-toggle)')
-    end,
+    end
   },
   {
     'lambdalisue/kensaku.vim'
