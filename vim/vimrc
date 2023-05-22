@@ -186,7 +186,7 @@ cnoremap <Down> <C-n>
 cnoremap <expr> <Tab> pumvisible() ? '<C-y><Tab>' : '<Tab>'
 
 " move pair ()
-nnoremap <Tab> %
+nnoremap <Tab>m %
 
 " swap ; and :
 nnoremap ; :
