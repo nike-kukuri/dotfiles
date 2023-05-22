@@ -141,18 +141,9 @@ augroup fileTypeIndent
 augroup END
 
 " --- keymaps ---
-" スペース＋wでファイル保存
-nnoremap <Leader>w :w<CR>
-
-" Escを２回押すとハイライトを消す
 nnoremap <Esc><Esc> :nohlsearch<CR> 
-" スペース＋.でvimrcを開く
 nnoremap <Leader>. :new ~/.vimrc<CR>
-
-" 検索
 nnoremap <C-G><C-G> :Ripgrep <C-R><C-W><CR>
-
-" 置換
 nnoremap <Leader>re :%s;\<<C-R><C-W>\>;g<Left><Left>;
 
 " Home / End
@@ -170,8 +161,6 @@ inoremap <silent> <C-f> <Right>
 inoremap <silent> <C-b> <Left>
 inoremap <silent> <C-e> <C-o>A
 inoremap <silent> <C-a> <C-o>I
-
-" コマンドラインで単語移動
 cnoremap <C-b> <Left>
 cnoremap <C-f> <Right>
 cnoremap <C-a> <Home>
@@ -188,6 +177,10 @@ cnoremap <expr> <Tab> pumvisible() ? '<C-y><Tab>' : '<Tab>'
 " move pair ()
 nnoremap <Tab>m %
 
+" better <
+nnoremap < <<
+nnoremap > >>
+
 " swap ; and :
 nnoremap ; :
 nnoremap : ;
@@ -201,9 +194,31 @@ endif
 
 nnoremap j gj
 nnoremap k gk
+nnoremap gj j
+nnoremap gk k
+
+" less key motion
+onoremap 9 i(
+onoremap [ i[
+onoremap { i{
+onoremap a9 a(
+
+nnoremap v9 vi(
+nnoremap v[ vi[
+nnoremap v{ vi{
+nnoremap va9 va(
+
+onoremap ' i'
+onoremap " i"
+
+nnoremap Y y$
+
+nnoremap [b <Cmd>bnext<CR>
+nnoremap ]b <Cmd>bprevious<CR>
+nnoremap [<Space> O<ESC>cc<ESC>
+nnoremap ]<Space> o<ESC>cc<ESC>
 
 " 画面分割
-nnoremap <Leader><Tab> <C-w>w
 nnoremap sj <C-w>j
 nnoremap sk <C-w>k
 nnoremap sl <C-w>l
