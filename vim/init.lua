@@ -112,6 +112,13 @@ local file_indents = {
   },
 }
 
+-- grep window
+api.nvim_create_autocmd('QuickFixCmdPost', {
+  pattern = '*grep*',
+  command = 'cwindow',
+  group = api.nvim_create_augroup('grepWindow', { clear = true }),
+})
+
 for _, indent in pairs(file_indents) do
   api.nvim_create_autocmd('FileType', {
     pattern = indent.pattern,
@@ -179,6 +186,8 @@ api.nvim_create_autocmd('BufWritePre', {
 -- key mappings
 
 -- text object
+omap('\'', 'i\'')
+omap('"', 'i"')
 omap('9', 'i(')
 omap('[', 'i[')
 omap('{', 'i{')
@@ -188,6 +197,8 @@ nmap('v9', 'vi(')
 nmap('v[', 'vi[')
 nmap('v{', 'vi{')
 nmap('va9', 'va(')
+-- better `ct`
+nmap('cm', 'ct')
 
 -- emacs like
 imap('<C-k>', '<C-o>C')
@@ -253,6 +264,9 @@ nmap('j', 'gj')
 nmap('k', 'gk')
 nmap('R', 'gR')
 nmap('*', '*N')
+nmap('x', '"_x')
+nmap('s', '"_s')
+nmap('c', '"_c')
 nmap('<Esc><Esc>', '<Cmd>nohlsearch<CR>')
 nmap('H', '^')
 nmap('L', 'g_')
@@ -270,7 +284,7 @@ omap('L', 'g_')
 omap('<Tab>', '%')
 nmap('<C-l>', 'gt')
 nmap('<C-h>', 'gT')
-nmap('<Leader>tm', [[:new | terminal<CR>]])
+nmap('<Leader>tt', [[:new | terminal<CR>]])
 tmap('<C-]>', [[<C-\><C-n>]])
 vmap('H', '^')
 vmap('L', 'g_')
@@ -702,30 +716,6 @@ vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
   border = "single"
 })
 
--- silicon.vim
-g['silicon_options'] = {
-  font = 'Cica',
-  no_line_number = true,
-  background_color = '#434C5E',
-  no_window_controls = true,
-  theme = 'Nord',
-}
-local silicon_config = function()
-  nmap('gi', '<Plug>(silicon-generate)')
-  xmap('gi', '<Plug>(silicon-generate)')
-end
-
--- graphql.vim
-local graphql_config = function()
-  api.nvim_create_autocmd('FileType', {
-    pattern = 'graphql',
-    callback = function()
-      nmap('gp', '<Plug>(graphql-execute)')
-    end,
-    group = api.nvim_create_augroup("graphqlInit", { clear = true }),
-  })
-end
-
 -- translate.vim
 local translate_config = function()
   nmap('gr', '<Plug>(Translate)')
@@ -766,17 +756,6 @@ end
 
 -- vim-markdown
 g['vim_markdown_folding_disabled'] = true
-
--- vimhelpgenerator
-g['vimhelpgenerator_version'] = ''
-g['vimhelpgenerator_author'] = 'Author: skanehira <sho19921005@gmail.com>'
-g['vimhelpgenerator_uri'] = 'https://github.com/skanehira/'
-g['vimhelpgenerator_defaultlanguage'] = 'en'
-
--- winselector.vim
-local winselector_config = function()
-  nmap('<C-f>', '<Plug>(winselector)')
-end
 
 -- test.vim
 -- local test_config = function()
@@ -830,23 +809,6 @@ local indent_blankline = function()
   })
 end
 
--- experiment
-function url_encode(str)
-  if (str) then
-    -- マルチバイト文字が含まれているかどうかを判断
-    local has_multibyte = string.find(str, "[^\128-\191]") ~= nil
-
-    -- マルチバイト文字が含まれている場合のみURLエンコーディングを行う
-    if has_multibyte then
-      str = string.gsub(str, "\n", "\r\n")
-      str = string.gsub(str, "([^%w%-%_%.%~])", -- 英数字(%w), -,_,.,~ 以外を置換する
-          function (c) return string.format("%%%02X", string.byte(c)) end)
-      str = string.gsub(str, " ", "+")
-    end
-  end
-  return str
-end
-
 -- ############################# lazy config section ###############################
 -- lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -864,6 +826,10 @@ vim.opt.rtp:prepend(lazypath)
 
 -- lazy settings
 require("lazy").setup({
+  {
+    'thinca/vim-qfreplace',
+    event = { 'BufNewFile', 'BufRead' }
+  },
   -- {
   --   'folke/noice.nvim',
   --   dependencies = {
@@ -872,7 +838,6 @@ require("lazy").setup({
   --   },
   --   config = noice_config,
   -- },
-  { 'echasnovski/mini.surround', version = '*' },
   {
     'junegunn/vim-easy-align',
     config = vim_easy_align_config,
@@ -910,34 +875,6 @@ require("lazy").setup({
     'thinca/vim-qfreplace',
     event = { 'QuickFixCmdPre' }
   },
-  {
-    'dhruvasagar/vim-zoom',
-    keys = {
-      { '<C-w>m', '<Cmd>call zoom#toggle()<CR>' }
-    },
-  },
-  {
-    'mattn/vim-goimports',
-    ft = 'go',
-  },
-  -- {
-  --   'skanehira/pinwin.vim'
-  -- },
-  {
-    'skanehira/denops-gh.vim'
-  },
-  -- {
-  --   '4513ECHO/denops-gitter.vim',
-  --   config = function()
-  --     g['gitter#token'] = fn.trim(fn.readfile(fn.expand('~/.config/denops_gitter/token'))[1])
-  --   end
-  -- },
-  -- { 'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
-  --   config = function()
-  --     vim.diagnostic.config({ virtual_text = false })
-  --     require("lsp_lines").setup()
-  --   end
-  -- },
   {
     'lukas-reineke/indent-blankline.nvim',
     event = 'BufReadPre',
@@ -1056,11 +993,6 @@ require("lazy").setup({
   },
   { 'vim-denops/denops.vim' },
   {
-    'skanehira/denops-silicon.vim',
-    config = silicon_config
-  },
-  { 'skanehira/denops-docker.vim' },
-  {
     'thinca/vim-quickrun',
     dependencies = {
       { 'skanehira/quickrun-neoterm.vim' }
@@ -1075,15 +1007,6 @@ require("lazy").setup({
         config = openbrowser_config,
       },
     }
-  },
-  {
-    'skanehira/denops-graphql.vim',
-    config = graphql_config
-  },
-  { 'thinca/vim-prettyprint' },
-  {
-    'skanehira/winselector.vim',
-    config = winselector_config,
   },
   {
     'nvim-telescope/telescope.nvim',
