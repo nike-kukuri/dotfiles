@@ -208,10 +208,10 @@ imap('<C-e>', '<C-o>A')
 imap('<C-a>', '<C-o>I')
 
 -- swap ; and : in n, v mode
-nmap(';', ':')
-nmap(':', ';')
-vmap(';', ':')
-vmap(':', ';')
+-- nmap(';', ':')
+-- nmap(':', ';')
+-- vmap(';', ':')
+-- vmap(':', ';')
 
 xmap("*",
   table.concat {
@@ -259,7 +259,12 @@ api.nvim_create_autocmd('FileType', {
 map({ 'c', 'i' }, '<C-v>', 'printf("<C-r><C-o>%s", v:register)', { expr = true })
 
 -- other keymap
-nmap('<Leader>.', ':tabnew ~/.config/nvim/init.lua<CR>')
+if vim.fn.has('win32') == 1 or vim.fn.has('win64') then
+  nmap('<Leader>.', ':tabnew ~\\AppData\\Local\\nvim\\init.lua<CR>')
+end
+  nmap('<Leader>.', ':tabnew ~/.config/nvim/init.lua<CR>')
+end
+
 nmap('j', 'gj')
 nmap('k', 'gk')
 nmap('R', 'gR')
@@ -279,12 +284,14 @@ nmap('sk', '<C-w>k')
 nmap('sl', '<C-w>l')
 nmap('[b', '<Cmd>bnext<CR>')
 nmap(']b', '<Cmd>bprevious<CR>')
+nmap('<', '<<')
+nmap('>', '>>')
 omap('H', '^')
 omap('L', 'g_')
 omap('<Tab>', '%')
 nmap('<C-l>', 'gt')
 nmap('<C-h>', 'gT')
-nmap('<Leader>tt', [[:new | terminal<CR>]])
+nmap('<Leader>tt', [[:tabnew | terminal<CR>]])
 tmap('<C-]>', [[<C-\><C-n>]])
 vmap('H', '^')
 vmap('L', 'g_')
@@ -295,6 +302,39 @@ vmap('<Tab>', '%')
 local noice_config = function()
   local noice = require("noice")
   noice.setup({
+    views = {
+      cmdline_popup = {
+        position = {
+          row = 5,
+          col = "50%",
+        },
+        size = {
+          width = 60,
+          height = "auto",
+        },
+      },
+      popupmenu = {
+        relative = "editor",
+        position = {
+          row = 8,
+          col = "50%"
+        },
+        size = {
+          width = 60,
+          height = 10,
+        },
+        border = {
+          style = "rounded",
+          padding = { 0, 1 },
+        },
+        win_options = {
+          winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo"},
+        },
+      },
+    },
+    messages = {
+      enabled = false,
+    },
     lsp = {
       -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
       override = {
@@ -305,11 +345,11 @@ local noice_config = function()
     },
     -- you can enable a preset for easier configuration
     presets = {
-      bottom_search = true, -- use a classic bottom cmdline for search
-      command_palette = true, -- position the cmdline and popupmenu together
-      long_message_to_split = true, -- long messages will be sent to a split
-      inc_rename = false, -- enables an input dialog for inc-rename.nvim
-      lsp_doc_border = false, -- add a border to hover docs and signature help
+      -- bottom_search = false, -- use a classic bottom cmdline for search
+      -- command_palette = false, -- position the cmdline and popupmenu together
+      -- long_message_to_split = true, -- long messages will be sent to a split
+      -- inc_rename = false, -- enables an input dialog for inc-rename.nvim
+      -- lsp_doc_border = false, -- add a border to hover docs and signature help
     },
   })
 end
@@ -977,6 +1017,14 @@ require("lazy").setup({
     init = function()
       nmap('<Leader>f', '<Cmd>Fern . -drawer<CR>', { silent = true })
     end
+  },
+  {
+    'lambdalisue/fern-renderer-nerdfont.vim',
+    dependencies = { 'lambdalisue/fern.vim' },
+  },
+  {
+    'lambdalisue/nerdfont.vim',
+    dependencies = { 'lambdalisue/fern.vim' },
   },
   {
     'lambdalisue/gina.vim',
