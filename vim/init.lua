@@ -261,7 +261,7 @@ map({ 'c', 'i' }, '<C-v>', 'printf("<C-r><C-o>%s", v:register)', { expr = true }
 -- other keymap
 if vim.fn.has('win32') == 1 or vim.fn.has('win64') then
   nmap('<Leader>.', ':tabnew ~\\AppData\\Local\\nvim\\init.lua<CR>')
-end
+else
   nmap('<Leader>.', ':tabnew ~/.config/nvim/init.lua<CR>')
 end
 
@@ -284,6 +284,8 @@ nmap('sk', '<C-w>k')
 nmap('sl', '<C-w>l')
 nmap('[b', '<Cmd>bnext<CR>')
 nmap(']b', '<Cmd>bprevious<CR>')
+nmap('[ ', 'O<ESC>cc<ESC>')
+nmap('] ', 'o<ESC>cc<ESC>')
 nmap('<', '<<')
 nmap('>', '>>')
 omap('H', '^')
@@ -298,6 +300,13 @@ vmap('L', 'g_')
 vmap('<Tab>', '%')
 
 -- ############################# plugin config section ###############################
+-- memolist
+if vim.fn.has('win32') == 1 or vim.fn.has('win64') then
+  g['memolist_path'] = '~\\note\\docs\\notes'
+else
+  g['memolist_path'] = '~/note/docs/notes'
+end
+
 -- noice.nvim
 local noice_config = function()
   local noice = require("noice")
