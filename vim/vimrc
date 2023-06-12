@@ -70,7 +70,8 @@ Plug 'Shougo/ddu-source-file_rec'
 
 " ddu filter
 Plug 'Shougo/ddu-filter-matcher_substring'
-Plug 'Shougo/ddu-ui-filter'
+Plug 'Shougo/ddu-ui-filer'
+Plug 'yuki-yano/ddu-filter-fzf'
 
 " ddu kind
 Plug 'Shougo/ddu-kind-file'
@@ -79,6 +80,7 @@ Plug 'Shougo/ddu-kind-file'
 
 " convenient tools
 Plug 'thinca/vim-quickrun'
+Plug 'thinca/vim-qfreplace'
 
 " document
 Plug 'vim-jp/vimdoc-ja'
@@ -245,6 +247,7 @@ nnoremap <Leader>tt :<C-u>tabnew<CR><BAR>:terminal<CR>
 " move tab
 nnoremap <C-l> gt
 nnoremap <C-h> gT
+nnoremap cm ct
 
 " remove insert mode in terminal
 tnoremap <C-]> <C-\><C-n>
@@ -304,10 +307,10 @@ nnoremap < <<
 nnoremap > >>
 
 " swap ; and :
-nnoremap ; :
-nnoremap : ;
-vnoremap ; :
-vnoremap : ;
+" nnoremap ; :
+" nnoremap : ;
+" vnoremap ; :
+" vnoremap : ;
 
 nnoremap j gj
 nnoremap k gk
