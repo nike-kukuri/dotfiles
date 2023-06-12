@@ -1,3 +1,71 @@
+" my original settings
+let s:ddu_setting =<< trim MARK
+  {
+    "ui": "ff",
+    "uiParams": {
+      "ff": {
+        "split": "floating",
+        "prompt": "> ",
+        "startFilter": true
+      }
+    },
+    "sources": [
+      { "name": "file_rec" }
+    ],
+    "sourceOptions": {
+      "channel": {
+        "columns": ["filename"]
+      },
+      "_": {
+        "matchers": ["matcher_fzf"]
+      }
+    },
+    "kindOptions": {
+      "file": {
+        "defaultAction": "open"
+      }
+    }
+  }
+MARK
+
+let s:ddu_setting = s:ddu_setting->join('')->json_decode()
+call ddu#custom#patch_global(s:ddu_setting)
+autocmd FileType ddu-ff call s:ddu_my_settings()
+function! s:ddu_my_settings() abort
+  setlocal cursorline
+  nnoremap <buffer><silent> <CR>
+        \ <Cmd>call ddu#ui#ff#do_action('itemAction')<CR>
+  nnoremap <buffer><silent> <Space>
+        \ <Cmd>call ddu#ui#ff#do_action('toggleSelectItem')<CR>
+  nnoremap <buffer><silent> i
+        \ <Cmd>call ddu#ui#ff#do_action('openFilterWindow')<CR>
+  nnoremap <buffer><silent> q
+        \ <Cmd>call ddu#ui#ff#do_action('quit')<CR>
+endfunction
+
+autocmd FileType ddu-ff-filter call s:ddu_filter_my_settings()
+function! s:ddu_filter_my_settings() abort
+	inoremap <buffer> <CR>
+				\ <Cmd>call ddu#ui#ff#do_action('itemAction', { 'name' : 'open' })<CR>
+	inoremap <buffer> <C-o>
+				\ <Cmd>call ddu#ui#ff#do_action('itemAction', { 'name' : 'open', 'params' : { 'command' : 'split'} })<CR>
+	inoremap <buffer> <C-v>
+				\ <Cmd>call ddu#ui#ff#do_action('itemAction', { 'name' : 'open', 'params' : { 'command' : 'vsplit'} })<CR>
+	inoremap <buffer> <C-t>
+				\ <Cmd>call ddu#ui#ff#do_action('itemAction', { 'name' : 'open', 'params' : { 'command' : 'tabnew'} })<CR>
+	inoremap <buffer> <C-s>
+				\ <Cmd>call ddu#ui#ff#do_action('toggleSelectItem')<CR>
+	inoremap <buffer> <C-n>
+				\ <Cmd>call ddu#ui#ff#execute("call cursor(line('.')+1,0)<Bar>redraw")<CR>
+	inoremap <buffer> <C-p>
+				\ <Cmd>call ddu#ui#ff#execute("call cursor(line('.')-1,0)<Bar>redraw")<CR>
+	inoremap <buffer> q
+				\ <Cmd>call ddu#ui#ff#do_action('quit')<CR>
+endfunction
+
+nnoremap <silent> <C-p> <Cmd>call ddu#start({})<CR>
+
+" --- reference author settings ---
 " ddu.vim
 " nnoremap s<Space> <Cmd>Ddu
 "       \ -name=files file
@@ -414,50 +482,3 @@
 " endfunction
 " " }}}
 
-" my original settings
-" call ddu#custom#patch_global({
-"     \   'ui': 'ff',
-"     \   'uiParams': {
-"     \     'ff': {
-"     \       'split': 'floating',
-"     \       'prompt': '> ',
-"     \       'startFilter': v:true,
-"     \     }
-"     \   },
-"     \   'sources': [{'name': 'file_rec', 'params': {}}],
-"     \   'sourceOptions': {
-"     \     '_': {
-"     \       'matchers': ['matcher_substring'],
-"     \     },
-"     \   },
-"     \   'kindOptions': {
-"     \     'file': {
-"     \       'defaultAction': 'open',
-"     \     },
-"     \   }
-"     \ })
-" 
-" autocmd FileType ddu-ff call s:ddu_my_settings()
-" function! s:ddu_my_settings() abort
-"   nnoremap <buffer><silent> <CR>
-"         \ <Cmd>call ddu#ui#ff#do_action('itemAction')<CR>
-"   nnoremap <buffer><silent> <Space>
-"         \ <Cmd>call ddu#ui#ff#do_action('toggleSelectItem')<CR>
-"   nnoremap <buffer><silent> i
-"         \ <Cmd>call ddu#ui#ff#do_action('openFilterWindow')<CR>
-"   nnoremap <buffer><silent> q
-"         \ <Cmd>call ddu#ui#ff#do_action('quit')<CR>
-" endfunction
-" 
-" autocmd FileType ddu-ff-filter call s:ddu_filter_my_settings()
-" function! s:ddu_filter_my_settings() abort
-"   inoremap <buffer><silent> <CR>
-"   \ <Esc><Cmd>close<CR>
-"   nnoremap <buffer><silent> <CR>
-"   \ <Cmd>close<CR>
-"   nnoremap <buffer><silent> q
-"   \ <Cmd>close<CR>
-" endfunction
-" 
-" nnoremap <silent> <C-p> <Cmd>call ddu#start({})<CR>
-" 

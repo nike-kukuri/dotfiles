@@ -259,11 +259,14 @@ api.nvim_create_autocmd('FileType', {
 map({ 'c', 'i' }, '<C-v>', 'printf("<C-r><C-o>%s", v:register)', { expr = true })
 
 -- other keymap
-if vim.fn.has('win32') == 1 or vim.fn.has('win64') then
-  nmap('<Leader>.', ':tabnew ~\\AppData\\Local\\nvim\\init.lua<CR>')
-else
-  nmap('<Leader>.', ':tabnew ~/.config/nvim/init.lua<CR>')
-end
+
+-- don't work well (Cause unknown)
+-- if vim.fn.has('win32') == 1 or vim.fn.has('win64') then
+--   nmap('<Leader>.', ':tabnew ~\\AppData\\Local\\nvim\\init.lua<CR>')
+-- else
+--   nmap('<Leader>.', ':tabnew ~/.config/nvim/init.lua<CR>')
+-- end
+nmap('<Leader>.', ':tabnew ~/.config/nvim/init.lua<CR>')
 
 nmap('j', 'gj')
 nmap('k', 'gk')
@@ -300,12 +303,17 @@ vmap('L', 'g_')
 vmap('<Tab>', '%')
 
 -- ############################# plugin config section ###############################
--- memolist
-if vim.fn.has('win32') == 1 or vim.fn.has('win64') then
-  g['memolist_path'] = '~\\note\\docs\\notes'
-else
-  g['memolist_path'] = '~/note/docs/notes'
-end
+-- memolist.vim
+-- don't work well(Cause unknown)
+-- if vim.fn.has('win32') == 1 or vim.fn.has('win64') then
+--   g['memolist_path'] = "~\\note\\docs\\notes"
+-- else
+--   g['memolist_path'] = "~/note/docs/notes"
+-- end
+g['memolist_path'] = "~/note/docs/notes"
+
+nmap('<Leader>mn', ':MemoNew<CR>')
+nmap('<Leader>ml', ':MemoList<CR>')
 
 -- noice.nvim
 local noice_config = function()
