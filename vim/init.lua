@@ -212,6 +212,8 @@ imap('<C-a>', '<C-o>I')
 -- nmap(':', ';')
 -- vmap(';', ':')
 -- vmap(':', ';')
+nmap('\'', ':')
+xmap('\'', ':')
 
 xmap("*",
   table.concat {
@@ -278,6 +280,8 @@ nmap('c', '"_c')
 nmap('<Esc><Esc>', '<Cmd>nohlsearch<CR>')
 nmap('H', '^')
 nmap('L', 'g_')
+nmap('<C-j>', '}')
+nmap('<C-k>', '{')
 nmap('<Leader><Tab>', '%')
 nmap('sv', ':vsplit<CR>')
 nmap('ss', ':split<CR>')
@@ -884,17 +888,30 @@ vim.opt.rtp:prepend(lazypath)
 -- lazy settings
 require("lazy").setup({
   {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    opts = {
+      -- add any options here
+    },
+    dependencies = {
+      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+      "MunifTanjim/nui.nvim",
+      -- OPTIONAL:
+      --   `nvim-notify` is only needed, if you want to use the notification view.
+      --   If not available, we use `mini` as the fallback
+      "rcarriga/nvim-notify",
+      }
+  },
+  {
+    'lambdalisue/gin.vim'
+  },
+  {
+    'machakann/vim-sandwich'
+  },
+  {
     'thinca/vim-qfreplace',
     event = { 'BufNewFile', 'BufRead' }
   },
-  -- {
-  --   'folke/noice.nvim',
-  --   dependencies = {
-  --     'MunifTanjim/nui.nvim',
-  --     'rcarriga/nvim-notify',
-  --   },
-  --   config = noice_config,
-  -- },
   {
     'junegunn/vim-easy-align',
     config = vim_easy_align_config,
@@ -1003,6 +1020,7 @@ require("lazy").setup({
       { 'hrsh7th/cmp-path' },
       { 'hrsh7th/cmp-vsnip' },
       { 'hrsh7th/vim-vsnip' },
+      { 'hrsh7th/cmp-cmdline' },
     },
     config = nvim_cmp_config,
     event = { 'InsertEnter' },
