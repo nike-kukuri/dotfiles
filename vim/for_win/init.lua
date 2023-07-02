@@ -200,6 +200,10 @@ nmap('va9', 'va(')
 -- better `ct`
 nmap('cm', 'ct')
 
+-- easy type `{` and `}`
+nmap('<C-j>', '}')
+nmap('<C-k>', '{')
+
 -- emacs like
 imap('<C-k>', '<C-o>C')
 imap('<C-f>', '<Right>')
@@ -215,6 +219,8 @@ nmap('<Leader>mn', ':MemoNew<CR>')
 -- nmap(':', ';')
 -- vmap(';', ':')
 -- vmap(':', ';')
+nmap('\'', ':')
+vmap('\'', ':')
 
 xmap("*",
   table.concat {
@@ -352,7 +358,7 @@ local nvim_cmp_config = function()
       ['<C-f>'] = cmp.mapping.scroll_docs(4),
       ["<C-p>"] = cmp.mapping.select_prev_item(),
       ["<C-n>"] = cmp.mapping.select_next_item(),
-      ['<Tab>'] = cmp.mapping.complete(),
+      -- ['<Tab>'] = cmp.mapping.complete(),
       ['<CR>'] = cmp.mapping.confirm({ select = true }),
     }),
     sources = {
@@ -387,8 +393,9 @@ Lsp_on_attach = function(client, bufnr)
   api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
   local bufopts = { silent = true, buffer = bufnr }
   nmap('K', vim.lsp.buf.hover, bufopts)
-  nmap('<Leader>gi', vim.lsp.buf.implementation, bufopts)
-  nmap('<Leader>gr', vim.lsp.buf.references, bufopts)
+  nmap('gd', vim.lsp.buf.definition, bufopts)
+  nmap('gi', vim.lsp.buf.implementation, bufopts)
+  nmap('gr', vim.lsp.buf.references, bufopts)
   nmap('<Leader>rn', vim.lsp.buf.rename, bufopts)
   nmap(']d', vim.diagnostic.goto_next, bufopts)
   nmap('[d', vim.diagnostic.goto_prev, bufopts)
@@ -597,12 +604,7 @@ local lsp_config = function()
   end
 
   require('mason-lspconfig').setup({
-    automatic_installation = {
-      exclude = {
-        'gopls',
-        'denols',
-      }
-    }
+    automatic_installation = true
   })
 
   local lspconfig = require("lspconfig")
@@ -613,11 +615,8 @@ local lsp_config = function()
     'gopls',
     'rust_analyzer',
     'tsserver',
-    'volar',
-    -- 'lua_ls',
+    'lua_ls',
     'golangci_lint_ls',
-    'eslint',
-    'graphql',
     'bashls',
     'yamlls',
     'jsonls',
@@ -668,24 +667,24 @@ local lsp_config = function()
         opts = {
           root_dir = lspconfig.util.root_pattern('package.json', 'node_modules'),
         }
-      -- elseif ls == 'lua_ls' then
-      --   opts = {
-      --     settings = {
-      --       Lua = {
-      --         runtime = {
-      --           version = 'LuaJIT'
-      --         },
-      --         diagnostics = {
-      --           -- Get the language server to recognize the `vim` global
-      --           globals = { "vim" },
-      --         },
-      --         workspace = {
-      --           -- Make the server aware of Neovim runtime files
-      --           library = api.nvim_get_runtime_file("", true),
-      --         },
-      --       },
-      --     },
-      --   }
+      elseif ls == 'lua_ls' then
+        opts = {
+          settings = {
+            Lua = {
+              runtime = {
+                version = 'LuaJIT'
+              },
+              diagnostics = {
+                -- Get the language server to recognize the `vim` global
+                globals = { "vim" },
+              },
+              workspace = {
+                -- Make the server aware of Neovim runtime files
+                library = api.nvim_get_runtime_file("", true),
+              },
+            },
+          },
+        }
       end
 
       opts['on_attach'] = Lsp_on_attach
@@ -807,15 +806,12 @@ end
 local treesitter_config = function()
   require('nvim-treesitter.configs').setup({
     ensure_installed = {
-      'rust', 'typescript', 'tsx',
-      'go', 'gomod', 'sql', 'toml', 'yaml',
-      'html', 'javascript', 'graphql',
-      'markdown', 'markdown_inline',
+      'rust', 'go', 'gomod', 'sql', 'toml', 'yaml',
+      'html', 'markdown', 'markdown_inline',
     },
     auto_install = true,
     highlight = {
       enable = true,
-      disable = { 'yaml' },
     }
   })
 end
@@ -844,6 +840,24 @@ vim.opt.rtp:prepend(lazypath)
 
 -- lazy settings
 require("lazy").setup({
+	{
+		"folke/noice.nvim",
+		event = "VeryLazy",
+		opts = {
+			-- add any options here
+		},
+		dependencies = {
+			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+			"MunifTanjim/nui.nvim",
+			-- OPTIONAL:
+			--   `nvim-notify` is only needed, if you want to use the notification view.
+			--   If not available, we use `mini` as the fallback
+			"rcarriga/nvim-notify",
+			}
+	},
+  {
+    'machakann/vim-sandwich'
+  },
   {
     'thinca/vim-qfreplace',
     event = { 'BufNewFile', 'BufRead' }
