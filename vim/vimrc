@@ -95,9 +95,6 @@ execute 'source' $"{'<sfile>'->expand()->fnamemodify(':h')}/dotfiles/vim/rc/ddc.
 " ddu.vim
 execute 'source' $"{'<sfile>'->expand()->fnamemodify(':h')}/dotfiles/vim/rc/ddu.vim"
 
-" fzf.vim
-" nnoremap <C-P> :Files<CR>
-
 " fern.vim
 let g:fern#renderer = "nerdfont"
 let g:fern#window_selector_use_popup = 1
@@ -277,7 +274,6 @@ nnoremap x "_x
 nnoremap s "_s
 nnoremap c "_c
 
-
 function! PumVisible() abort
   try
     return pum#visible()
@@ -311,6 +307,8 @@ nnoremap > >>
 " nnoremap : ;
 " vnoremap ; :
 " vnoremap : ;
+nnoremap ' :
+vnoremap ' :
 
 nnoremap j gj
 nnoremap k gk
@@ -337,6 +335,11 @@ nnoremap [b <Cmd>bnext<CR>
 nnoremap ]b <Cmd>bprevious<CR>
 nnoremap [<Space> O<ESC>cc<ESC>
 nnoremap ]<Space> o<ESC>cc<ESC>
+
+nnoremap <C-j> }
+nnoremap <C-k> {
+vnoremap <C-j> }
+vnoremap <C-k> {
 
 " split window
 nnoremap sj <C-w>j
