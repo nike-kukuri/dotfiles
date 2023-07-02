@@ -1,15 +1,22 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # License : MIT
 # http://mollifier.mit-license.org/
  
 ########################################
-# 環境変数
+# lang
 export LANG=ja_JP.UTF-8
  
-# 色を使用出来るようにする
+# use color
 autoload -Uz colors
 colors
  
-# emacs 風キーバインドにする
+# like emacs keybind
 bindkey -e
  
 # ヒストリの設定
@@ -17,23 +24,19 @@ HISTFILE=~/.zsh_history
 HISTSIZE=1000000
 SAVEHIST=1000000
 
-# 改変箇所_1
-# 時間表記の追加
+# add time
 setopt extended_history
 alias history='history -t "%F %T"'
 
-# プロンプト
-# 1行表示
-# PROMPT="%~ %# "
+export TERM=xterm-256color
 
-# 改変箇所_2
-PROMPT="%{${fg[blue]}%}%n:%{${reset_color}%} %c/ %# "
+# prompt appearance
+# PROMPT="%{${fg[blue]}%}%n:%{${reset_color}%} %c/ %# "
 # 2行表示
 # PROMPT="%{${fg[green]}%}[%n@%m]%{${reset_color}%} %~
 # %# " 
 
-# 改変箇所_3
-# 出力の後に改行を入れる
+# add line after shell output 
 function add_line {
   if [[ -z "${PS1_NEWLINE_LOGIN}" ]]; then
     PS1_NEWLINE_LOGIN=true
@@ -43,7 +46,7 @@ function add_line {
 }
 PROMPT_COMMAND='add_line'
  
-# 単語の区切り文字を指定する
+# specify split case
 autoload -Uz select-word-style
 select-word-style default
 # ここで指定した文字は単語区切りとみなされる
@@ -52,8 +55,8 @@ zstyle ':zle:*' word-chars " /=;@:{},|"
 zstyle ':zle:*' word-style unspecified
  
 ########################################
-# 補完
-# 補完機能を有効にする
+# completion
+# enable completion
 autoload -Uz compinit
 compinit
  
@@ -143,8 +146,18 @@ alias grep='grep --color=auto'
 alias vi='vim'
 alias ga='git add'
 alias gl='git log'
-alias gc='git commit'
+alias gco='git commit -m'
 alias gs='git status'
+alias gpush='git push -u origin main'
+alias gpull='git pull'
+alias gl='git log'
+alias gln='git log --name-status --oneline'
+
+# for Mac
+if [[ $(uname) = "Darwin" ]]; then
+    alias ldd="echo ldd is not on OSX. use otool -L."
+    alias strace="echo strace is not on OSX. use dtruss"
+fi
 
 # pass: 簡易
 alias ssh_winnote='ssh -i ~/.ssh/windows_note yeahg@192.168.1.18'
@@ -202,6 +215,7 @@ zplug "zsh-users/zsh-history-substring-search"
 zplug "chrissicool/zsh-256color"
 zplug "mrowa44/emojify", as:command
 #zplug "yuki-yano/zeno" <= error
+zplug "romkatv/powerlevel10k", as:theme, depth:1
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
@@ -213,7 +227,15 @@ fi
 
 zplug load
 
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export PATH="/usr/local/bin:$PATH"
+export PATH="/usr/local/opt/pkg-config/bin:$PATH"
+export PKG_CONFIG_PATH=/usr/local/Cellar/opencv/4.7.0_2/lib/pkgconfig/opencv4.pc
+
 
 if type brew &>/dev/null; then
   FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
