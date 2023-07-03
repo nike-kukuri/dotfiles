@@ -52,6 +52,7 @@ call dein#add(s:dein_src)
 call dein#load_toml('$BASE_DIR/dein.toml', #{ lazy: 0 })
 call dein#load_toml('$BASE_DIR/ddc.toml', #{ lazy: 1 })
 call dein#load_toml('$BASE_DIR/ddu.toml', #{ lazy: 1 })
+" call dein#load_toml('$BASE_DIR/ddu_min.toml', #{ lazy: 1 })
 call dein#load_toml('$BASE_DIR/dein_lazy.toml', #{ lazy: 1 })
 
 " document
