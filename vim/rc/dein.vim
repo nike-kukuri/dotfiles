@@ -43,84 +43,24 @@ let s:dein_src = '~/.cache/dein/repos/github.com/Shougo/dein.vim'
 " Set dein runtime path
 execute 'set runtimepath+=' .. s:dein_src
 
+
+" start plugin read
 call dein#begin(s:dein_base)
 
 call dein#add(s:dein_src)
 
-call dein#add('itchyny/lightline.vim')
-
-" color scheme
-call dein#add('EdenEast/nightfox.nvim')
-
-" filer
-call dein#add('lambdalisue/fern.vim')
-call dein#add('lambdalisue/fern-renderer-nerdfont.vim')
-call dein#add('lambdalisue/nerdfont.vim')
-
-" parenthesis auto completion
-call dein#add('cohama/lexima.vim')
-
-" denops
-call dein#add('vim-denops/denops.vim')
-
-" lsp
-call dein#add('prabirshrestha/vim-lsp')
-call dein#add('mattn/vim-lsp-settings')
-
-" popup
-call dein#add('Shougo/pum.vim')
-
-" call dein#load_toml('$BASE_DIR/')
-" --- ddc plugins --- {{{
-" ddc main
-call dein#add('Shougo/ddc.vim')
-
-" ddc-source
-call dein#add('Shougo/ddc-source-around')
-call dein#add('Shougo/ddc-source-vim-lsp')
-
-" ddc-filter
-call dein#add('Shougo/ddc-matcher_head')
-call dein#add('Shougo/ddc-sorter_rank')
-call dein#add('Shougo/ddc-converter_remove_overlap')
-call dein#add('tani/ddc-fuzzy')
-
-" ddc-ui
-call dein#add('Shougo/ddc-ui-native')
-call dein#add('Shougo/ddc-ui-pum')
-
-" --- ddc plugins --- }}}
-
-" --- ddu plugins --- {{{
-" ddu main
-call dein#add('Shougo/ddu.vim')
-
-" ddu ui
-call dein#add('Shougo/ddu-ui-ff')
-
-" ddu source
-call dein#add('shun/ddu-source-rg')
-call dein#add('Shougo/ddu-source-file_rec')
-
-" ddu filter
-call dein#add('Shougo/ddu-filter-matcher_substring')
-call dein#add('Shougo/ddu-ui-filer')
-call dein#add('yuki-yano/ddu-filter-fzf')
-
-" ddu kind
-call dein#add('Shougo/ddu-kind-file')
-
-" --- ddu plugins --- }}}
-
-" convenient tools
-call dein#add('thinca/vim-quickrun')
-call dein#add('thinca/vim-qfreplace')
+call dein#load_toml('$BASE_DIR/dein.toml', #{ lazy: 0 })
+call dein#load_toml('$BASE_DIR/ddc.toml', #{ lazy: 1 })
+call dein#load_toml('$BASE_DIR/ddu.toml', #{ lazy: 1 })
+call dein#load_toml('$BASE_DIR/dein_lazy.toml', #{ lazy: 1 })
 
 " document
 call dein#add('vim-jp/vimdoc-ja')
 call dein#end()
+" end plugin read
+call dein#save_state()
 
+" automatically install any plugins
 if dein#check_install()
   call dein#install()
 endif
-

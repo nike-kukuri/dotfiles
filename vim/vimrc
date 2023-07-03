@@ -2,20 +2,14 @@ if &compatible
   set nocompatible
 endif
 
+let g:mapleader = "\<Space>"
+
 " 前提条件としてホームに `dotfiles` があること
 let $BASE_DIR = '<sfile>'->expand()->fnamemodify(':h') .. '/dotfiles/vim/rc'
 
-execute 'source' $"{'<sfile>'->expand()->fnamemodify(':h')}/dotfiles/vim/rc/dein.vim"
-
-let g:mapleader = "\<Space>"
-
-
-" --- setup Plugins ---
-" ddc.vim
-execute 'source' $"{'<sfile>'->expand()->fnamemodify(':h')}/dotfiles/vim/rc/ddc.vim"
-
-" ddu.vim
-execute 'source' $"{'<sfile>'->expand()->fnamemodify(':h')}/dotfiles/vim/rc/ddu.vim"
+execute 'source' '$BASE_DIR/dein.vim'
+" execute 'source' '$BASE_DIR/ddc.vim'
+" execute 'source' '$BASE_DIR/ddu.vim'
 
 " fern.vim
 let g:fern#renderer = "nerdfont"
@@ -52,27 +46,6 @@ let g:lightline = {
       \ },
       \ }
 
-" vim-lsp.vim
-nmap <silent> <Leader>d :LspDefinition<CR>
-nmap <silent> K :LspHover<CR>
-nmap <silent> <Leader>r :LspReferences<CR>
-nmap <silent> <Leader>i :LspImplementation<CR>
-nmap <silent> <Leader>s :split \| :LspDefinition <CR>
-nmap <silent> <Leader>v :vsplit \| :LspDefinition <CR>
-nnoremap <silent> ]e  :LspNextError<CR>
-nnoremap <silent> [e  :LspPreviousError<CR> 
-nnoremap <silent> ]w  :LspNextWarning<CR>
-nnoremap <silent> [w  :LspPreviousWarning<CR> 
-
-" quickrun.vim
-nnoremap <Leader>q :QuickRun<CR>
-let g:quickrun_config = get(g:, 'quickrun_config', {})
-let g:quickrun_config._ = {
-      \ 'outputter/buffer/opener': 'new',
-      \ 'outputter/buffer/into': 1,
-      \ 'outputter/buffer/close_on_empty': 1,
-      \ }
-
 " lexima.vim
 let g:lexima_enable_basic_rules = 1
 let g:lexima_enable_newline_rules = 1
@@ -83,7 +56,6 @@ set background=dark
 colorscheme nightfox
 " visual mode highlight
 hi Visual ctermfg=159 ctermbg=23 guifg=#b3c3cc guibg=#384851
-
 
 function! PumVisible() abort
   try
