@@ -1,92 +1,14 @@
-let g:mapleader = "\<Space>"
-
-"--- Plugin Install by vim-plug ---
-let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
-if empty(glob(data_dir . '/autoload/plug.vim'))
-  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+if &compatible
+  set nocompatible
 endif
 
-" Plugin List
-call plug#begin('~/.vim/plugged')
-
-" status line
-Plug 'itchyny/lightline.vim'
-
-" color scheme
-Plug 'EdenEast/nightfox.nvim'
-
-" filer
-Plug 'lambdalisue/fern.vim'
-Plug 'lambdalisue/fern-renderer-nerdfont.vim'
-Plug 'lambdalisue/nerdfont.vim'
-
-" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-" Plug 'junegunn/fzf.vim'
-
-" parenthesis auto completion
-Plug 'cohama/lexima.vim'
-
-" denops
-Plug 'vim-denops/denops.vim'
-
-" lsp
-Plug 'prabirshrestha/vim-lsp'
-Plug 'mattn/vim-lsp-settings'
-
-" popup
-Plug 'Shougo/pum.vim'
-
-" --- ddc plugins --- {{{
-" ddc main
-Plug 'Shougo/ddc.vim'
-
-" ddc-source
-Plug 'Shougo/ddc-source-around'
-Plug 'Shougo/ddc-source-vim-lsp'
-
-" ddc-filter
-Plug 'Shougo/ddc-matcher_head'
-Plug 'Shougo/ddc-sorter_rank'
-Plug 'Shougo/ddc-converter_remove_overlap'
-Plug 'tani/ddc-fuzzy'
-
-" ddc-ui
-Plug 'Shougo/ddc-ui-native'
-Plug 'Shougo/ddc-ui-pum'
-
-" --- ddc plugins --- }}}
-
-" --- ddu plugins --- {{{
-" ddu main
-Plug 'Shougo/ddu.vim'
-
-" ddu ui
-Plug 'Shougo/ddu-ui-ff'
-
-" ddu source
-Plug 'shun/ddu-source-rg'
-Plug 'Shougo/ddu-source-file_rec'
-
-" ddu filter
-Plug 'Shougo/ddu-filter-matcher_substring'
-Plug 'Shougo/ddu-ui-filer'
-Plug 'yuki-yano/ddu-filter-fzf'
-
-" ddu kind
-Plug 'Shougo/ddu-kind-file'
-
-" --- ddu plugins --- }}}
-
-" convenient tools
-Plug 'thinca/vim-quickrun'
-Plug 'thinca/vim-qfreplace'
-
-" document
-Plug 'vim-jp/vimdoc-ja'
-call plug#end()
-
+" 前提条件としてホームに `dotfiles` があること
 let $BASE_DIR = '<sfile>'->expand()->fnamemodify(':h') .. '/dotfiles/vim/rc'
+
+execute 'source' $"{'<sfile>'->expand()->fnamemodify(':h')}/dotfiles/vim/rc/dein.vim"
+
+let g:mapleader = "\<Space>"
+
 
 " --- setup Plugins ---
 " ddc.vim
@@ -94,9 +16,6 @@ execute 'source' $"{'<sfile>'->expand()->fnamemodify(':h')}/dotfiles/vim/rc/ddc.
 
 " ddu.vim
 execute 'source' $"{'<sfile>'->expand()->fnamemodify(':h')}/dotfiles/vim/rc/ddu.vim"
-
-" fzf.vim
-" nnoremap <C-P> :Files<CR>
 
 " fern.vim
 let g:fern#renderer = "nerdfont"
@@ -165,118 +84,6 @@ colorscheme nightfox
 " visual mode highlight
 hi Visual ctermfg=159 ctermbg=23 guifg=#b3c3cc guibg=#384851
 
-" --- setup options ---
-syntax enable
-filetype plugin indent on
-set cursorline
-set scrolloff=100
-set expandtab
-set smarttab
-set smartindent
-set autoindent
-set incsearch
-set ignorecase
-set smartcase
-set wildmenu
-set showmatch
-set matchtime=1
-set completeopt=menu,menuone,preview
-set matchpairs& matchpairs+=<:>
-set noshowmode
-set undolevels=1000
-set helplang=ja,en
-set autowrite 
-set noswapfile
-set laststatus=2
-set showtabline=1
-set wildcharm=<Tab> " enable <Tab> in cnnoremap <expr> 
-set backspace=indent,eol,start " Allow backspace over everything
-
-" grep
-if executable('rg')
-  set grepprg=rg\ --vimgrep
-endif
-set grepformat='%f:%l:%c:%m'
-
-" indent
-set tabstop=2 shiftwidth=2 softtabstop=2
-
-" clipboard
-set clipboard&
-if has('mac') || has('win32') || has('win64')
-  set clipboard^=unnamed
-else
-  set clipboard^=unnamedplus
-endif
-
-augroup fileTypeIndent
-  autocmd!
-  autocmd FileType go setlocal tabstop=4 shiftwidth=4
-  autocmd FileType vim setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-  autocmd FileType php setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-  autocmd FileType html setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-  autocmd FileType javascript,javascriptreact setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-  autocmd FileType typescript,typescriptreact setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-  autocmd FileType vue  setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-  autocmd FileType yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-  autocmd FileType json setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-  autocmd FileType sh setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-  autocmd FileType fish setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-  autocmd FileType zsh setlocal tabstop=2 shiftwidth=2 expandtab
-  autocmd FileType rust setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
-  autocmd FileType markdown setlocal tabstop=2 shiftwidth=2 expandtab
-  autocmd FileType make setlocal tabstop=8 softtabstop=8 shiftwidth=8 noexpandtab
-augroup END
-
-" Automatically open quickfix/locationlist
-augroup my_quickfix
-  autocmd!
-  autocmd QuickFixCmdPost [^l]* nested cwindow
-  autocmd QuickFixCmdPost l* nested lwindow
-augroup END
-
-" --- keymaps ---
-nnoremap <Esc><Esc> :nohlsearch<CR> 
-nnoremap <Leader>. :tabnew ~/.vimrc<CR>
-nnoremap <C-G><C-G> :Ripgrep <C-R><C-W><CR>
-nnoremap <Leader>re :%s;\<<C-R><C-W>\>;g<Left><Left>;
-
-" open terminal
-nnoremap <Leader>tt :<C-u>tabnew<CR><BAR>:terminal<CR>
-
-" move tab
-nnoremap <C-l> gt
-nnoremap <C-h> gT
-nnoremap cm ct
-
-" remove insert mode in terminal
-tnoremap <C-]> <C-\><C-n>
-
-" Home / End
-nnoremap H ^
-nnoremap L $
-vnoremap H ^
-vnoremap L $
-onoremap H ^
-onoremap L $
-
-" Emacs like in Insert/Command
-inoremap <C-d> <Del>
-inoremap <C-k> <C-o>C
-inoremap <silent> <C-f> <Right>
-inoremap <silent> <C-b> <Left>
-inoremap <silent> <C-e> <C-o>A
-inoremap <silent> <C-a> <C-o>I
-cnoremap <C-d> <Del>
-cnoremap <C-b> <Left>
-cnoremap <C-f> <Right>
-cnoremap <C-a> <Home>
-cnoremap <C-e> <End>
-
-nnoremap x "_x
-nnoremap s "_s
-nnoremap c "_c
-
 
 function! PumVisible() abort
   try
@@ -299,52 +106,6 @@ cnoremap <Down> <C-n>
 
 cnoremap <expr> <Tab> pum#visible() ? '<C-y><Tab>' : '<Tab>'
 
-" move pair ()
-nnoremap <Tab>m %
-
-" better <
-nnoremap < <<
-nnoremap > >>
-
-" swap ; and :
-" nnoremap ; :
-" nnoremap : ;
-" vnoremap ; :
-" vnoremap : ;
-
-nnoremap j gj
-nnoremap k gk
-nnoremap gj j
-nnoremap gk k
-
-" less key motion
-onoremap 9 i(
-onoremap [ i[
-onoremap { i{
-onoremap a9 a(
-
-nnoremap v9 vi(
-nnoremap v[ vi[
-nnoremap v{ vi{
-nnoremap va9 va(
-
-onoremap ' i'
-onoremap " i"
-
-nnoremap Y y$
-
-nnoremap [b <Cmd>bnext<CR>
-nnoremap ]b <Cmd>bprevious<CR>
-nnoremap [<Space> O<ESC>cc<ESC>
-nnoremap ]<Space> o<ESC>cc<ESC>
-
-" split window
-nnoremap sj <C-w>j
-nnoremap sk <C-w>k
-nnoremap sl <C-w>l
-nnoremap sh <C-w>h
-nnoremap ss :<C-u>sp<CR><C-w>j
-nnoremap sv :<C-u>vs<CR><C-w>l
 
 " paste with clipboard
 " auto smart indent with paste
