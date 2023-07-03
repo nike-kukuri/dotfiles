@@ -1,35 +1,76 @@
+" hook_add {{{
 " my original settings
-let s:ddu_setting =<< trim MARK
-  {
-    "ui": "ff",
-    "uiParams": {
-      "ff": {
-        "split": "floating",
-        "prompt": "> ",
-        "startFilter": true
-      }
-    },
-    "sources": [
-      { "name": "file_rec" }
-    ],
-    "sourceOptions": {
-      "channel": {
-        "columns": ["filename"]
-      },
-      "_": {
-        "matchers": ["matcher_fzf"]
-      }
-    },
-    "kindOptions": {
-      "file": {
-        "defaultAction": "open"
-      }
-    }
-  }
-MARK
+call ddu#custom#patch_global(#{
+        \ ui: 'ff',
+        \ })
 
-let s:ddu_setting = s:ddu_setting->join('')->json_decode()
-call ddu#custom#patch_global(s:ddu_setting)
+call ddu#custom#patch_global(#{
+        \ sources: [
+        \   #{ 
+        \       name: 'file_rec',
+        \       params: {
+        \         'ignoredDirectories': ['.git', 'node_modules', 'vendor'],
+        \       },
+        \   },
+        \ ],
+        \ })
+
+call ddu#custom#patch_global(#{
+        \ sourceOptions: #{
+        \   _: #{
+        \     matchers: ['matcher_fzf'],
+        \   },
+        \   channel: #{
+        \     columns: ['filename'],
+        \   },
+        \ },
+        \ })
+
+call ddu#custom#patch_global(#{
+        \ uiParams: #{
+        \   ff: #{
+        \     startFilter: v:true,
+        \     split: 'floating',
+        \     prompt: '> ',
+        \     autoAction: #{ name: 'preview' },
+        \     filterFloatingPosition: 'bottom',
+        \     previewFloating: v:true,
+        \     previewFloatingBorder: 'single',
+        \     previewSplit: 'vertical',
+        \     previewFloatingTitle: 'Preview',
+        \     previewWindowOptions: [
+        \       [ '&signcolumn', 'no' ],
+        \       [ '&foldcolumn', 0 ],
+        \       [ '&foldenable', 0 ],
+        \       [ '&number', 0 ],
+        \       [ '&wrap', 0 ],
+        \       [ '&scrolloff', 0 ],
+        \     ],
+        \     highlights: #{
+        \       floating: 'Normal',
+        \       floatingBorder: 'Normal',
+        \     },
+        \     ignoreEmpty: v:true,
+        \   },
+        \ },
+        \ })
+
+call ddu#custom#patch_global(#{
+        \ filterParams: #{
+        \   matcher_substring: #{
+        \     highlightMatched: 'Title',
+        \   },
+        \ },
+        \ })
+
+call ddu#custom#patch_global(#{
+        \ kindOptions: #{
+        \   file: #{
+        \     defaultAction: 'open',
+        \   },
+        \ }
+        \ })
+
 autocmd FileType ddu-ff call s:ddu_my_settings()
 function! s:ddu_my_settings() abort
   setlocal cursorline
@@ -41,8 +82,13 @@ function! s:ddu_my_settings() abort
         \ <Cmd>call ddu#ui#ff#do_action('openFilterWindow')<CR>
   nnoremap <buffer><silent> q
         \ <Cmd>call ddu#ui#ff#do_action('quit')<CR>
+  nnoremap <buffer><silent> p
+        \ <Cmd>call ddu#ui#ff#do_action('preview')<CR>
+  inoremap <buffer><silent> <Esc>
+        \ <Cmd>call ddu#ui#ff#do_action('quit')<CR>
 endfunction
 
+" define action commands in ddu
 autocmd FileType ddu-ff-filter call s:ddu_filter_my_settings()
 function! s:ddu_filter_my_settings() abort
 	inoremap <buffer> <CR>
@@ -63,7 +109,28 @@ function! s:ddu_filter_my_settings() abort
 				\ <Cmd>call ddu#ui#ff#do_action('quit')<CR>
 endfunction
 
-nnoremap <silent> <C-p> <Cmd>call ddu#start({})<CR>
+nnoremap <C-p> <Cmd>Ddu
+      \ -name=files file
+      \ -source-option-path=`expand('$BASE_DIR')`
+      \ <CR>
+
+nnoremap <silent> <C-q> <Cmd>call ddu#start(#{
+      \ name: 'file',
+      \ ui: 'ff',
+      \ sync: v:true,
+      \ input: getcmdline()[: getcmdpos() - 2]->match('\f*$') + 1,
+      \ sources: [
+      \   #{ name: 'file', options: #{ defaultAction: 'feedkeys' } },
+      \ ],
+      \ uiParams: #{
+      \   ff: #{
+      \     startFilter: v:true,
+      \     replaceCol: getcmdline()[: getcmdpos() - 2]->match('\f*$') + 1,
+      \   },
+      \ },
+      \ })<CR><Cmd>call setcmdline('')<CR><CR>
+
+" }}}
 
 " --- reference author settings ---
 " ddu.vim

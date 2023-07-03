@@ -1,4 +1,4 @@
-
+" hook_source {{{
 " ui
 call ddc#custom#patch_global(#{ ui: 'pum' })
       
@@ -18,7 +18,6 @@ call ddc#custom#patch_global('sourceOptions', {
       \   'matchers': ['matcher_head'],
       \   'forceCompletionPattern': '\.|:|->|"\w+/*'
       \ }})
-call ddc#enable()
 
 inoremap <Tab>   <Cmd>call pum#map#insert_relative(+1)<CR>
 inoremap <S-Tab> <Cmd>call pum#map#insert_relative(-1)<CR>
@@ -35,3 +34,19 @@ inoremap <silent><expr> <Up>
 inoremap <silent><expr> <CR>
       \ pum#visible() ? '<Cmd>call pum#map#confirm()<CR>' :
       \ '<CR>'
+
+" command line completion
+cnoremap <expr> <Tab>
+      \ wildmenumode() ? &wildcharm->nr2char() :
+      \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' :
+      \ ddc#map#manual_complete()
+cnoremap <S-Tab> <Cmd>call pum#map#select_relative(-1)<CR>
+cnoremap <C-o> <Cmd>call pum#map#confirm()<CR>
+
+" terminal completion
+call ddc#enable_terminal_completion()
+
+call ddc#enable(#{
+      \   context_filetype: has('nvim') ? 'treesitter' : 'context_filetype',
+      \ })
+" }}}
