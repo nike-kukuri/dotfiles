@@ -19,4 +19,5 @@
         "fn",
         "api"
     ],
+    "workspace.checkThirdParty": false,
 }
