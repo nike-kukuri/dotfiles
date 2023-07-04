@@ -870,6 +870,7 @@ local indent_blankline = function()
   })
 end
 
+
 -- ############################# lazy config section ###############################
 -- lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -901,6 +902,43 @@ require("lazy").setup({
       --   If not available, we use `mini` as the fallback
       "rcarriga/nvim-notify",
       }
+  },
+  {
+    'Shougo/ddu.vim',
+    dependencies = { 'vim-denops/denops.vim' },
+    config = function()
+      vim.fn['ddu#custom#patch_global']({
+        ui = { 'ff' },
+        sources = {
+          name = 'file_rec',
+          params = {},
+        },
+        sourceOptions = {
+          _ = {
+            matchers = { 'matcher_substring' },
+          },
+        },
+        kindOptions = {
+          file = { defaultAction = 'open' },
+        },
+      })
+    end
+  },
+  {
+    'Shougo/ddu-ui-ff',
+    dependencies = { 'ddu.vim' },
+  },
+  {
+    'Shougo/ddu-filter-matcher_substring',
+    dependencies = { 'ddu.vim' },
+  },
+  {
+    'Shougo/ddu-source-file_rec',
+    dependencies = { 'ddu.vim' },
+  },
+  {
+    'Shougo/ddu-kind-file',
+    dependencies = { 'ddu.vim' },
   },
   {
     'monaqa/dial.nvim',
