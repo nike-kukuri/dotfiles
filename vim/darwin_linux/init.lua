@@ -261,13 +261,6 @@ api.nvim_create_autocmd('FileType', {
 map({ 'c', 'i' }, '<C-v>', 'printf("<C-r><C-o>%s", v:register)', { expr = true })
 
 -- other keymap
-
--- don't work well (Cause unknown)
--- if vim.fn.has('win32') == 1 or vim.fn.has('win64') then
---   nmap('<Leader>.', ':tabnew ~\\AppData\\Local\\nvim\\init.lua<CR>')
--- else
---   nmap('<Leader>.', ':tabnew ~/.config/nvim/init.lua<CR>')
--- end
 nmap('<Leader>.', ':tabnew ~/.config/nvim/init.lua<CR>')
 
 nmap('j', 'gj')
@@ -308,72 +301,10 @@ vmap('<Tab>', '%')
 
 -- ############################# plugin config section ###############################
 -- memolist.vim
--- don't work well(Cause unknown)
--- if vim.fn.has('win32') == 1 or vim.fn.has('win64') then
---   g['memolist_path'] = "~\\note\\docs\\notes"
--- else
---   g['memolist_path'] = "~/note/docs/notes"
--- end
 g['memolist_path'] = "~/note/docs/notes"
 
 nmap('<Leader>mn', ':MemoNew<CR>')
 nmap('<Leader>ml', ':MemoList<CR>')
-
--- noice.nvim
-local noice_config = function()
-  local noice = require("noice")
-  noice.setup({
-    views = {
-      cmdline_popup = {
-        position = {
-          row = 5,
-          col = "50%",
-        },
-        size = {
-          width = 60,
-          height = "auto",
-        },
-      },
-      popupmenu = {
-        relative = "editor",
-        position = {
-          row = 8,
-          col = "50%"
-        },
-        size = {
-          width = 60,
-          height = 10,
-        },
-        border = {
-          style = "rounded",
-          padding = { 0, 1 },
-        },
-        win_options = {
-          winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo"},
-        },
-      },
-    },
-    messages = {
-      enabled = false,
-    },
-    lsp = {
-      -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-      override = {
-        ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-        ["vim.lsp.util.stylize_markdown"] = true,
-        ["cmp.entry.get_documentation"] = true,
-      },
-    },
-    -- you can enable a preset for easier configuration
-    presets = {
-      -- bottom_search = false, -- use a classic bottom cmdline for search
-      -- command_palette = false, -- position the cmdline and popupmenu together
-      -- long_message_to_split = true, -- long messages will be sent to a split
-      -- inc_rename = false, -- enables an input dialog for inc-rename.nvim
-      -- lsp_doc_border = false, -- add a border to hover docs and signature help
-    },
-  })
-end
 
 -- vim-easy-align
 local vim_easy_align_config = function()
@@ -395,7 +326,7 @@ local nvim_cmp_config = function()
       ['<C-f>'] = cmp.mapping.scroll_docs(4),
       ["<C-p>"] = cmp.mapping.select_prev_item(),
       ["<C-n>"] = cmp.mapping.select_next_item(),
-      ['<Tab>'] = cmp.mapping.complete(),
+      -- ['<Tab>'] = cmp.mapping.complete(),
       ['<CR>'] = cmp.mapping.confirm({ select = true }),
     }),
     sources = {
@@ -430,8 +361,9 @@ Lsp_on_attach = function(client, bufnr)
   api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
   local bufopts = { silent = true, buffer = bufnr }
   nmap('K', vim.lsp.buf.hover, bufopts)
-  nmap('<Leader>gi', vim.lsp.buf.implementation, bufopts)
-  nmap('<Leader>gr', vim.lsp.buf.references, bufopts)
+  nmap('gd', vim.lsp.buf.definition, bufopts)
+  nmap('gi', vim.lsp.buf.implementation, bufopts)
+  nmap('gr', vim.lsp.buf.references, bufopts)
   nmap('<Leader>rn', vim.lsp.buf.rename, bufopts)
   nmap(']d', vim.diagnostic.goto_next, bufopts)
   nmap('[d', vim.diagnostic.goto_prev, bufopts)
@@ -870,7 +802,6 @@ local indent_blankline = function()
   })
 end
 
-
 -- ############################# lazy config section ###############################
 -- lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -903,43 +834,88 @@ require("lazy").setup({
       "rcarriga/nvim-notify",
       }
   },
-  {
-    'Shougo/ddu.vim',
-    dependencies = { 'vim-denops/denops.vim' },
-    config = function()
-      vim.fn['ddu#custom#patch_global']({
-        ui = { 'ff' },
-        sources = {
-          name = 'file_rec',
-          params = {},
-        },
-        sourceOptions = {
-          _ = {
-            matchers = { 'matcher_substring' },
-          },
-        },
-        kindOptions = {
-          file = { defaultAction = 'open' },
-        },
-      })
-    end
-  },
-  {
-    'Shougo/ddu-ui-ff',
-    dependencies = { 'ddu.vim' },
-  },
-  {
-    'Shougo/ddu-filter-matcher_substring',
-    dependencies = { 'ddu.vim' },
-  },
-  {
-    'Shougo/ddu-source-file_rec',
-    dependencies = { 'ddu.vim' },
-  },
-  {
-    'Shougo/ddu-kind-file',
-    dependencies = { 'ddu.vim' },
-  },
+  -- {
+  --   'Shougo/ddu.vim',
+  --   dependencies = { 'vim-denops/denops.vim' },
+  --   lazy = true,
+  -- },
+  -- {
+  --   'Shougo/ddu-ui-ff',
+  --   dependencies = { 'ddu.vim' },
+  --   event = 'VeryLazy',
+  --   config = function()
+  --     local lines = vim.opt.lines:get()
+  --     local height, row = math.floor(lines * 0.8), math.floor(lines * 0.1)
+  --     local columns = vim.opt.columns:get()
+  --     local width, col = math.floor(columns * 0.8), math.floor(columns * 0.1)
+  --     vim.fn['ddu#custom#patch_global']({
+  --       ui = "ff",
+  --       uiParams = {
+  --         ff = {
+  --           winHeight = height,
+  --           winRow = row,
+  --           winWidth = width,
+  --           winCol = col,
+  --           previewHeight = height,
+  --           previewRow = row,
+  --           previewWidth = math.floor(width / 2),
+  --           startFilter = true,
+  --           prompt = '> ',
+  --           split = 'floating',
+  --           floatingBorder = 'single',
+  --           filterFloatingPosition = 'top',
+  --           autoAction = {
+  --             name = 'preview',
+  --           },
+  --           previewFloating = true,
+  --           previewFloatingBorder = 'single',
+  --           previewSplit = 'vertical',
+  --           previewFloatingTitle = 'Preview',
+  --           previewWindowOptions = {
+  --             { "&signcolumn", "no" },
+  --             { "&foldcolumn", 0 },
+  --             { "&foldenable", 0 },
+  --             { "&number", 0 },
+  --             { "&wrap", 0 },
+  --             { "&scrolloff", 0 },
+  --           },
+  --           highlights = {
+  --             floating = 'Normal',
+  --             floatingBorder = 'Normal',
+  --           },
+  --           ignoreEmpty = true,
+  --         },
+  --       },
+  --       sources = {
+  --         name = 'file_rec',
+  --         params = {},
+  --       },
+  --       sourceOptions = {
+  --         _ = {
+  --           matchers = { 'matcher_substring' },
+  --         },
+  --       },
+  --       kindOptions = {
+  --         file = { defaultAction = 'open' },
+  --       },
+  --     })
+  --   end
+  -- },
+  -- {
+  --   'Shougo/ddu-filter-matcher_substring',
+  --   dependencies = { 'ddu.vim' },
+  --   event = 'VeryLazy',
+  -- },
+  -- {
+  --   'Shougo/ddu-source-file_rec',
+  --   dependencies = { 'ddu.vim' },
+  --   event = 'VeryLazy',
+  -- },
+  -- {
+  --   'Shougo/ddu-kind-file',
+  --   dependencies = { 'ddu.vim' },
+  --   event = 'VeryLazy',
+  -- },
   {
     'monaqa/dial.nvim',
     config = function()
