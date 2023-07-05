@@ -143,11 +143,14 @@ alias cp='cp -i'
 alias mv='mv -i'
 alias mkdir='mkdir -p'
 alias grep='grep --color=auto'
-alias vi='vim'
+alias vi='~/Vim/vim/src/vim'
+alias vim='~/Vim/vim/src/vim'
 alias ga='git add'
-alias gl='git log'
+alias gls='git log -3'
+alias gll='git log -10 --oneline --all --graph --decorate'
 alias gco='git commit -m'
-alias gs='git status'
+alias gs='git status --short'
+alias gss='git status -v'
 alias gpush='git push -u origin main'
 alias gpull='git pull'
 alias gl='git log'
@@ -196,26 +199,40 @@ case ${OSTYPE} in
         ;;
 esac
 
-# vim:set ft=zsh:
-#
 #=============================
 # source zplug
 #=============================
 export ZPLUG_HOME=/usr/local/opt/zplug
 source $ZPLUG_HOME/init.zsh
+# plugin manager
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 
-zplug "mafredri/zsh-async"
-zplug "sindresorhus/pure"
+# zsh users utilitiy plugins
 zplug "zsh-users/zsh-syntax-highlighting"
 zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-completions"
 zplug "zsh-users/zsh-history-substring-search"
+
+# task run asynchronously i.e. very fast
+zplug "mafredri/zsh-async"
+
+# PROMPT
+# simple prompt
+#zplug "sindresorhus/pure"
+# rich prompt
+zplug "romkatv/powerlevel10k", as:theme, depth:1
 #zplug "spaceship-prompt/spaceship-prompt"
+
+# color
 zplug "chrissicool/zsh-256color"
+
+# emoji
+zplug "b4b4r07/emoji-cli"
 zplug "mrowa44/emojify", as:command
 #zplug "yuki-yano/zeno" <= error
-zplug "romkatv/powerlevel10k", as:theme, depth:1
+
+bindkey '^xe' emoji::cli
+bindkey '^x^e' emoji::cli
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
