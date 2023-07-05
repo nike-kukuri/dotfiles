@@ -8,53 +8,12 @@ let g:mapleader = "\<Space>"
 let $BASE_DIR = '<sfile>'->expand()->fnamemodify(':h') .. '/dotfiles/vim/rc'
 
 execute 'source' '$BASE_DIR/dein.vim'
-" execute 'source' '$BASE_DIR/ddc.vim'
-" execute 'source' '$BASE_DIR/ddu.vim'
-" execute 'source' '$BASE_DIR/ddu_min.vim'
-
-" fern.vim
-let g:fern#renderer = "nerdfont"
-let g:fern#window_selector_use_popup = 1
-function! s:fern_init() abort
-  nnoremap <buffer> <silent> q :q<CR>
-  map <buffer> <silent> <C-x> <Plug>(fern-action-open:split)
-  map <buffer> <silent> <C-v> <Plug>(fern-action-open:vsplit)
-  map <buffer> <silent> <C-t> <Plug>(fern-action-tcd)
-endfunction
-
-let g:fern#default_hidden = 1
-let g:fern#default_exclude = '.git$'
-
-augroup fern-settings
-  autocmd!
-  autocmd FileType fern call s:fern_init()
-augroup END
-
-nnoremap <silent> <Leader>f :Fern . -drawer<CR>
-
-" lightline.vim
-function! LightlineFilename()
-  return &filetype ==# 'vimfiler' ? vimfiler#get_status_string() :
-        \ &filetype ==# 'unite' ? unite#get_status_string() :
-        \ &filetype ==# 'vimshell' ? vimshell#get_status_string() :
-        \ expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
-endfunction
-
-let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ 'component_function': {
-      \   'filename': 'LightlineFilename',
-      \ },
-      \ }
-
-" lexima.vim
-let g:lexima_enable_basic_rules = 1
-let g:lexima_enable_newline_rules = 1
 
 " --- color scheme ---
 set termguicolors
 set background=dark
 colorscheme nightfox
+
 " visual mode highlight
 hi Visual ctermfg=159 ctermbg=23 guifg=#b3c3cc guibg=#384851
 
@@ -78,7 +37,6 @@ cnoremap <Up> <C-p>
 cnoremap <Down> <C-n>
 
 cnoremap <expr> <Tab> pum#visible() ? '<C-y><Tab>' : '<Tab>'
-
 
 " paste with clipboard
 " auto smart indent with paste
