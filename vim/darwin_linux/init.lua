@@ -834,88 +834,111 @@ require("lazy").setup({
       "rcarriga/nvim-notify",
       }
   },
-  -- {
-  --   'Shougo/ddu.vim',
-  --   dependencies = { 'vim-denops/denops.vim' },
-  --   lazy = true,
-  -- },
-  -- {
-  --   'Shougo/ddu-ui-ff',
-  --   dependencies = { 'ddu.vim' },
-  --   event = 'VeryLazy',
-  --   config = function()
-  --     local lines = vim.opt.lines:get()
-  --     local height, row = math.floor(lines * 0.8), math.floor(lines * 0.1)
-  --     local columns = vim.opt.columns:get()
-  --     local width, col = math.floor(columns * 0.8), math.floor(columns * 0.1)
-  --     vim.fn['ddu#custom#patch_global']({
-  --       ui = "ff",
-  --       uiParams = {
-  --         ff = {
-  --           winHeight = height,
-  --           winRow = row,
-  --           winWidth = width,
-  --           winCol = col,
-  --           previewHeight = height,
-  --           previewRow = row,
-  --           previewWidth = math.floor(width / 2),
-  --           startFilter = true,
-  --           prompt = '> ',
-  --           split = 'floating',
-  --           floatingBorder = 'single',
-  --           filterFloatingPosition = 'top',
-  --           autoAction = {
-  --             name = 'preview',
-  --           },
-  --           previewFloating = true,
-  --           previewFloatingBorder = 'single',
-  --           previewSplit = 'vertical',
-  --           previewFloatingTitle = 'Preview',
-  --           previewWindowOptions = {
-  --             { "&signcolumn", "no" },
-  --             { "&foldcolumn", 0 },
-  --             { "&foldenable", 0 },
-  --             { "&number", 0 },
-  --             { "&wrap", 0 },
-  --             { "&scrolloff", 0 },
-  --           },
-  --           highlights = {
-  --             floating = 'Normal',
-  --             floatingBorder = 'Normal',
-  --           },
-  --           ignoreEmpty = true,
-  --         },
-  --       },
-  --       sources = {
-  --         name = 'file_rec',
-  --         params = {},
-  --       },
-  --       sourceOptions = {
-  --         _ = {
-  --           matchers = { 'matcher_substring' },
-  --         },
-  --       },
-  --       kindOptions = {
-  --         file = { defaultAction = 'open' },
-  --       },
-  --     })
-  --   end
-  -- },
-  -- {
-  --   'Shougo/ddu-filter-matcher_substring',
-  --   dependencies = { 'ddu.vim' },
-  --   event = 'VeryLazy',
-  -- },
-  -- {
-  --   'Shougo/ddu-source-file_rec',
-  --   dependencies = { 'ddu.vim' },
-  --   event = 'VeryLazy',
-  -- },
-  -- {
-  --   'Shougo/ddu-kind-file',
-  --   dependencies = { 'ddu.vim' },
-  --   event = 'VeryLazy',
-  -- },
+  --{
+  --  'Shougo/ddu.vim',
+  --  dependencies = { 'vim-denops/denops.vim' },
+  --  --lazy = true,
+  --},
+  --{
+  --  'Shougo/ddu-ui-ff',
+  --  dependencies = { 'ddu.vim' },
+  --  lazy = true,
+  --  config = function()
+  --    local width = math.floor(vim.o.columns * 0.8)
+  --    local previewWidth = math.floor(width * 0.5) - 1
+  --    local height = math.floor(vim.o.lines * 0.8)
+  --    local previewHeight = height - 2
+  --    local row = math.floor((vim.o.lines - height) / 2)
+  --    local previewRow = row + 1
+  --    local col = math.floor(vim.o.columns * 0.1)
+  --    local halfWidth = math.floor(vim.o.columns * 0.5)
+  --    local previewCol = halfWidth - previewWidth - 2
+  --    --local lines = vim.opt.lines:get()
+  --    --local height, row = math.floor(lines * 0.8), math.floor(lines * 0.1)
+  --    --local columns = vim.opt.columns:get()
+  --    --local width, col = math.floor(columns * 0.8), math.floor(columns * 0.1)
+  --    vim.fn['ddu#custom#patch_global']({
+  --      ui = "ff",
+  --      uiParams = {
+  --        ff = {
+  --          winWidth = width,
+  --          winHeight = height,
+  --          winRow = row,
+  --          winCol = col,
+  --          previewWidth = previewWidth,
+  --          previewHeight = previewHeight,
+  --          previewRow = previewRow,
+  --          previewCol = previewCol,
+  --          --winHeight = height,
+  --          --winRow = row,
+  --          --winWidth = width,
+  --          --winCol = col,
+  --          --previewHeight = height,
+  --          --previewRow = row,
+  --          --previewWidth = math.floor(width / 2),
+  --          startFilter = true,
+  --          prompt = '> ',
+  --          split = 'floating',
+  --          floatingBorder = 'single',
+  --          filterFloatingPosition = 'top',
+  --          autoAction = {
+  --            name = 'preview',
+  --          },
+  --          previewFloating = true,
+  --          previewFloatingBorder = 'single',
+  --          previewSplit = 'vertical',
+  --          previewFloatingTitle = 'Preview',
+  --          previewWindowOptions = {
+  --            { "&signcolumn", "no" },
+  --            { "&foldcolumn", 0 },
+  --            { "&foldenable", 0 },
+  --            { "&number", 0 },
+  --            { "&wrap", 0 },
+  --            { "&scrolloff", 0 },
+  --          },
+  --          highlights = {
+  --            floating = 'Normal',
+  --            floatingBorder = 'Normal',
+  --          },
+  --          ignoreEmpty = true,
+  --        },
+  --      },
+  --      sources = {
+  --        name = 'file_rec',
+  --        params = {},
+  --      },
+  --      sourceOptions = {
+  --        _ = {
+  --          matchers = { 'matcher_substring' },
+  --        },
+  --        channel = { 'filename' },
+  --      },
+  --      filterParams = {
+  --        matcher_substring = {
+  --          highlightMatched = 'Title',
+  --        },
+  --      },
+  --      kindOptions = {
+  --        file = { defaultAction = 'open' },
+  --      },
+  --    })
+  --  end
+  --},
+  --{
+  --  'Shougo/ddu-filter-matcher_substring',
+  --  dependencies = { 'ddu.vim' },
+  --  lazy = true,
+  --},
+  --{
+  --  'Shougo/ddu-source-file_rec',
+  --  dependencies = { 'ddu.vim' },
+  --  lazy = true,
+  --},
+  --{
+  --  'Shougo/ddu-kind-file',
+  --  dependencies = { 'ddu.vim' },
+  --  lazy = true,
+  --},
   {
     'monaqa/dial.nvim',
     config = function()
