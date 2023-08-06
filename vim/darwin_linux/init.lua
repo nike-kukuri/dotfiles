@@ -79,6 +79,7 @@ opt.helplang     = 'ja'
 opt.autowrite    = true
 opt.swapfile     = false
 opt.showtabline  = 1
+opt.foldmethod   = 'marker'
 -- opt.diffopt   = 'vertical,internal'
 -- opt.wildcharm = ('<Tab>'):byte()
 opt.tabstop      = 2
@@ -785,7 +786,7 @@ local treesitter_config = function()
       'lua', 'rust', 'typescript', 'tsx',
       'go', 'gomod', 'sql', 'toml', 'yaml',
       'html', 'javascript', 'graphql',
-      'markdown', 'markdown_inline', 'help',
+      'markdown', 'markdown_inline',
     },
     auto_install = true,
     highlight = {
@@ -805,7 +806,7 @@ end
 -- ############################# lazy config section ###############################
 -- lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   vim.fn.system({
     "git",
     "clone",
@@ -834,88 +835,83 @@ require("lazy").setup({
       "rcarriga/nvim-notify",
       }
   },
-  -- {
-  --   'Shougo/ddu.vim',
-  --   dependencies = { 'vim-denops/denops.vim' },
-  --   lazy = true,
-  -- },
-  -- {
-  --   'Shougo/ddu-ui-ff',
-  --   dependencies = { 'ddu.vim' },
-  --   event = 'VeryLazy',
-  --   config = function()
-  --     local lines = vim.opt.lines:get()
-  --     local height, row = math.floor(lines * 0.8), math.floor(lines * 0.1)
-  --     local columns = vim.opt.columns:get()
-  --     local width, col = math.floor(columns * 0.8), math.floor(columns * 0.1)
-  --     vim.fn['ddu#custom#patch_global']({
-  --       ui = "ff",
-  --       uiParams = {
-  --         ff = {
-  --           winHeight = height,
-  --           winRow = row,
-  --           winWidth = width,
-  --           winCol = col,
-  --           previewHeight = height,
-  --           previewRow = row,
-  --           previewWidth = math.floor(width / 2),
-  --           startFilter = true,
-  --           prompt = '> ',
-  --           split = 'floating',
-  --           floatingBorder = 'single',
-  --           filterFloatingPosition = 'top',
-  --           autoAction = {
-  --             name = 'preview',
-  --           },
-  --           previewFloating = true,
-  --           previewFloatingBorder = 'single',
-  --           previewSplit = 'vertical',
-  --           previewFloatingTitle = 'Preview',
-  --           previewWindowOptions = {
-  --             { "&signcolumn", "no" },
-  --             { "&foldcolumn", 0 },
-  --             { "&foldenable", 0 },
-  --             { "&number", 0 },
-  --             { "&wrap", 0 },
-  --             { "&scrolloff", 0 },
-  --           },
-  --           highlights = {
-  --             floating = 'Normal',
-  --             floatingBorder = 'Normal',
-  --           },
-  --           ignoreEmpty = true,
-  --         },
-  --       },
-  --       sources = {
-  --         name = 'file_rec',
-  --         params = {},
-  --       },
-  --       sourceOptions = {
-  --         _ = {
-  --           matchers = { 'matcher_substring' },
-  --         },
-  --       },
-  --       kindOptions = {
-  --         file = { defaultAction = 'open' },
-  --       },
-  --     })
-  --   end
-  -- },
-  -- {
-  --   'Shougo/ddu-filter-matcher_substring',
-  --   dependencies = { 'ddu.vim' },
-  --   event = 'VeryLazy',
-  -- },
-  -- {
-  --   'Shougo/ddu-source-file_rec',
-  --   dependencies = { 'ddu.vim' },
-  --   event = 'VeryLazy',
-  -- },
-  -- {
-  --   'Shougo/ddu-kind-file',
-  --   dependencies = { 'ddu.vim' },
-  --   event = 'VeryLazy',
-  -- },
+  {
+    'Shougo/ddu.vim',
+    dependencies = { 'vim-denops/denops.vim' },
+  },
+  {
+    'Shougo/ddu-ui-ff',
+    dependencies = { 'ddu.vim' },
+    config = function()
+      local lines = vim.opt.lines:get()
+      local height, row = math.floor(lines * 0.8), math.floor(lines * 0.1)
+      local columns = vim.opt.columns:get()
+      local width, col = math.floor(columns * 0.8), math.floor(columns * 0.1)
+      vim.fn['ddu#custom#patch_global']({
+        ui = "ff",
+        uiParams = {
+          ff = {
+            winHeight = height,
+            winRow = row,
+            winWidth = width,
+            winCol = col,
+            previewHeight = height,
+            previewRow = row,
+            previewWidth = math.floor(width / 2),
+            startFilter = true,
+            prompt = '> ',
+            split = 'floating',
+            floatingBorder = 'single',
+            filterFloatingPosition = 'top',
+            autoAction = {
+              name = 'preview',
+            },
+            previewFloating = true,
+            previewFloatingBorder = 'single',
+            previewSplit = 'vertical',
+            previewFloatingTitle = 'Preview',
+            previewWindowOptions = {
+              { "&signcolumn", "no" },
+              { "&foldcolumn", 0 },
+              { "&foldenable", 0 },
+              { "&number", 0 },
+              { "&wrap", 0 },
+              { "&scrolloff", 0 },
+            },
+            highlights = {
+              floating = 'Normal',
+              floatingBorder = 'Normal',
+            },
+            ignoreEmpty = true,
+          },
+        },
+        sources = {
+          name = 'file_rec',
+          params = {},
+        },
+        sourceOptions = {
+          _ = {
+            matchers = { 'matcher_substring' },
+          },
+        },
+        kindOptions = {
+          file = { defaultAction = 'open' },
+        },
+      })
+    end
+  },
+  {
+    'Shougo/ddu-filter-matcher_substring',
+    dependencies = { 'ddu.vim' },
+  },
+  {
+    'Shougo/ddu-source-file_rec',
+    dependencies = { 'ddu.vim' },
+  },
+  {
+    'Shougo/ddu-kind-file',
+    dependencies = { 'ddu.vim' },
+  },
   {
     'monaqa/dial.nvim',
     config = function()
@@ -1065,11 +1061,6 @@ require("lazy").setup({
       require("nvim-autopairs").setup({ map_c_h = true })
     end,
   },
-  -- {
-  --   'vim-test/vim-test',
-  --   event = 'BufRead',
-  --   config = test_config,
-  -- },
   {
     'lambdalisue/fern-hijack.vim',
     dependencies = {
@@ -1147,10 +1138,7 @@ require("lazy").setup({
   },
   -- for documentation
   { 'glidenote/memolist.vim', cmd = { 'MemoList', 'MemoNew' } },
-  { 'godlygeek/tabular', event = 'BufRead' },
-  -- { 'gyim/vim-boxdraw' }
   { 'mattn/vim-maketable', event = 'BufRead' },
-  -- { 'shinespark/vim-list2tree' }
   {
     'skanehira/denops-translate.vim',
     config = translate_config
@@ -1158,13 +1146,4 @@ require("lazy").setup({
   { 'vim-jp/vimdoc-ja' },
   { 'plasticboy/vim-markdown', ft = 'markdown' },
   { 'previm/previm', ft = 'markdown' },
-
-  -- for develop vim plugins
-  { 'LeafCage/vimhelpgenerator', ft = 'vim' },
-  { 'lambdalisue/vital-Whisky', ft = 'vim' },
-  { 'tweekmonster/helpful.vim' },
-  { 'vim-jp/vital.vim' },
-  { 'thinca/vim-themis', ft = 'vim' },
-  { 'tyru/capture.vim' },
-  { 'mattn/webapi-vim' },
 })
