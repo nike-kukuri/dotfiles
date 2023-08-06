@@ -85,7 +85,7 @@ function _update_vcs_info_msg() {
     LANG=en_US.UTF-8 vcs_info
     RPROMPT="${vcs_info_msg_0_}"
 }
-add-zsh-hook precmd _update_vcs_info_msg
+#add-zsh-hook precmd _update_vcs_info_msg
  
 ########################################
 # オプション
@@ -260,5 +260,11 @@ if type brew &>/dev/null; then
   autoload -Uz compinit
   compinit
 fi
-
 chmod go-w '/usr/local/share'
+export PATH="/usr/local/opt/llvm/bin:$PATH"
+export PATH="/usr/local/Cellar/dosfstools/4.2/sbin:$PATH"
+
+export NEOVIM_HOME=$HOME/.local/nvim
+if [ -d "${NEOVIM_HOME}" ]; then
+  export PATH="${NEOVIM_HOME}/bin:$PATH"
+fi
