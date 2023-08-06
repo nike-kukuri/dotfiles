@@ -146,6 +146,7 @@ alias grep='grep --color=auto'
 alias vi='~/Vim/vim/src/vim'
 alias vim='~/Vim/vim/src/vim'
 alias ga='git add'
+alias gaa='git add --all'
 alias gls='git log -3'
 alias gll='git log -10 --oneline --all --graph --decorate'
 alias gco='git commit -m'
@@ -155,6 +156,7 @@ alias gpush='git push -u origin main'
 alias gpull='git pull'
 alias gl='git log'
 alias gln='git log --name-status --oneline'
+alias gch='git checkout'
 
 # for Mac
 if [[ $(uname) = "Darwin" ]]; then
@@ -232,14 +234,25 @@ zplug load
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 export PATH="/usr/local/bin:$PATH"
 export PATH="/usr/local/opt/pkg-config/bin:$PATH"
 export DENO_INSTALL="/home/guy/.deno"
 export PATH="$DENO_INSTALL/bin:$PATH"
 export PKG_CONFIG_PATH=/usr/local/Cellar/opencv/4.7.0_2/lib/pkgconfig/opencv4.pc
 
+# fzf {{{
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
+export FZF_DEFAULT_OPTS='--reverse --color=hl:#81A1C1,hl+:#81A1C1,info:#EACB8A,prompt:#81A1C1,pointer:#B48DAC,marker:#A3BE8B,spinner:#B48DAC,header:#A3BE8B'
+export FZF_COMPLETION_TRIGGER=';'
+export FZF_CTRL_R_OPTS="
+    --preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'
+    "
+export FZF_CTRL_T_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
+export FZF_CTRL_T_OPTS='--preview "bat  --color=always --style=header,grid --line-range :100 {}"'
+alias ff='fzf --preview "bat  --color=always --style=header,grid --line-range :100 {}"'
+# }}}
 
 if type brew &>/dev/null; then
   FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
@@ -250,3 +263,6 @@ fi
 
 #chmod go-w '/usr/local/share'
 . "$HOME/.cargo/env"
+export PATH=$PATH:/usr/local/go/bin
+
+export PATH=$PATH:~/.local/bin
