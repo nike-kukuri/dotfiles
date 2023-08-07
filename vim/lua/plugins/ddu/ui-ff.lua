@@ -32,7 +32,7 @@ call ddu#custom#patch_global({
     \       'autoAction': { 'name': "preview" },
     \       'startAutoAction': v:true,
     \       'previewFloating': v:true,
-    \       'previewFloatingBorder': "single",
+    \       'previewFloatingBorder': "rounded",
     \       'previewSplit': "vertical",
     \       'previewFloatingTitle': "Preview",
     \       'highlights': { 'floating': "Normal", 'floatingBorder': "Normal" },
