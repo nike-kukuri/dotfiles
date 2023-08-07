@@ -1,13 +1,19 @@
 " hook_source {{{
+nnoremap <C-f> <Cmd>call ddu#start({})<CR>
 call ddu#custom#patch_global(#{
     \   ui: 'ff',
     \   uiParams: #{
     \     ff: #{
-    \       split: 'floating',
+    \       split: "horizontal",
     \       startFilter: v:true,
-    \       prompt: '> ',
-    \       autoAction: #{ name: 'preview' },
-    \       filterFloatingPosition: 'bottom',
+    \       prompt: "> ",
+    \       autoAction: #{ name: "preview" },
+    \       startAutoAction: v:true,
+    \       previewFloating: v:false,
+    \       previewFloatingBorder: "rounded",
+    \       previewSplit: "vertical",
+    \       previewFloatingTitle: "Preview",
+    \       filterFloatingPosition: "top",
     \       highlights: #{
     \         floating: 'Normal',
     \         floatingBorder: 'Normal',
@@ -15,7 +21,7 @@ call ddu#custom#patch_global(#{
     \       ignoreEmpty: v:true,
     \       }
     \   },
-    \   sources: [#{name: 'file_rec', params: {}}],
+    \   sources: [#{ name: 'file_rec', params: {}}],
     \   sourceOptions: #{
     \     _: #{
     \       matchers: ['matcher_substring'],
@@ -56,4 +62,5 @@ function! s:ddu_filter_my_settings() abort
 				\ <Cmd>call ddu#ui#ff#execute("call cursor(line('.')+1,0)<Bar>redraw")<CR>
 	inoremap <buffer> <C-p>
 				\ <Cmd>call ddu#ui#ff#execute("call cursor(line('.')-1,0)<Bar>redraw")<CR>
+endfunction
 " }}}

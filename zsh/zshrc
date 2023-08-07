@@ -143,8 +143,6 @@ alias cp='cp -i'
 alias mv='mv -i'
 alias mkdir='mkdir -p'
 alias grep='grep --color=auto'
-alias vi='~/Vim/vim/src/vim'
-alias vim='~/Vim/vim/src/vim'
 alias ga='git add'
 alias gaa='git add --all'
 alias gls='git log -3'
@@ -158,10 +156,16 @@ alias gl='git log'
 alias gln='git log --name-status --oneline'
 alias gch='git checkout'
 
+
 # for Mac
 if [[ $(uname) = "Darwin" ]]; then
-    alias ldd="echo ldd is not on OSX. use otool -L."
-    alias strace="echo strace is not on OSX. use dtruss"
+  alias ldd="echo ldd is not on OSX. use otool -L."
+  alias strace="echo strace is not on OSX. use dtruss"
+  alias vi='~/Vim/vim/src/vim'
+  alias vim='~/Vim/vim/src/vim'
+else
+  alias vi='/usr/local/bin/vim'
+  alias vim='/usr/local/bin/vim'
 fi
  
 # sudo の後のコマンドでエイリアスを有効にする

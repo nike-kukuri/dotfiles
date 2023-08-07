@@ -1,4 +1,9 @@
 " hook_source {{{
+nnoremap <Leader>f <Cmd>call ddu#start({})<CR>
+
+"let $DDU_CONFIG = '<sfile>'->expand()->fnamemodify(':h') .. '/ddu.ts'
+"call ddu#custom#load_config(expand('$DDU_CONFIG'))
+
 call ddu#custom#patch_global(#{
         \ ui: 'ff',
         \ sources: [
@@ -20,33 +25,10 @@ call ddu#custom#patch_global(#{
         \ uiParams: #{
         \   ff: #{
         \     startFilter: v:true,
-        \     split: 'horizontal',
+        \     split: 'floating',
         \     prompt: '> ',
         \     autoAction: #{ name: 'preview' },
         \     filterFloatingPosition: 'top',
-        \     winCol: &columns/8,
-        \     winWidth: 10,
-        \     winRow: &lines/8,
-        \     winHeight: 10,
-        \     previewWidth: 15,
-        \     previewHeight: 10,
-        \     previewFloating: v:false,
-        \     previewFloatingBorder: 'single',
-        \     previewSplit: 'vertical',
-        \     previewFloatingTitle: 'Preview',
-        \     previewWindowOptions: [
-        \       [ '&signcolumn', 'no' ],
-        \       [ '&foldcolumn', 0 ],
-        \       [ '&foldenable', 0 ],
-        \       [ '&number', 0 ],
-        \       [ '&wrap', 0 ],
-        \       [ '&scrolloff', 0 ],
-        \     ],
-        \     highlights: #{
-        \       floating: 'Normal',
-        \       floatingBorder: 'Normal',
-        \     },
-        \     ignoreEmpty: v:true,
         \   },
         \ },
         \ filterParams: #{
@@ -60,6 +42,32 @@ call ddu#custom#patch_global(#{
         \   },
         \ }
         \ })
+
+        "\     winCol: 30,
+        "\     winWidth: 30,
+        "\     winRow: 30,
+        "\     winHeight: 30,
+        "\     previewWidth: 30,
+        "\     previewCol: 30,
+        "\     previewHeight: 30,
+        "\     previewRow: 30,
+        "\     previewFloating: v:true,
+        "\     previewFloatingBorder: 'single',
+        "\     previewSplit: 'vertical',
+        "\     previewFloatingTitle: 'Preview',
+        "\     previewWindowOptions: [
+        "\       [ '&signcolumn', 'no' ],
+        "\       [ '&foldcolumn', 0 ],
+        "\       [ '&foldenable', 0 ],
+        "\       [ '&number', 0 ],
+        "\       [ '&wrap', 0 ],
+        "\       [ '&scrolloff', 0 ],
+        "\     ],
+        "\     highlights: #{
+        "\       floating: 'Normal',
+        "\       floatingBorder: 'Normal',
+        "\     },
+        "\     ignoreEmpty: v:true,
 
 autocmd FileType ddu-ff call s:ddu_my_settings()
 function! s:ddu_my_settings() abort
@@ -98,12 +106,13 @@ function! s:ddu_filter_my_settings() abort
 				\ <Cmd>call ddu#ui#ff#do_action('quit')<CR>
 endfunction
 
+
 nnoremap <C-p> <Cmd>Ddu
       \ -name=files file
       \ -source-option-path=`expand('$BASE_DIR')`
       \ <CR>
 
-nnoremap <silent> <C-q> <Cmd>call ddu#start(#{
+nnoremap <silent> <C-3> <Cmd>call ddu#start(#{
       \ name: 'file',
       \ ui: 'ff',
       \ sync: v:true,
