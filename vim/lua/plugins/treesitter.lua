@@ -8,7 +8,7 @@ return {
           'lua', 'rust', 'typescript', 'tsx',
           'go', 'gomod', 'sql', 'toml', 'yaml',
           'html', 'javascript', 'graphql',
-          'markdown', 'markdown_inline', 'help',
+          'markdown', 'markdown_inline',
         },
         auto_install = true,
         highlight = {
