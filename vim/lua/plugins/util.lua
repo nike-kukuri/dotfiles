@@ -7,6 +7,9 @@ g['quickrun_config'] = {
 
 return {
   {
+    'tani/vim-artemis'
+  },
+  {
     'lambdalisue/gin.vim'
   },
   {
@@ -35,7 +38,7 @@ return {
       fn['gina#custom#command#option']('log', '--opener', 'new')
       fn['gina#custom#command#option']('status', '--opener', 'new')
       fn['gina#custom#command#option']('branch', '--opener', 'new')
-      nmap('gs', '<Cmd>Gina status<CR>')
+      nmap('gs', '<Cmd>Gina status --short<CR>')
       nmap('gl', '<Cmd>Gina log<CR>')
       nmap('gm', '<Cmd>Gina blame<CR>')
       nmap('gb', '<Cmd>Gina branch<CR>')
