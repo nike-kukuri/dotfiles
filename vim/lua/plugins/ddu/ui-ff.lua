@@ -3,9 +3,28 @@ return {
     "Shougo/ddu-ui-ff",
     dependencies = "Shougo/ddu.vim",
     config = function()
-vim.cmd([[
-nnoremap <Leader>zf <Cmd>call ddu#start({})<CR>
+      local vimx = require('artemis')
+      nmap('<Leader>zf', '<Cmd>call ddu#start({})<CR>')
 
+      vimx.fn.ddu.custom.patch_global({
+        ui = 'ff',
+        sources = {
+          name = 'file_rec',
+          params = {},
+        },
+        sourceOptions = {
+          _ = {
+            matchers = { 'matcher_substring' },
+          },
+        },
+        kindOptions = {
+          file = {
+            defaultAction = 'open'
+          },
+        },
+      })
+
+vim.cmd([[
 call ddu#custom#patch_global({
     \   'ui': 'ff',
     \   'sources': [{'name': 'file_rec', 'params': {}}],
