@@ -80,3 +80,8 @@ nnoremap <silent> [w  :LspPreviousWarning<CR>
 [[plugins]]
 repo = 'mattn/vim-lsp-settings'
 
+[[plugins]]
+repo = 'simeji/winresizer'
+hook_source = '''
+nnoremap <C-e> <Cmd>WinResizerStartResize<CR>
+'''

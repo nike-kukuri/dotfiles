@@ -3,3 +3,11 @@ memo*
 fonts
 update_file.list
 gclone
+fonts
+vim/.vim/colors
+vim/.vim/pack/plugins/start
+vim/.vim/plugged/tokyonight-vim
+vim/.vim/plugged/vim-quickrun
+vim/rc/bashrc_update.log
+vim/rc/reference_setting.vim
+vim/lua/plugins/ddu/
