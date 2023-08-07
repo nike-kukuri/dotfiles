@@ -1,4 +1,3 @@
--- clone from https://github.com/skanehira/dotfiles
 ---@diagnostic disable: need-check-nil
 
 local test = false
