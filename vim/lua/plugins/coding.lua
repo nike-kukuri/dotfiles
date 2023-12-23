@@ -136,6 +136,15 @@ return {
 
   {
     'vim-skk/skkeleton',
+    dependencies = {
+      'vim-denops/denops.vim',
+      {
+        'delphinus/skkeleton_indicator.nvim',
+        config = function()
+          require("skkeleton_indicator").setup()
+        end
+      },
+    },
     init = function()
       api.nvim_create_autocmd('User', {
         pattern = 'skkeleton-initialize-pre',
