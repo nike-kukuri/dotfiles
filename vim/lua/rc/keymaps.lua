@@ -20,6 +20,9 @@ imap('<C-b>', '<Left>')
 imap('<C-e>', '<C-o>A')
 imap('<C-a>', '<C-o>I')
 
+-- disable auto comment 
+imap('<C-;>', '<C-o>cc')
+
 -- swap ; and : in n, v mode
 -- nmap(';', ':')
 -- nmap(':', ';')
