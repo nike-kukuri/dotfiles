@@ -1,3 +1,18 @@
+--- TODO: move utils
+_G.nike = {}
+local fs = {}
+nike.fs = fs
+
+---@param fname string
+---@return string
+function fs.read(fname)
+  local fd = assert(vim.uv.fs_open(fname, "r", 292)) -- 0444
+  local stat = assert(vim.uv.fs_fstat(fd))
+  local buffer = assert(vim.uv.fs_read(fd, stat.size, 0))
+  assert(vim.uv.fs_close(fd))
+  return buffer
+end
+
 local nvim_cmp_config = function()
   local cmp = require('cmp')
   cmp.setup({
@@ -136,22 +151,40 @@ return {
 
   {
     'vim-skk/skkeleton',
-    init = function()
-      api.nvim_create_autocmd('User', {
-        pattern = 'skkeleton-initialize-pre',
-        callback = function()
-          vim.call('skkeleton#config', {
-            globalJisyo = vim.fn.expand('~/.config/skk/SKK-JISYO.L'),
-            eggLikeNewline = true,
-            keepState = true
-          })
-        end,
-        group = api.nvim_create_augroup('skkeletonInitPre', { clear = true }),
-      })
-    end,
+    dependencies = {
+      'vim-denops/denops.vim',
+      'delphinus/skkeleton_indicator.nvim',
+      config = function()
+        require("skkeleton_indicator").setup()
+      end
+    },
     config = function()
       imap('<C-j>', '<Plug>(skkeleton-toggle)')
       cmap('<C-j>', '<Plug>(skkeleton-toggle)')
+
+      vim.fn["denops#plugin#wait_async"]("skkeleton", function()
+        vim.g["skkeleton#mapped_keys"] = { "<C-l>", "<C-q>" }
+        vim.fn["skkeleton#register_keymap"]("input", "<C-q>", "katakana")
+        vim.fn["skkeleton#register_keymap"]("input", "<C-l>", "zenkaku")
+        vim.fn["skkeleton#register_keymap"]("input", "'", "henkanPoint")
+        local path = vim.fn.expand("~/.config/skk/azik_kanatable.json")
+        local buffer = nike.fs.read(path)
+        local kanaTable = vim.json.decode(buffer)
+        kanaTable[" "] = "henkanFirst"
+        vim.fn["skkeleton#register_kanatable"]("azik", kanaTable, true)
+
+        vim.fn["skkeleton#config"]({
+          kanaTable = "azik",
+          eggLikeNewline = true,
+          keepState = true,
+          globalDictionaries = {
+            vim.fn.expand("~/.config/skk/SKK-JISYO.L")
+          },
+        })
+
+        vim.fn["skkeleton#initialize"]()
+      end)
+
     end
   },
 
