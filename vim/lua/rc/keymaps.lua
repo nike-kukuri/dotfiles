@@ -28,8 +28,8 @@ imap('<C-;>', '<C-o>cc')
 -- nmap(':', ';')
 -- vmap(';', ':')
 -- vmap(':', ';')
-nmap('\'', ':')
-xmap('\'', ':')
+nmap('\'', ':', {})
+xmap('\'', ':', {})
 
 xmap("*",
   table.concat {
