@@ -1,0 +1,23 @@
+[user]
+		name = nikekukuri
+		email = nikekukuri0327@gmail.com
+[core]
+		editor = nvim
+		autocrlf = input
+		pager = delta
+[init]
+		defaultBranch = main
+[alias]
+		graphl = log --graph --date-order -C -M --pretty=format:\"<%h> %ad [%an] %Cgreen%d%Creset %s\" --all --date=short
+		graphs = log --graph --date-order -C -M --pretty=format:\"<%h> %ad [%an] %Cgreen%d%Creset %s\" --date=short
+		lol = log --graph --all --abbrev-commit --pretty=format:'%C(bold yellow)%h%Creset -> %s%C(auto)%d%Creset %C(dim green)(%cr)%Creset%C(dim blue)<%an>%Creset'
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    navigate = true    # use n and N to move between diff sections
+    light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+[merge]
+    conflictstyle = diff3
+[diff]
+    colorMoved = default
+[safe]
