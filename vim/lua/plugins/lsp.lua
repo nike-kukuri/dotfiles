@@ -95,6 +95,11 @@ local lsp_config = function()
     (function()
 
       local opts = {}
+      
+      -- use rustacean.nvim to setup
+      if ls == 'rust_analyzer' then
+        return
+      end
 
       if ls == 'denols' then
         -- dont start LS in nodejs repository
@@ -144,24 +149,24 @@ local lsp_config = function()
             },
           },
         }
-      elseif ls == 'rust_analyzer' then
-        opts = {
-          settings = {
-            ["rust-analyzer"] = {
-              cargo = {
-                features = 'all'
-              },
-              check = {
-                command = "clippy"
-              },
-              diagnostics = {
-                experimental = {
-                  enable = true,
-                }
-              }
-            }
-          }
-        }
+      --elseif ls == 'rust_analyzer' then
+      --  opts = {
+      --    settings = {
+      --      ["rust-analyzer"] = {
+      --        cargo = {
+      --          features = 'all'
+      --        },
+      --        check = {
+      --          command = "clippy"
+      --        },
+      --        diagnostics = {
+      --          experimental = {
+      --            enable = true,
+      --          }
+      --        }
+      --      }
+      --    }
+      --  }
       end
 
       opts['on_attach'] = Lsp_on_attach
