@@ -51,6 +51,16 @@ local config = function()
   nmap('K', '<Cmd>RustLsp hover actions<CR>')
   -- Diagnostic
   nmap('<C-g><C-d>', '<Cmd>RustLsp explainError<CR>')
+
+  vim.api.nvim_create_user_command('OpenCargoToml', function()
+    vim.cmd.RustLsp('openCargo')
+  end, {})
+  vim.api.nvim_create_user_command('ViewHir', function()
+    vim.cmd.RustLsp { 'view', 'hir' }
+  end, {})
+  vim.api.nvim_create_user_command('ViewMir', function()
+    vim.cmd.RustLsp { 'view', 'mir' }
+  end, {})
 end
 
 return {
