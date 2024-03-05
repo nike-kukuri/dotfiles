@@ -148,6 +148,24 @@ local lsp_config = function()
             },
           },
         }
+      elseif ls == 'rust_analyzer' then
+        opts = {
+          settings = {
+            ["rust-analyzer"] = {
+              cargo = {
+                features = 'all'
+              },
+              check = {
+                command = "clippy"
+              },
+              diagnostics = {
+                experimental = {
+                  enable = true,
+                }
+              }
+            }
+          }
+        }
       end
 
       opts['on_attach'] = Lsp_on_attach
@@ -160,12 +178,15 @@ end
 return {
   {
     'williamboman/mason-lspconfig.nvim',
-    event = { 'BufReadPre', 'BufNewFile' },
+    event = { 'BufReadPre', 'BufNewFile', 'BufEnter', 'BufNew' },
     dependencies = {
       { 'neovim/nvim-lspconfig' },
       {
         'williamboman/mason.nvim',
-        config = function() require("mason").setup() end,
+        config = function()
+          require("mason").setup()
+          require("mason-lspconfig").setup()
+        end,
       },
     },
     config = lsp_config,
