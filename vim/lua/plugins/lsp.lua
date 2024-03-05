@@ -93,10 +93,6 @@ local lsp_config = function()
 
   for _, ls in pairs(lss) do
     (function()
-      -- use rust-tools.nvim to setup
-      if ls == 'rust_analyzer' then
-        return
-      end
 
       local opts = {}
 
