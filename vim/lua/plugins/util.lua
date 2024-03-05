@@ -97,4 +97,11 @@ return {
       },
     }
   },
+  {
+    'haya14busa/vim-edgemotion',
+    config = function()
+      nmap('M-j', '<Plug>(edgemotion-j)')
+      nmap('M-k', '<Plug>(edgemotion-j)')
+    end
+  },
 }
