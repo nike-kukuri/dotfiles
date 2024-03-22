@@ -279,3 +279,6 @@ else
   export PATH=$PATH:~/.local/bin
   . "$HOME/.cargo/env"
 fi
+
+# Add Doom emacs PATH
+export PATH=$HOME/.config/emacs/bin:$PATH
