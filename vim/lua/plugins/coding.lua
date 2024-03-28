@@ -14,16 +14,25 @@ function fs.read(fname)
 end
 
 local nvim_cmp_config = function()
+  local lspkind = require('lspkind')
   local cmp = require('cmp')
   cmp.setup({
+    formatting = {
+      format = lspkind.cmp_format({
+        mode = 'symbol',
+        maxwidth = 50,
+        ellipsis_char = '...',
+        show_labelDetails = true,
+      })
+    },
     window = {
       -- completion = cmp.config.window.bordered(),
       documentation = cmp.config.window.bordered(),
     },
     preselect = cmp.PreselectMode.None,
     mapping = cmp.mapping.preset.insert({
-      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-d>'] = cmp.mapping.scroll_docs(4),
       ["<C-p>"] = cmp.mapping.select_prev_item(),
       ["<C-n>"] = cmp.mapping.select_next_item(),
       -- ['<Tab>'] = cmp.mapping.complete(),
@@ -65,6 +74,7 @@ return {
       { 'hrsh7th/cmp-vsnip' },
       { 'hrsh7th/vim-vsnip' },
       { 'hrsh7th/cmp-cmdline' },
+      { 'onsails/lspkind.nvim' },
     },
     config = nvim_cmp_config,
     event = { 'InsertEnter' },
