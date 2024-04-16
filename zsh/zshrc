@@ -193,7 +193,9 @@ esac
 #=============================
 # source zplug
 #=============================
-export ZPLUG_HOME=~/.config/zsh
+
+#export ZPLUG_HOME=~/.config/zsh
+export ZPLUG_HOME=/usr/local/opt/zplug
 source $ZPLUG_HOME/init.zsh
 # plugin manager
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
@@ -240,8 +242,6 @@ zplug load
 
 export PATH="/usr/local/bin:$PATH"
 export PATH="/usr/local/opt/pkg-config/bin:$PATH"
-export DENO_INSTALL="/home/guy/.deno"
-export PATH="$DENO_INSTALL/bin:$PATH"
 export PKG_CONFIG_PATH=/usr/local/Cellar/opencv/4.7.0_2/lib/pkgconfig/opencv4.pc
 
 # fzf {{{
@@ -269,6 +269,7 @@ if [[ $(uname) = "Darwin" ]]; then
   chmod go-w '/usr/local/share'
   export PATH="/usr/local/opt/llvm/bin:$PATH"
   export PATH="/usr/local/Cellar/dosfstools/4.2/sbin:$PATH"
+  export PATH="$PATH:~/.cargo/bin/"
 
   export NEOVIM_HOME=$HOME/.local/nvim
   if [ -d "${NEOVIM_HOME}" ]; then
@@ -279,3 +280,5 @@ else
   export PATH=$PATH:~/.local/bin
   . "$HOME/.cargo/env"
 fi
+export DENO_INSTALL="$HOME/.deno"
+export PATH="$PATH:$DENO_INSTALL/bin"
