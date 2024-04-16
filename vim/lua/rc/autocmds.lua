@@ -10,7 +10,7 @@ local file_indents = {
     command = 'setlocal tabstop=4 shiftwidth=4'
   },
   {
-    pattern = 'rust',
+    pattern = { 'rust', 'python' },
     command = 'setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab'
   },
   {

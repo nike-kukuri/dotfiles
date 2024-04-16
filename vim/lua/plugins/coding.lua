@@ -54,54 +54,6 @@ local nvim_cmp_config = function()
   })
 end
 
--- rust-tools.nvim
-local rust_tools_config = function()
-  local rt = require("rust-tools")
-  rt.setup({
-    server = {
-      on_attach = function(client, bufnr)
-        local bufopts = { silent = true, buffer = bufnr }
-        Lsp_on_attach(client, bufnr)
-        nmap('K', rt.hover_actions.hover_actions, bufopts)
-        nmap('<Leader>gl', rt.code_action_group.code_action_group, bufopts)
-        nmap('gO', function()
-          vim.lsp.buf_request(0, 'experimental/externalDocs', vim.lsp.util.make_position_params(),
-            function(err, url)
-              if err then
-                error(tostring(err))
-              else
-                fn.jobstart({ 'open', url })
-              end
-            end)
-        end, bufopts)
-      end,
-      standalone = true,
-      settings = {
-        ['rust-analyzer'] = {
-          -- files = {
-          --   excludeDirs = { '/root/path/to/dir' },
-          -- },
-        }
-      }
-    },
-    tools = {
-      hover_actions = {
-        border = {
-          { '╭', 'NormalFloat' },
-          { '─', 'NormalFloat' },
-          { '╮', 'NormalFloat' },
-          { '│', 'NormalFloat' },
-          { '╯', 'NormalFloat' },
-          { '─', 'NormalFloat' },
-          { '╰', 'NormalFloat' },
-          { '│', 'NormalFloat' },
-        },
-        -- auto_focus = true,
-      },
-    },
-  })
-end
-
 return {
   {
     'hrsh7th/nvim-cmp',
@@ -186,15 +138,6 @@ return {
       end)
 
     end
-  },
-
-  {
-    'simrat39/rust-tools.nvim',
-    ft = { 'rust' },
-    config = rust_tools_config,
-    dependencies = {
-      { 'neovim/nvim-lspconfig' },
-    },
   },
 
   {

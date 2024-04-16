@@ -89,6 +89,9 @@ opt.grepformat   = '%f:%l:%c:%m'
 opt.mouse        = 'a'
 opt.clipboard:append({ fn.has('mac') == 1 and 'unnamed' or 'unnamedplus' })
 opt.termguicolors = true
+--opt.shell = "C:\\Program Files\\PowerShell\\7-preview\\pwsh.exe"
+opt.shell = "pwsh.exe"
+
 
 
 -- file indent

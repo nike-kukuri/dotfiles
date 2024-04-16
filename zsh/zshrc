@@ -282,3 +282,5 @@ else
 fi
 export DENO_INSTALL="$HOME/.deno"
 export PATH="$PATH:$DENO_INSTALL/bin"
+# Add Doom emacs PATH
+export PATH=$HOME/.config/emacs/bin:$PATH

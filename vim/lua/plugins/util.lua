@@ -7,6 +7,15 @@ g['quickrun_config'] = {
 
 return {
   {
+    'haya14busa/vim-edgemotion',
+    config = function()
+      nmap('<M-j>', '<Plug>(edgemotion-j)')
+      nmap('<M-k>', '<Plug>(edgemotion-k)')
+      nmap('<M-j>', '<Plug>(edgemotion-j)')
+      nmap('<M-k>', '<Plug>(edgemotion-k)')
+    end
+  },
+  {
     'tani/vim-artemis'
   },
   {
@@ -96,5 +105,12 @@ return {
         end,
       },
     }
+  },
+  {
+    'haya14busa/vim-edgemotion',
+    config = function()
+      nmap('M-j', '<Plug>(edgemotion-j)')
+      nmap('M-k', '<Plug>(edgemotion-j)')
+    end
   },
 }
