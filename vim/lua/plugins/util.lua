@@ -7,6 +7,15 @@ g['quickrun_config'] = {
 
 return {
   {
+    'tani/dmacro.nvim',
+    config = function()
+      require('dmacro').setup({
+        dmacro_key = '<M-t>'
+      })
+    end,
+    lazy = false,
+  },
+  {
     'haya14busa/vim-edgemotion',
     config = function()
       nmap('<M-j>', '<Plug>(edgemotion-j)')
