@@ -284,3 +284,5 @@ export DENO_INSTALL="$HOME/.deno"
 export PATH="$PATH:$DENO_INSTALL/bin"
 # Add Doom emacs PATH
 export PATH=$HOME/.config/emacs/bin:$PATH
+#export DISPLAY=localhost:0
+export DISPLAY="`grep nameserver /etc/resolv.conf | sed 's/nameserver //'`:0"

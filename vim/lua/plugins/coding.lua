@@ -14,20 +14,29 @@ function fs.read(fname)
 end
 
 local nvim_cmp_config = function()
+  local lspkind = require('lspkind')
   local cmp = require('cmp')
   cmp.setup({
+    formatting = {
+      format = lspkind.cmp_format({
+        mode = 'symbol',
+        maxwidth = 50,
+        ellipsis_char = '...',
+        show_labelDetails = true,
+      })
+    },
     window = {
       -- completion = cmp.config.window.bordered(),
       documentation = cmp.config.window.bordered(),
     },
     preselect = cmp.PreselectMode.None,
     mapping = cmp.mapping.preset.insert({
-      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      ['<C-u>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-d>'] = cmp.mapping.scroll_docs(4),
       ["<C-p>"] = cmp.mapping.select_prev_item(),
       ["<C-n>"] = cmp.mapping.select_next_item(),
-      -- ['<Tab>'] = cmp.mapping.complete(),
-      ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+      --['<Tab>'] = cmp.mapping.complete(),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }),
     }),
     sources = {
       { name = 'nvim_lsp' },
@@ -52,7 +61,46 @@ local nvim_cmp_config = function()
       end
     },
   })
+
+  ---- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+  --cmp.setup.cmdline({ '/', '?' }, {
+  --  mapping = cmp.mapping.preset.cmdline(),
+  --  sources = {
+  --    { name = 'buffer' }
+  --  }
+  --})
+
+  ---- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+  --cmp.setup.cmdline(':', {
+  --  mapping = cmp.mapping.preset.cmdline(),
+  --  sources = cmp.config.sources({
+  --    { name = 'path' }
+  --  }, {
+  --    { name = 'cmdline' }
+  --  }),
+  --  matching = { disallow_symbol_nonprefix_matching = false }
+  --})
 end
+
+local vsnip_config = function()
+  vim.g.vsnip_snippet_dir = vim.fn.expand("~/dotfiles/vim/snippet/")
+  imap("<Tab>", function()
+    if vim.fn['vsnip#jumpable(1)']() then
+      return "<Plug>(vsnip-jump-next)"
+    else
+      return "<Tab>"
+    end
+  end, { expr = true, remap = true })
+  imap("<S-Tab>", function()
+    if vim.fn['vsnip#jumpable(1)']() then
+      return "<Plug>(vsnip-jump-next)"
+    else
+      return "<Tab>"
+    end
+  end, { expr = true, remap = true })
+  vim.g.vsnip_filetypes = {}
+  vim.g.vsnip_filetypes.typescriptreact = { 'typescript' }
+ end
 
 return {
   {
@@ -63,8 +111,12 @@ return {
       { 'hrsh7th/cmp-buffer' },
       { 'hrsh7th/cmp-path' },
       { 'hrsh7th/cmp-vsnip' },
-      { 'hrsh7th/vim-vsnip' },
       { 'hrsh7th/cmp-cmdline' },
+      { 'onsails/lspkind.nvim' },
+      {
+        'hrsh7th/vim-vsnip',
+        config = vsnip_config,
+      },
     },
     config = nvim_cmp_config,
     event = { 'InsertEnter' },

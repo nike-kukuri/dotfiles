@@ -1,3 +1,47 @@
+function test_gmatch()
+  local s = "hello,world,from,Lua"
+  for w1, w2  in string.gmatch(s, "(%w+),(%w+)") do
+    print(w1 .. ": " .. w2)
+  end
+end
+
+--@param fpath_row string|string[]
+--@param fpath_col string|string[]
+function make_star_matrix(fpath_row, fpath_col)
+  fpath_row = vim.fn.expand(fpath_row)
+  fpath_col = vim.fn.expand(fpath_col)
+  local file_row = io.open(fpath_row, "r")
+  local file_col = io.open(fpath_col, "r")
+
+  if not file_row then
+      print("File not found: " .. fpath_row)
+      return
+  end
+  if not file_col then
+      print("File not found: " .. fpath_col)
+      return
+  end
+
+  local col = {}
+
+  for line in file_row:lines() do
+    table.insert(col, line)
+  end
+
+  file_row:close()
+  file_col:close()
+
+  local variables = {}
+  for _, line in pairs(col) do
+    for key, value in string.gmatch(line, "(%w+),(%w+)") do
+      table.insert(variables, key .. ": " .. value)  -- debug
+    end
+  end
+
+  print(vim.inspect(variables))
+end
+
+
 vim.cmd([[
 set rtp^=~/.local/share/nvim/lazy/denops.vim
 set rtp^=~/.local/share/nvim/lazy/ddu.vim

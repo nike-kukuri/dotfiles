@@ -19,15 +19,12 @@ imap('<C-f>', '<Right>')
 imap('<C-b>', '<Left>')
 imap('<C-e>', '<C-o>A')
 imap('<C-a>', '<C-o>I')
+vmap('<M-w>', '"+y')
+nmap('<M-v>', '"+P')
 
 -- disable auto comment 
 imap('<C-;>', '<C-o>cc')
 
--- swap ; and : in n, v mode
--- nmap(';', ':')
--- nmap(':', ';')
--- vmap(';', ':')
--- vmap(':', ';')
 nmap('\'', ':', {})
 xmap('\'', ':', {})
 

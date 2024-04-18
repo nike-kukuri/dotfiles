@@ -1,6 +1,6 @@
 ---@diagnostic disable: need-check-nil
 
-local test = false
+local test = true
 if test then
   vim.keymap.set('n', '<Leader>.', ':tabnew ~/.config/nvim/init.lua<CR>')
   require('test.test')
