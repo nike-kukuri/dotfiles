@@ -1,0 +1,28 @@
+{
+  "Summary": {
+    "prefix": ["summary"],
+    "body": [
+      "# 背景",
+      "",
+      "# 課題",
+      "",
+      ""
+    ],
+    "description": "追記"
+  },
+  "LastMod": {
+    "prefix": ["last"],
+    "body": [
+      "lastmod:${VIM:strftime(\"%Y-%m-%dT%H:%M:%S+09:00\")}"
+    ],
+    "description": "更新日"
+  },
+  "Link": {
+    "prefix": ["link"],
+    "body": [
+        "[$TM_SELECTED_TEXT][]",
+        "",
+        "[$TM_SELECTED_TEXT]: url"
+    ],
+    "description": "Link for selected text"
+  }

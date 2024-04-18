@@ -24,14 +24,17 @@ return {
     },
     init = function()
       nmap('<Leader>f', '<Cmd>Fern . -drawer<CR>', { silent = true })
-    end
+    end,
+    enabled = false
   },
   {
     'lambdalisue/fern-renderer-nerdfont.vim',
     dependencies = { 'lambdalisue/fern.vim' },
+    enabled = false
   },
   {
     'lambdalisue/nerdfont.vim',
     dependencies = { 'lambdalisue/fern.vim' },
+    enabled = false
   },
 }
