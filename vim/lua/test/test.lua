@@ -1,46 +1,192 @@
-function test_gmatch()
+function TestGmatch()
   local s = "hello,world,from,Lua"
-  for w1, w2  in string.gmatch(s, "(%w+),(%w+)") do
+  for w1, w2 in string.gmatch(s, "(%w+),(%w+)") do
     print(w1 .. ": " .. w2)
   end
 end
 
+--- expamples below string in new buffer
+--index,mike,elsa,wife,
+--foo,x,x,-,
+--baz,x,-,x,
+--fuga,x,x,x,
+
 --@param fpath_row string|string[]
 --@param fpath_col string|string[]
-function make_star_matrix(fpath_row, fpath_col)
-  fpath_row = vim.fn.expand(fpath_row)
-  fpath_col = vim.fn.expand(fpath_col)
-  local file_row = io.open(fpath_row, "r")
-  local file_col = io.open(fpath_col, "r")
+function MakeStarMatrix(file_path)
+  --fpath_row = vim.fn.expand(fpath_row)
+  --fpath_col = vim.fn.expand(fpath_col)
+  file_path = vim.fn.expand("~/develop/vim/lua_test/sampleA.csv")
+  local file = io.open(file_path, "r")
 
-  if not file_row then
-      print("File not found: " .. fpath_row)
-      return
-  end
-  if not file_col then
-      print("File not found: " .. fpath_col)
+  if not file then
+      print("File not found: " .. file_path)
       return
   end
 
-  local col = {}
+  local table_by_line = {}
 
-  for line in file_row:lines() do
-    table.insert(col, line)
+  for line in file:lines() do
+    table.insert(table_by_line, line)
   end
 
-  file_row:close()
-  file_col:close()
+  -- data arrangement
+  local col1 = CsvToTableTwoCol(table_by_line, 1)
+  local col2 = CsvToTableTwoCol(table_by_line, 2)
 
-  local variables = {}
-  for _, line in pairs(col) do
-    for key, value in string.gmatch(line, "(%w+),(%w+)") do
-      table.insert(variables, key .. ": " .. value)  -- debug
+  local output_row = UniqueTable(col1)
+  local output_col = UniqueTable(col2)
+
+  -- output string
+  -- header
+  local header = "index,"
+  for _, str in ipairs(output_col) do
+    header = header .. str .. ","
+  end
+
+  header = header .. "\n"
+
+  -- body prepare
+  local matrix = {}
+  for _, row in ipairs(output_row) do
+    local tmp_table = {}
+    for _, line in ipairs(table_by_line) do
+      local t = SplitCSVString(line)
+      col1 = t[1]
+      col2 = t[2]
+      if row == col1 then
+        table.insert(tmp_table, col2)
+      end
+    end
+    matrix[row] = tmp_table
+  end
+
+  -- body string
+  local body = ""
+  for _, row in ipairs(output_row) do
+    body = body .. row .. ","
+    for _, col in ipairs(output_col) do
+      if IsCheckMatrix(row, col, matrix) == true then
+        body = body .. "x" .. ","
+      else
+        body = body .. "-" .. ","
+      end
+    end
+    body = body .. "\n"
+  end
+
+  local whole_line = header .. body
+
+  -- make buffer & write
+  local bufnr = vim.api.nvim_create_buf(false, true)
+  vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, vim.split(whole_line, '\n'))
+  vim.api.nvim_set_current_buf(bufnr)
+
+  --print(vim.inspect(whole_lines)) -- debug
+
+  file:close()
+
+end
+
+
+
+--- examples
+--{
+--  baz = { "mike", "wife" },
+--  foo = { "mike", "elsa" },
+--  fuga = { "mike", "elsa", "wife" }
+--}
+-- target_row: "foo"
+-- target_col: "mike"
+--   => true
+-- target_row: "foo"
+-- target_col: "wife"
+--   => false
+
+
+
+-- @return bool
+function IsCheckMatrix(target_row, target_col, matrix)
+  for _, v in ipairs(matrix[target_row]) do
+    if v == target_col then
+      return true
     end
   end
 
-  print(vim.inspect(variables))
+  return false
 end
 
+function SplitCSVString(str)
+  local values = {}
+  for value in str:gmatch("[^,]+") do
+      table.insert(values, value)
+  end
+  return values
+end
+
+function TestAweSome()
+  local csvString = "foo,bar"
+  -- カンマ区切りの文字列を分解して変数に格納
+  local elements = SplitCSVString(csvString)
+
+  -- 変数に格納された値を表示
+  for i, element in ipairs(elements) do
+    print("Variable " .. i .. ": " .. element)
+  end
+end
+
+function CsvToTableTwoCol(input_table, n_col)
+  local t = {}
+  if n_col == 1 then
+    for _, line in pairs(input_table) do
+      for v, _ in string.gmatch(line, "(%w+),(%w+)") do
+        table.insert(t, v)
+      end
+    end
+  elseif n_col == 2 then
+    for _, line in pairs(input_table) do
+      for _, v in string.gmatch(line, "(%w+),(%w+)") do
+        table.insert(t, v)
+      end
+    end
+  else
+    print("Error: CsvToTableTwoCol function")
+  end
+  return t
+end
+
+function UniqueTable(input_table)
+    local uniqueTable = {}
+    local resultArray = {}
+
+    for _, value in ipairs(input_table) do
+        if not uniqueTable[value] then
+            uniqueTable[value] = true
+            table.insert(resultArray, value)
+        end
+    end
+
+    return resultArray
+end
+
+-- Experimantal function for me
+function CreateBufferWithText()
+    local text = "foo \n bar"
+    local bufnr = vim.api.nvim_create_buf(false, true)
+    vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, vim.split(text, '\n'))
+    vim.api.nvim_set_current_buf(bufnr)
+end
+
+-- 既存のバッファにテキストを連結する関数
+function AppendTextToBuffer(bufnr, text)
+    -- 既存のバッファの最終行を取得
+    local lines_count = vim.api.nvim_buf_line_count(bufnr)
+    local last_line_index = lines_count - 1
+
+    -- 連結するテキストを行に分割して挿入
+    local lines_to_append = vim.split(text, '\n')
+    vim.api.nvim_buf_set_lines(bufnr, last_line_index, -1, false, lines_to_append)
+end
 
 vim.cmd([[
 set rtp^=~/.local/share/nvim/lazy/denops.vim
