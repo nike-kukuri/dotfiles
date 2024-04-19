@@ -16,7 +16,7 @@ end
 function MakeStarMatrix(file_path)
   --fpath_row = vim.fn.expand(fpath_row)
   --fpath_col = vim.fn.expand(fpath_col)
-  file_path = vim.fn.expand("~/develop/vim/lua_test/sampleA.csv")
+  file_path = vim.fn.expand(file_path)
   local file = io.open(file_path, "r")
 
   if not file then
@@ -139,13 +139,13 @@ function CsvToTableTwoCol(input_table, n_col)
   local t = {}
   if n_col == 1 then
     for _, line in pairs(input_table) do
-      for v, _ in string.gmatch(line, "(%w+),(%w+)") do
+      for v, _ in string.gmatch(line, "(.+),(.+)") do
         table.insert(t, v)
       end
     end
   elseif n_col == 2 then
     for _, line in pairs(input_table) do
-      for _, v in string.gmatch(line, "(%w+),(%w+)") do
+      for _, v in string.gmatch(line, "(.+),(.+)") do
         table.insert(t, v)
       end
     end
