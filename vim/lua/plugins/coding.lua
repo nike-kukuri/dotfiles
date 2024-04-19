@@ -167,10 +167,11 @@ return {
       cmap('<C-j>', '<Plug>(skkeleton-toggle)')
 
       vim.fn["denops#plugin#wait_async"]("skkeleton", function()
-        vim.g["skkeleton#mapped_keys"] = { "<C-l>", "<C-q>" }
-        vim.fn["skkeleton#register_keymap"]("input", "<C-q>", "katakana")
+        vim.g["skkeleton#mapped_keys"] = { "<C-l>" }
+        vim.fn["skkeleton#register_keymap"]("input", "[", "katakana")
+        vim.fn["skkeleton#register_keymap"]("input", "'", "disable")
         vim.fn["skkeleton#register_keymap"]("input", "<C-l>", "zenkaku")
-        vim.fn["skkeleton#register_keymap"]("input", "'", "henkanPoint")
+        vim.fn["skkeleton#register_keymap"]("input", ";", "henkanPoint")
         local path = vim.fn.expand("~/.config/skk/azik_kanatable.json")
         local buffer = nike.fs.read(path)
         local kanaTable = vim.json.decode(buffer)

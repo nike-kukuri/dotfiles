@@ -45,12 +45,12 @@ vim.g.rustaceanvim = {
 
 local config = function()
   -- replace `J` command in rust
-  nmap('J', '<Cmd>RustLsp hover actions<CR>')
+  nmap('J', '<Cmd>RustLsp joinLines<CR>')
 
   -- Hover action
   nmap('K', '<Cmd>RustLsp hover actions<CR>')
   -- Diagnostic
-  nmap('<C-g><C-d>', '<Cmd>RustLsp explainError<CR>')
+  nmap('<Leader>gd', '<Cmd>RustLsp explainError<CR>')
 
   vim.api.nvim_create_user_command('OpenCargoToml', function()
     vim.cmd.RustLsp('openCargo')
