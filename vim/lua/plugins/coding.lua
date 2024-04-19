@@ -31,11 +31,11 @@ local nvim_cmp_config = function()
     },
     preselect = cmp.PreselectMode.None,
     mapping = cmp.mapping.preset.insert({
-      ['<C-u>'] = cmp.mapping.scroll_docs(-4),
-      ['<C-d>'] = cmp.mapping.scroll_docs(4),
+      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-f>'] = cmp.mapping.scroll_docs(4),
       ["<C-p>"] = cmp.mapping.select_prev_item(),
       ["<C-n>"] = cmp.mapping.select_next_item(),
-      --['<Tab>'] = cmp.mapping.complete(),
+      ['<Tab>'] = cmp.mapping.complete(),
       ['<CR>'] = cmp.mapping.confirm({ select = true }),
     }),
     sources = {
@@ -158,10 +158,6 @@ return {
     'vim-skk/skkeleton',
     dependencies = {
       'vim-denops/denops.vim',
-      'delphinus/skkeleton_indicator.nvim',
-      config = function()
-        require("skkeleton_indicator").setup()
-      end
     },
     config = function()
       imap('<C-j>', '<Plug>(skkeleton-toggle)')
@@ -192,6 +188,25 @@ return {
       end)
 
     end
+  },
+  {
+    "delphinus/skkeleton_indicator.nvim",
+
+    init = function()
+      require("skkeleton_indicator").setup{
+        nord = function(colors)
+          api.set_hl(0, "SkkeletonIndicatorEiji", { fg = colors.cyan, bg = colors.dark_black, bold = true })
+          api.set_hl(0, "SkkeletonIndicatorHira", { fg = colors.dark_black, bg = colors.green, bold = true })
+          api.set_hl(0, "SkkeletonIndicatorKata", { fg = colors.dark_black, bg = colors.yellow, bold = true })
+          api.set_hl(0, "SkkeletonIndicatorHankata", { fg = colors.dark_black, bg = colors.magenta, bold = true })
+          api.set_hl(0, "SkkeletonIndicatorZenkaku", { fg = colors.dark_black, bg = colors.cyan, bold = true })
+          api.set_hl(0, "SkkeletonIndicatorAbbrev", { fg = colors.white, bg = colors.red, bold = true })
+        end,
+      }
+    end,
+
+    ---@type SkkeletonIndicatorOpts
+    opts = { fadeOutMs = 0, ignoreFt = { "dropbar_menu" } },
   },
 
   {
