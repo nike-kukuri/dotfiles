@@ -9,7 +9,10 @@ Lsp_on_attach = function(client, bufnr)
   nmap('<Leader>rn', vim.lsp.buf.rename, bufopts)
   nmap(']d', vim.diagnostic.goto_next, bufopts)
   nmap('[d', vim.diagnostic.goto_prev, bufopts)
+  nmap('<C-g><C-d>', vim.diagnostic.open_float, bufopts)
 
+  map({ 'n', 'x' }, 'ma', vim.lsp.buf.code_action, bufopts)
+  nmap('<Leader>gl', vim.lsp.codelens.run, bufopts)
   -- auto format when save the file
   local organize_import = function() end
   local actions = vim.tbl_get(client.server_capabilities, 'codeActionProvider', "codeActionKinds")
