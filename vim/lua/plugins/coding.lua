@@ -14,17 +14,17 @@ function fs.read(fname)
 end
 
 local nvim_cmp_config = function()
-  local lspkind = require('lspkind')
+  --local lspkind = require('lspkind')
   local cmp = require('cmp')
   cmp.setup({
-    formatting = {
-      format = lspkind.cmp_format({
-        mode = 'symbol',
-        maxwidth = 50,
-        ellipsis_char = '...',
-        show_labelDetails = true,
-      })
-    },
+    --formatting = {
+    --  format = lspkind.cmp_format({
+    --    mode = 'symbol',
+    --    maxwidth = 50,
+    --    ellipsis_char = '...',
+    --    show_labelDetails = true,
+    --  })
+    --},
     window = {
       -- completion = cmp.config.window.bordered(),
       documentation = cmp.config.window.bordered(),
@@ -116,6 +116,7 @@ return {
       {
         'hrsh7th/vim-vsnip',
         config = vsnip_config,
+        enabled = false,
       },
     },
     config = nvim_cmp_config,
