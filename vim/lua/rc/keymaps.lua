@@ -21,6 +21,7 @@ imap('<C-e>', '<C-o>A')
 imap('<C-a>', '<C-o>I')
 vmap('<M-w>', '"+y')
 nmap('<M-v>', '"+P')
+imap('<M-h>', '<C-w>')
 
 -- disable auto comment 
 imap('<C-;>', '<C-o>cc')
