@@ -3,6 +3,18 @@ return {
     "folke/noice.nvim",
     event = "VeryLazy",
     opts = {
+      messages = {
+        view = "mini",
+        view_error = "mini",
+        view_warn = "mini",
+      },
+      --popupmenu = {
+      --  backend = "cmp"
+      --},
+      notify = {
+        enabled = false,
+        view = "notify",
+      }
       -- add any options here
     },
     dependencies = {
