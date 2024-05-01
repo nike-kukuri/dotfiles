@@ -1,7 +1,7 @@
 Lsp_on_attach = function(client, bufnr)
   -- Enable completion triggered by <c-x><c-o>
   client.server_capabilities.semanticTokensProvider = nil
-  api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+  --api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
   local bufopts = { silent = true, buffer = bufnr }
   nmap('gd', vim.lsp.buf.definition, bufopts)
   nmap('gi', vim.lsp.buf.implementation, bufopts)
@@ -26,6 +26,14 @@ Lsp_on_attach = function(client, bufnr)
   if client.supports_method("textDocument/formatting") then
     nmap(']f', vim.lsp.buf.format, { buffer = bufnr })
   end
+
+
+  -- inlay hint default enable
+  vim.lsp.inlay_hint.enable()
+  -- toggle inlay_hint
+  nmap('<Leader>gi', function()
+      return vim.lsp.inlay_hint.enable(0, not vim.lsp.inlay_hint.is_enabled())
+    end, { expr = true })
 end
 
 vim.g.rustaceanvim = {
