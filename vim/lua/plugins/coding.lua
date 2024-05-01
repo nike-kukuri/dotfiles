@@ -13,20 +13,22 @@ function fs.read(fname)
   return buffer
 end
 
+
+
 local nvim_cmp_config = function()
-  --local lspkind = require('lspkind')
+  local lspkind = require('lspkind')
   local cmp = require('cmp')
   cmp.setup({
-    --formatting = {
-    --  format = lspkind.cmp_format({
-    --    mode = 'symbol',
-    --    maxwidth = 50,
-    --    ellipsis_char = '...',
-    --    show_labelDetails = true,
-    --  })
-    --},
+    formatting = {
+      format = lspkind.cmp_format({
+        mode = 'symbol',
+        maxwidth = 50,
+        ellipsis_char = '...',
+        show_labelDetails = true,
+      })
+    },
     window = {
-      -- completion = cmp.config.window.bordered(),
+      --completion = cmp.config.window.bordered(),
       documentation = cmp.config.window.bordered(),
     },
     preselect = cmp.PreselectMode.None,
@@ -52,9 +54,9 @@ local nvim_cmp_config = function()
       } },
       { name = 'path' },
     },
-    view = {
-      entries = 'native'
-    },
+    --view = {
+    --  entries = 'native'
+    --},
     snippet = {
       expand = function(args)
         fn['vsnip#anonymous'](args.body)
@@ -112,7 +114,58 @@ return {
       { 'hrsh7th/cmp-path' },
       { 'hrsh7th/cmp-vsnip' },
       { 'hrsh7th/cmp-cmdline' },
-      { 'onsails/lspkind.nvim' },
+      {
+        'onsails/lspkind.nvim',
+        config = function()
+          require("lspkind").init({
+            -- enables text annotations
+            --
+            -- default: true
+            mode = "symbol_text",
+
+            -- default symbol map
+            -- can be either 'default' (requires nerd-fonts font) or
+            -- 'codicons' for codicon preset (requires vscode-codicons font)
+            --
+            -- default: 'default'
+            preset = "codicons",
+
+            -- override preset symbols
+            --
+            -- default: {}
+            -- TODO: change symbols
+            -- reference: https://code.visualstudio.com/api/references/icons-in-labels
+            symbol_map = {
+              Text = "",
+              Method = "󿚦",
+              Function = "󿚦",
+              Constructor = "",
+              Field = "󿚦",
+              Variable = "󿛬",
+              Class = "󿬬",
+              Interface = "",
+              Module = "",
+              Property = "",
+              Unit = "U",
+              Value = "",
+              Enum = "",
+              Keyword = "",
+              Snippet = "",
+              Color = "C",
+              File = "󿜣",
+              Reference = "",
+              Folder = "󿝕",
+              EnumMember = "",
+              Constant = "",
+              Struct = "S",
+              Event = "E",
+              Operator = "O",
+              TypeParameter = "T",
+              Copilot = "",
+            },
+        })
+        end
+      },
       {
         'hrsh7th/vim-vsnip',
         config = vsnip_config,
