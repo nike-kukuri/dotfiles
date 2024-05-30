@@ -18,10 +18,10 @@ return {
   {
     'haya14busa/vim-edgemotion',
     config = function()
-      nmap('<M-j>', '<Plug>(edgemotion-j)')
-      nmap('<M-k>', '<Plug>(edgemotion-k)')
-      nmap('<M-j>', '<Plug>(edgemotion-j)')
-      nmap('<M-k>', '<Plug>(edgemotion-k)')
+      nmap('<Leader>j', '<Plug>(edgemotion-j)')
+      nmap('<Leader>k', '<Plug>(edgemotion-k)')
+      vmap('<Leader>j', '<Plug>(edgemotion-j)')
+      vmap('<Leader>k', '<Plug>(edgemotion-k)')
     end
   },
   {
