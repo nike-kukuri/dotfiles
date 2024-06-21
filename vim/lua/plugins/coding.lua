@@ -13,9 +13,9 @@ function fs.read(fname)
   return buffer
 end
 
-
 local nvim_cmp_config = function()
   local lspkind = require('lspkind')
+  local luasnip = require('luasnip')
   local cmp = require('cmp')
   cmp.setup({
     formatting = {
@@ -37,11 +37,11 @@ local nvim_cmp_config = function()
       ["<C-p>"] = cmp.mapping.select_prev_item(),
       ["<C-n>"] = cmp.mapping.select_next_item(),
       ['<Tab>'] = cmp.mapping.complete(),
-      ['<CR>'] = cmp.mapping.confirm({ select = true }),
+      ['<CR>'] = cmp.mapping.confirm({ select = false }),
     }),
     sources = {
       { name = 'nvim_lsp' },
-      { name = 'vsnip' },
+      { name = 'luasnip' },
       { name = 'buffer', option = {
         get_bufnrs = function()
           local bufs = {}
@@ -59,7 +59,8 @@ local nvim_cmp_config = function()
     --},
     snippet = {
       expand = function(args)
-        fn['vsnip#anonymous'](args.body)
+        --fn['vsnip#anonymous'](args.body)
+        luasnip.lsp_expand(args.body) -- For `luasnip` users.
       end
     },
   })
@@ -84,25 +85,6 @@ local nvim_cmp_config = function()
   --})
 end
 
-local vsnip_config = function()
-  vim.g.vsnip_snippet_dir = vim.fn.expand("~/dotfiles/vim/snippet/")
-  imap("<Tab>", function()
-    if vim.fn['vsnip#jumpable(1)']() then
-      return "<Plug>(vsnip-jump-next)"
-    else
-      return "<Tab>"
-    end
-  end, { expr = true, remap = true })
-  imap("<S-Tab>", function()
-    if vim.fn['vsnip#jumpable(1)']() then
-      return "<Plug>(vsnip-jump-next)"
-    else
-      return "<Tab>"
-    end
-  end, { expr = true, remap = true })
-  vim.g.vsnip_filetypes = {}
-  vim.g.vsnip_filetypes.typescriptreact = { 'typescript' }
- end
 
 return {
   {
@@ -112,8 +94,8 @@ return {
       { 'hrsh7th/cmp-nvim-lsp' },
       { 'hrsh7th/cmp-buffer' },
       { 'hrsh7th/cmp-path' },
-      { 'hrsh7th/cmp-vsnip' },
       { 'hrsh7th/cmp-cmdline' },
+      { 'saadparwaiz1/cmp_luasnip' },
       {
         'onsails/lspkind.nvim',
         config = function()
@@ -166,14 +148,9 @@ return {
         })
         end
       },
-      {
-        'hrsh7th/vim-vsnip',
-        config = vsnip_config,
-        enabled = false,
-      },
     },
     config = nvim_cmp_config,
-    event = { 'InsertEnter' },
+    event = { 'VimEnter' },
   },
   {
     'monaqa/dial.nvim',
@@ -268,5 +245,13 @@ return {
     config = function()
       require("nvim-autopairs").setup({ map_c_h = true })
     end,
+  },
+  {
+		"L3MON4D3/LuaSnip",
+		event = "VimEnter",
+		build = "make install_jsregexp",
+		config = function()
+			require("luasnip").setup({})
+		end,
   },
 }
