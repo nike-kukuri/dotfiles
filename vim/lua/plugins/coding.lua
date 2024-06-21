@@ -26,6 +26,14 @@ local nvim_cmp_config = function()
   cmp.setup({
     formatting = {
       format = lspkind.cmp_format({
+        with_text = true,
+        menu = {
+          buffer = "[Buffer]",
+          nvim_lsp = "[LSP]",
+          luasnip = "[LuaSnip]",
+          path = "[Path]",
+          copilot = "[Copilot]",
+        },
         mode = 'symbol',
         maxwidth = 50,
         ellipsis_char = '...',
