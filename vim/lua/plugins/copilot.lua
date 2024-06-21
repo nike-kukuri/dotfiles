@@ -24,5 +24,14 @@ return {
     config = function ()
       require("copilot_cmp").setup()
     end
+  },
+  {
+    'CopilotC-NVim/CopilotChat.nvim',
+    event = 'VeryLazy',
+    branch = 'canary',
+    dependencies = {
+      'zbirenbaum/copilot.lua',
+      'nvim-lua/plenary.nvim',
+    },
   }
 }
