@@ -61,8 +61,8 @@ local nvim_cmp_config = function()
       end, { "i", "s" }),
     }),
     sources = {
-      { name = 'nvim_lsp' },
-      { name = 'luasnip' },
+      { name = 'nvim_lsp', priority = 100 },
+      { name = 'luasnip', priority = 50 },
       { name = 'buffer', option = {
         get_bufnrs = function()
           local bufs = {}
@@ -71,9 +71,9 @@ local nvim_cmp_config = function()
           end
           return vim.tbl_keys(bufs)
         end
-      } },
-      { name = 'path' },
-      { name = 'copilot' }
+      }, priority = 40 },
+      { name = 'path', priority = 90 },
+      { name = 'copilot', priority = 90 }
     },
     snippet = {
       expand = function(args)
