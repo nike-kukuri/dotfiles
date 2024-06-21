@@ -13,6 +13,11 @@ function fs.read(fname)
   return buffer
 end
 
+local has_words_before = function()
+  if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then return false end
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and vim.api.nvim_buf_get_text(0, line-1, 0, line-1, col, {})[1]:match("^%s*$") == nil
+end
 
 local nvim_cmp_config = function()
   local lspkind = require('lspkind')
@@ -41,6 +46,8 @@ local nvim_cmp_config = function()
       ['<Tab>'] = cmp.mapping(function(fallback)
         if luasnip.expand_or_jumpable() then
           luasnip.expand_or_jump()
+        elseif has_words_before() then
+          cmp.complete()
         else
           fallback()
         end
@@ -68,9 +75,6 @@ local nvim_cmp_config = function()
       { name = 'path' },
       { name = 'copilot' }
     },
-    --view = {
-    --  entries = 'native'
-    --},
     snippet = {
       expand = function(args)
         --fn['vsnip#anonymous'](args.body)
