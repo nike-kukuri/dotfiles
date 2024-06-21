@@ -13,6 +13,7 @@ function fs.read(fname)
   return buffer
 end
 
+
 local nvim_cmp_config = function()
   local lspkind = require('lspkind')
   local luasnip = require('luasnip')
@@ -36,8 +37,21 @@ local nvim_cmp_config = function()
       ['<C-f>'] = cmp.mapping.scroll_docs(4),
       ["<C-p>"] = cmp.mapping.select_prev_item(),
       ["<C-n>"] = cmp.mapping.select_next_item(),
-      ['<Tab>'] = cmp.mapping.complete(),
       ['<CR>'] = cmp.mapping.confirm({ select = false }),
+      ['<Tab>'] = cmp.mapping(function(fallback)
+        if luasnip.expand_or_jumpable() then
+          luasnip.expand_or_jump()
+        else
+          fallback()
+        end
+      end, { "i", "s" }),
+      ['<S-Tab>'] = cmp.mapping(function(fallback)
+        if luasnip.jumpable(-1) then
+          luasnip.jump(-1)
+        else
+          fallback()
+        end
+      end, { "i", "s" }),
     }),
     sources = {
       { name = 'nvim_lsp' },
