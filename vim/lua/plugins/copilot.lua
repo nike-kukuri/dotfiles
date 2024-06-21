@@ -34,7 +34,16 @@ return {
       'nvim-lua/plenary.nvim',
     },
     config = function()
-      require('CopilotChat').setup()
+      nmap('<Leader>co', '<Cmd>CopilotChat<CR>')
+      nmap('<Leader>cc', '<Cmd>CopilotChatToggle<CR>')
+      vmap('<Leader>cr', '<Cmd>CopilotChatReview<CR>')
+      require('CopilotChat').setup({
+        window = {
+          layout = 'float',
+          width = 1,
+          height = 0.6,
+        }
+      })
     end,
   }
 }
