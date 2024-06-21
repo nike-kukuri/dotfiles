@@ -14,7 +14,6 @@ function fs.read(fname)
 end
 
 
-
 local nvim_cmp_config = function()
   local lspkind = require('lspkind')
   local cmp = require('cmp')
@@ -53,6 +52,7 @@ local nvim_cmp_config = function()
         end
       } },
       { name = 'path' },
+      { name = 'copilot' }
     },
     --view = {
     --  entries = 'native'
