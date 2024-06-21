@@ -162,4 +162,10 @@ return {
       nmap('M-k', '<Plug>(edgemotion-j)')
     end
   },
+  {
+    'previm/previm'
+  },
+  {
+    'kat0h/bufpreview.vim'
+  }
 }
