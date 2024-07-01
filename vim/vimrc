@@ -7,12 +7,18 @@ let g:mapleader = "\<Space>"
 " 前提条件としてホームに `dotfiles` があること
 let $BASE_DIR = '<sfile>'->expand()->fnamemodify(':h') .. '/dotfiles/vim/rc'
 
-execute 'source' '$BASE_DIR/dein.vim'
+" execute 'source' '$BASE_DIR/dein.vim'
+execute 'source' '$BASE_DIR/jetpack.vim'
 
 " --- color scheme ---
 set termguicolors
 set background=dark
-colorscheme nightfox
+
+try
+  colorscheme nightfox
+catch
+  colorscheme habamax
+endtry
 
 " visual mode highlight
 hi Visual ctermfg=159 ctermbg=23 guifg=#b3c3cc guibg=#384851
@@ -27,16 +33,10 @@ endfunction
 
 
 " Better <C-n>/<C-p> in Command
-"cnoremap <expr> <C-p> pumvisible() ? '<C-p>' : '<Up>'
-"cnoremap <expr> <C-n> pumvisible() ? '<C-n>' : '<Down>'
-"
-" for use pum.vim plugin settings
-cnoremap <expr> <C-p> pum#visible() ? '<Cmd>pum#map#select_relarive(-1)<CR>' : '<Up>'
-cnoremap <expr> <C-n> pum#visible() ? '<Cmd>pum#map#select_relarive(+1)<CR>' : '<Down>'
+cnoremap <expr> <C-p> pumvisible() ? '<C-p>' : '<Up>'
+cnoremap <expr> <C-n> pumvisible() ? '<C-n>' : '<Down>'
 cnoremap <Up> <C-p>
 cnoremap <Down> <C-n>
-
-cnoremap <expr> <Tab> pum#visible() ? '<C-y><Tab>' : '<Tab>'
 
 " paste with clipboard
 " auto smart indent with paste

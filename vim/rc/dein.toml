@@ -11,12 +11,12 @@ function! LightlineFilename()
         \ expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
 endfunction
 
-let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ 'component_function': {
-      \   'filename': 'LightlineFilename',
-      \ },
-      \ }
+"let g:lightline = {
+"      \ 'colorscheme': 'wombat',
+"      \ 'component_function': {
+"      \   'filename': 'LightlineFilename'
+"      \ },
+"      \ }
 '''
 
 [[plugins]]
