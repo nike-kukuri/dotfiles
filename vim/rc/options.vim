@@ -16,13 +16,14 @@ set completeopt=menu,menuone,preview
 set matchpairs& matchpairs+=<:>
 set noshowmode
 set undolevels=1000
-set helplang=ja,en
+set helplang=en,ja
 set autowrite 
 set noswapfile
 set laststatus=2
 set showtabline=1
 set wildcharm=<Tab> " enable <Tab> in cnnoremap <expr> 
 set backspace=indent,eol,start " Allow backspace over everything
+set virtualedit=block " Allow cursor to move anywhere in visual block mode
 
 " grep
 if executable('rg')

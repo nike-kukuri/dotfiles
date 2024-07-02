@@ -7,6 +7,10 @@ nnoremap <Leader>re :%s;\<<C-R><C-W>\>;g<Left><Left>;
 " open terminal
 nnoremap <Leader>tt :<C-u>tabnew<CR><BAR>:terminal<CR>
 
+" Paste with C-v
+inoremap <expr> <C-v> printf('<C-r><C-o>%s', v:regster)
+cnoremap <expr> <C-v> printf('<C-r><C-o>%s', v:regster)
+
 " move tab
 nnoremap <C-l> gt
 nnoremap <C-h> gT
@@ -102,3 +106,26 @@ nnoremap sl <C-w>l
 nnoremap sh <C-w>h
 nnoremap ss :<C-u>sp<CR><C-w>j
 nnoremap sv :<C-u>vs<CR><C-w>l
+
+" https://zenn.dev/vim_jp/articles/8de697fc88e63c
+function! s:blank_above(type = '') abort
+  if a:type == ''
+    set operatorfunc=function('s:blank_above')
+    return 'g@ '
+  endif
+
+  put! =repeat(nr2char(10), v:count1)
+  normal! '[
+endfunction
+
+function! s:blank_below(type = '') abort
+  if a:type == ''
+    set operatorfunc=function('s:blank_below')
+    return 'g@ '
+  endif
+
+  put =repeat(nr2char(10), v:count1)
+endfunction
+
+nnoremap <expr> ]<Space> <sid>blank_below()
+nnoremap <expr> [<Space> <sid>blank_above()
