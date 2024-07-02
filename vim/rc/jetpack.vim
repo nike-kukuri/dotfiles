@@ -7,6 +7,7 @@ call jetpack#begin()
 call jetpack#add('tani/vim-jetpack', {'opt': 1}) "bootstrap
 call jetpack#add('neoclide/coc.nvim', {'branch': 'release'})
 call jetpack#add('lambdalisue/vim-fall')
+call jetpack#add('vim-skk/skkeleton')
 call jetpack#load_toml(expand('$BASE_DIR/dein.toml'))
 call jetpack#load_toml(expand('$BASE_DIR/ddc.toml'))
 call jetpack#load_toml(expand('$BASE_DIR/dein_lazy.toml'))
