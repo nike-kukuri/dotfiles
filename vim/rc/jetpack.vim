@@ -5,13 +5,32 @@ source $BASE_DIR/keymaps.vim
 packadd vim-jetpack
 call jetpack#begin()
 call jetpack#add('tani/vim-jetpack', {'opt': 1}) "bootstrap
+
+" LSP
 call jetpack#add('neoclide/coc.nvim', {'branch': 'release'})
+
+" FF
 call jetpack#add('lambdalisue/vim-fall')
+
+" denops
+call jetpack#add('vim-denops/denops.vim')
 call jetpack#add('vim-skk/skkeleton')
+call jetpack#load_toml(expand('$BASE_DIR/ddc/ddc.toml'))
+
+" utils
 call jetpack#add('github/copilot.vim')
-call jetpack#load_toml(expand('$BASE_DIR/dein.toml'))
-call jetpack#load_toml(expand('$BASE_DIR/ddc.toml'))
-call jetpack#load_toml(expand('$BASE_DIR/dein_lazy.toml'))
+call jetpack#add('thinca/vim-quickrun')
+call jetpack#add('thinca/vim-qfreplace')
+call jetpack#add('machakann/vim-sandwich')
+call jetpack#add('itchyny/lightline.vim')
+call jetpack#add('simeji/winresizer')
+
+" colorscheme
+call jetpack#add('EdenEast/nightfox.nvim')
+call jetpack#add('lambdalisue/fern.vim')
+call jetpack#add('lambdalisue/fern-renderer-nerdfont.vim')
+call jetpack#add('lambdalisue/nerdfont.vim')
+call jetpack#add('cohama/lexima.vim')
 
 " document
 call jetpack#add('vim-jp/vimdoc-ja')
@@ -25,3 +44,39 @@ function! s:load_configurations() abort
   endfor
 endfunction
 call s:load_configurations()
+
+" plugin configs
+nnoremap <C-e> <Cmd>WinResizerStartResize<CR>
+let g:lexima_enable_basic_rules = 1
+let g:lexima_enable_newline_rules = 1
+let g:fern#renderer = "nerdfont"
+let g:fern#window_selector_use_popup = 1
+function! s:fern_init() abort
+  nnoremap <buffer> <silent> q :q<CR>
+  map <buffer> <silent> <C-x> <Plug>(fern-action-open:split)
+  map <buffer> <silent> <C-v> <Plug>(fern-action-open:vsplit)
+  map <buffer> <silent> <C-t> <Plug>(fern-action-tcd)
+endfunction
+
+let g:fern#default_hidden = 1
+let g:fern#default_exclude = '.git$'
+
+augroup fern-settings
+  autocmd!
+  autocmd FileType fern call s:fern_init()
+augroup END
+
+nnoremap <silent> <Leader>f :Fern . -drawer<CR>
+function! LightlineFilename()
+  return &filetype ==# 'vimfiler' ? vimfiler#get_status_string() :
+        \ &filetype ==# 'unite' ? unite#get_status_string() :
+        \ &filetype ==# 'vimshell' ? vimshell#get_status_string() :
+        \ expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
+endfunction
+
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ 'component_function': {
+      \   'filename': 'LightlineFilename'
+      \ },
+      \ }
