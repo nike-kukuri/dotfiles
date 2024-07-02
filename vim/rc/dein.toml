@@ -63,24 +63,6 @@ let g:lexima_enable_newline_rules = 1
 repo = 'vim-denops/denops.vim'
 
 [[plugins]]
-repo = 'prabirshrestha/vim-lsp'
-hook_source = '''
-nmap <silent> K :LspHover<CR>
-nmap <silent> gd :LspDefinition<CR>
-nmap <silent> gr :LspReferences<CR>
-nmap <silent> gi :LspImplementation<CR>
-nmap <silent> <Leader>gs :split \| :LspDefinition <CR>
-nmap <silent> <Leader>gv :vsplit \| :LspDefinition <CR>
-nnoremap <silent> ]e  :LspNextError<CR>
-nnoremap <silent> [e  :LspPreviousError<CR> 
-nnoremap <silent> ]w  :LspNextWarning<CR>
-nnoremap <silent> [w  :LspPreviousWarning<CR> 
-'''
-
-[[plugins]]
-repo = 'mattn/vim-lsp-settings'
-
-[[plugins]]
 repo = 'simeji/winresizer'
 hook_source = '''
 nnoremap <C-e> <Cmd>WinResizerStartResize<CR>
