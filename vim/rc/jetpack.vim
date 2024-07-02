@@ -45,38 +45,7 @@ function! s:load_configurations() abort
 endfunction
 call s:load_configurations()
 
-" plugin configs
+" plugin configs chores
 nnoremap <C-e> <Cmd>WinResizerStartResize<CR>
 let g:lexima_enable_basic_rules = 1
 let g:lexima_enable_newline_rules = 1
-let g:fern#renderer = "nerdfont"
-let g:fern#window_selector_use_popup = 1
-function! s:fern_init() abort
-  nnoremap <buffer> <silent> q :q<CR>
-  map <buffer> <silent> <C-x> <Plug>(fern-action-open:split)
-  map <buffer> <silent> <C-v> <Plug>(fern-action-open:vsplit)
-  map <buffer> <silent> <C-t> <Plug>(fern-action-tcd)
-endfunction
-
-let g:fern#default_hidden = 1
-let g:fern#default_exclude = '.git$'
-
-augroup fern-settings
-  autocmd!
-  autocmd FileType fern call s:fern_init()
-augroup END
-
-nnoremap <silent> <Leader>f :Fern . -drawer<CR>
-function! LightlineFilename()
-  return &filetype ==# 'vimfiler' ? vimfiler#get_status_string() :
-        \ &filetype ==# 'unite' ? unite#get_status_string() :
-        \ &filetype ==# 'vimshell' ? vimshell#get_status_string() :
-        \ expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
-endfunction
-
-let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ 'component_function': {
-      \   'filename': 'LightlineFilename'
-      \ },
-      \ }
