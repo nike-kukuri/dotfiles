@@ -4,10 +4,8 @@ endif
 
 let g:mapleader = "\<Space>"
 
-" 前提条件としてホームに `dotfiles` があること
 let $BASE_DIR = '<sfile>'->expand()->fnamemodify(':h') .. '/dotfiles/vim/rc'
 
-" execute 'source' '$BASE_DIR/dein.vim'
 execute 'source' '$BASE_DIR/jetpack.vim'
 
 " --- color scheme ---
@@ -23,32 +21,8 @@ endtry
 " visual mode highlight
 hi Visual ctermfg=159 ctermbg=23 guifg=#b3c3cc guibg=#384851
 
-function! PumVisible() abort
-  try
-    return pum#visible()
-  catch
-    return pumvisible()
-  endtry
-endfunction
-
-
 " Better <C-n>/<C-p> in Command
 cnoremap <expr> <C-p> pumvisible() ? '<C-p>' : '<Up>'
 cnoremap <expr> <C-n> pumvisible() ? '<C-n>' : '<Down>'
 cnoremap <Up> <C-p>
 cnoremap <Down> <C-n>
-
-" paste with clipboard
-" auto smart indent with paste
-if &term =~ "xtern"
-  let &t_SI .= "\e[?2004h"
-  let &t_EI .= "\e[?2004l"
-  let &pastetoggle = "\e[201~"
-
-  function XTermPasteBegin(ret)
-    set paste
-    return a:ret
-  endfunction
-
-  inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
-endif
