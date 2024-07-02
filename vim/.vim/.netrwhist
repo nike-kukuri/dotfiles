@@ -1,5 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =3
-let g:netrw_dirhist_3='/Users/yamasotokeita/develop/rust/rusty-spice/src/netlist'
-let g:netrw_dirhist_2='/Users/yamasotokeita/develop/rust/ndarray_lialg-test/src'
-let g:netrw_dirhist_1='/Users/yamasotokeita/test'
