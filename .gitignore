@@ -4,6 +4,9 @@ fonts
 update_file.list
 gclone
 fonts
+
+vim/skk/SKK*
+
 vim/.vim/colors
 vim/.vim/pack/plugins/start
 vim/.vim/plugged/tokyonight-vim
