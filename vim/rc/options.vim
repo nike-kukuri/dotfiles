@@ -1,7 +1,6 @@
 " --- setup options ---
 syntax enable
 filetype plugin indent on
-set cursorline
 set scrolloff=100
 set expandtab
 set smarttab

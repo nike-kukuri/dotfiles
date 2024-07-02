@@ -86,6 +86,15 @@ nnoremap <C-k> {
 vnoremap <C-j> }
 vnoremap <C-k> {
 
+nnoremap <C-d> <Cmd>keepjumps normal! <C-d><CR>
+nnoremap <C-u> <Cmd>keepjumps normal! <C-u><CR>
+vnoremap <C-d> <Cmd>keepjumps normal! <C-d><CR>
+vnoremap <C-u> <Cmd>keepjumps normal! <C-u><CR>
+nnoremap <C-j> <Cmd>keepjumps normal! }<CR>
+nnoremap <C-k> <Cmd>keepjumps normal! {<CR>
+vnoremap <C-j> <Cmd>keepjumps normal! }<CR>
+vnoremap <C-k> <Cmd>keepjumps normal! {<CR>
+
 " split window
 nnoremap sj <C-w>j
 nnoremap sk <C-w>k
