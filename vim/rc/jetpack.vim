@@ -15,7 +15,6 @@ call jetpack#add('lambdalisue/vim-fall')
 " denops
 call jetpack#add('vim-denops/denops.vim')
 call jetpack#add('vim-skk/skkeleton')
-call jetpack#load_toml(expand('$BASE_DIR/ddc/ddc.toml'))
 
 " utils
 call jetpack#add('github/copilot.vim')
