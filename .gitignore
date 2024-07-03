@@ -5,6 +5,8 @@ update_file.list
 gclone
 fonts
 
+.luarc.json
+
 vim/skk/SKK*
 
 vim/.vim/colors
