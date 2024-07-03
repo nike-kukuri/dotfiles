@@ -1,9 +1,9 @@
 ---@diagnostic disable: need-check-nil
 
-local test = false
-if test then
+local is_exp = false
+if is_exp then
   vim.keymap.set('n', '<Leader>.', ':tabnew ~/.config/nvim/init.lua<CR>')
-  require('test.test')
+  require('experiment.exp')
 end
 
 -- alias to vim's objects
