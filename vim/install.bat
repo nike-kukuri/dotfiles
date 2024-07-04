@@ -18,7 +18,7 @@ goto: EOF
 setlocal enabledelayedexpansion
 set DOTFILES=%USERPROFILE%\dotfiles
 
-call :link %USERPROFILE%\AppData\Local\nvim\init.lua %DOTFILES%\vim\windows\init.lua
+call :link %USERPROFILE%\AppData\Local\nvim\init.lua %DOTFILES%\vim\init.lua
 call :dlink %USERPROFILE%\AppData\Local\nvim\lua %DOTFILES%\vim\lua
 
 endlocal
