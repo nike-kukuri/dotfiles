@@ -76,7 +76,11 @@ api.nvim_create_autocmd('FileType', {
 map({ 'c', 'i' }, '<C-v>', 'printf("<C-r><C-o>%s", v:register)', { expr = true })
 
 -- other keymap
-nmap('<Leader>.', ':tabnew ~/.config/nvim/init.lua<CR>')
+if vim.fn.has('win32') then
+  nmap('<Leader>.', ':tabnew ~/AppData/Local/nvim<CR>')
+else
+  nmap('<Leader>.', ':tabnew ~/.config/nvim/init.lua<CR>')
+end
 
 nmap('j', 'gj')
 nmap('k', 'gk')
