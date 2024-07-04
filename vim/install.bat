@@ -1,4 +1,5 @@
 @echo off
+setlocal enabledelayedexpansion
 :: please, run by admin, and after install `uutils` ln -fs ~\dotfiles\vim\windows\init.lua ~\AppData\Local\nvim\init.lua
 
 goto :main
@@ -18,6 +19,7 @@ setlocal enabledelayedexpansion
 set DOTFILES=%USERPROFILE%\dotfiles
 
 call :link %USERPROFILE%\AppData\Local\nvim\init.lua %DOTFILES%\vim\windows\init.lua
+call :dlink %USERPROFILE%\AppData\Local\nvim\lua %DOTFILES%\vim\lua
 
 endlocal
 pause
