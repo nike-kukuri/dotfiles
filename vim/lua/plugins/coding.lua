@@ -111,6 +111,13 @@ local nvim_cmp_config = function()
   --})
 end
 
+local skkeleton_indicator_enable = function()
+  if vim.fn.has('win32') then
+    return false
+  else
+    return true
+  end
+end
 
 return {
   {
@@ -241,7 +248,7 @@ return {
           },
         })
 
-        vim.fn["skkeleton#initialize"]()
+        --vim.fn["skkeleton#initialize"]()
       end)
 
     end
@@ -261,6 +268,7 @@ return {
         end,
       }
     end,
+    enabled = skkeleton_indicator_enable,
 
     ---@type SkkeletonIndicatorOpts
     opts = { fadeOutMs = 0, ignoreFt = { "dropbar_menu" } },
