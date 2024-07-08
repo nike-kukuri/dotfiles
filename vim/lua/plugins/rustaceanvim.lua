@@ -87,5 +87,10 @@ return {
     config = function()
         require('crates').setup()
     end,
+    opts = {
+      completion = {
+        cmp = { enabled = true },
+      },
+    }
   }
 }
