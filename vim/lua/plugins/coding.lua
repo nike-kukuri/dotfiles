@@ -81,7 +81,8 @@ local nvim_cmp_config = function()
         end
       }, priority = 40 },
       { name = 'path', priority = 90 },
-      { name = 'copilot', priority = 90 }
+      { name = 'copilot', priority = 90 },
+      { name = 'crates', priority = 80 },
     },
     snippet = {
       expand = function(args)
