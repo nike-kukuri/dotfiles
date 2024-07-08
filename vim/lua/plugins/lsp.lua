@@ -96,9 +96,11 @@ local lsp_config = function()
 
       local opts = {}
       
-      -- use rustacean.nvim to setup
+      -- use rustacean.nvim to setup other than Windows
       if ls == 'rust_analyzer' then
-        return
+        if not vim.fn.has('win32') then
+          return
+        end
       end
 
       if ls == 'denols' then

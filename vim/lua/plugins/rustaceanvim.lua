@@ -80,6 +80,13 @@ return {
     version = '^4', -- Recommended
     ft = { 'rust' },
     config = config,
+    enabled = function()
+      if vim.fn.has('win32') then
+        return false
+      else
+        return true
+      end
+    end,
   },
   {
     'saecki/crates.nvim',
