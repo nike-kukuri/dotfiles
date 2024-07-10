@@ -23,6 +23,7 @@ call jetpack#add('thinca/vim-qfreplace')
 call jetpack#add('machakann/vim-sandwich')
 call jetpack#add('itchyny/lightline.vim')
 call jetpack#add('simeji/winresizer')
+call jetpack#add('hrsh7th/vim-eft')
 
 " colorscheme
 call jetpack#add('EdenEast/nightfox.nvim')
