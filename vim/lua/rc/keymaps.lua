@@ -1,4 +1,4 @@
--- text object
+-- text object shortcuts
 omap('\'', 'i\'')
 omap('"', 'i"')
 omap('9', 'i(')
@@ -32,13 +32,13 @@ xmap('\'', ':', {})
 
 xmap("*",
   table.concat {
-    -- 選択範囲を検索クエリに用いるため、m レジスタに格納。
-    -- ビジュアルモードはここで抜ける。
+    -- Store selected region to "m register
+    -- Escape visual mode here
     [["my]],
-    -- "m レジスタの中身を検索。
-    -- ただし必要な文字はエスケープした上で、空白に関しては伸び縮み可能とする
+    -- Search "m register
+    -- Necessary characters must be escaped, and spaces must be expandable.
     [[/\V<C-R><C-R>=substitute(escape(@m, '/\'), '\_s\+', '\\_s\\+', 'g')<CR><CR>]],
-    -- 先ほど検索した範囲にカーソルが移るように、手前に戻す
+    -- Cursor move to original position
     [[N]],
   },
   {}
@@ -89,16 +89,21 @@ nmap('ZQ', '<Nop>')
 -- Disalbe 's' to substitute character on cursor
 nmap('s', '<Nop>')
 
-nmap('j', 'gj')
-nmap('k', 'gk')
-nmap('R', 'gR')
-nmap('*', '*N')
+nmap('j', 'gj')  -- move to visual line
+nmap('k', 'gk')  -- move to visual line
+nmap('H', '^')  -- move to first character
+nmap('L', 'g_')  -- move to last character in visual line
+nmap('R', 'gR')  -- virtual replace
+nmap('*', '*N')  -- search under cursor word and return cursor to original position
+
+-- Do NOT add register by using black hole register
 nmap('x', '"_x')
 nmap('s', '"_s')
 nmap('c', '"_c')
+
 nmap('<Esc><Esc>', '<Cmd>nohlsearch<CR>')
-nmap('H', '^')
-nmap('L', 'g_')
+
+-- Do NOT add jumplist to move by <C-d>, <C-u>, { and }
 nmap('<C-d>', '<Cmd>keepjumps normal! <C-d><CR>')
 nmap('<C-u>', '<Cmd>keepjumps normal! <C-u><CR>')
 vmap('<C-d>', '<Cmd>keepjumps normal! <C-d><CR>')
@@ -107,13 +112,17 @@ nmap('<C-j>', '<Cmd>keepjumps normal! }<CR>')
 nmap('<C-k>', '<Cmd>keepjumps normal! {<CR>')
 vmap('<C-j>', '<Cmd>keepjumps normal! }<CR>')
 vmap('<C-k>', '<Cmd>keepjumps normal! {<CR>')
+
 nmap('<Leader><Tab>', '%')
+
+-- Window manipulation
 nmap('sv', ':vsplit<CR>')
 nmap('ss', ':split<CR>')
 nmap('sh', '<C-w>h')
 nmap('sj', '<C-w>j')
 nmap('sk', '<C-w>k')
 nmap('sl', '<C-w>l')
+
 nmap('[b', '<Cmd>bnext<CR>')
 nmap(']b', '<Cmd>bprevious<CR>')
 nmap('[ ', 'O<ESC>cc<ESC>')
