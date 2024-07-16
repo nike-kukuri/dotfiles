@@ -85,6 +85,10 @@ end
 -- Disable "ZZ" & "ZQ" to quit
 nmap('ZZ', '<Nop>')
 nmap('ZQ', '<Nop>')
+
+-- Disalbe 's' to substitute character on cursor
+nmap('s', '<Nop>')
+
 nmap('j', 'gj')
 nmap('k', 'gk')
 nmap('R', 'gR')
