@@ -82,6 +82,9 @@ else
   nmap('<Leader>.', ':tabnew ~/.config/nvim/init.lua<CR>')
 end
 
+-- Disable "ZZ" & "ZQ" to quit
+nmap('ZZ', '<Nop>')
+nmap('ZQ', '<Nop>')
 nmap('j', 'gj')
 nmap('k', 'gk')
 nmap('R', 'gR')
