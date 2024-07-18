@@ -31,7 +31,7 @@ opt.mouse        = 'a'
 opt.clipboard:append({ fn.has('mac') == 1 and 'unnamed' or 'unnamedplus' })
 opt.termguicolors = true
 -- if OS is Windows, powershell 5 or 7
-if fn.has('win') == true then
-  opt.shell = { fn.executable('pwsh') == 1 and 'pwsh' or 'powershell'}
+if fn.has('win32') == true then
+  opt.shell = { fn.executable('pwsh') == 1 and 'pwsh' or 'powershell' }
 end
 
