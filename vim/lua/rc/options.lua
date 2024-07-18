@@ -30,8 +30,21 @@ opt.grepformat   = '%f:%l:%c:%m'
 opt.mouse        = 'a'
 opt.clipboard:append({ fn.has('mac') == 1 and 'unnamed' or 'unnamedplus' })
 opt.termguicolors = true
--- if OS is Windows, powershell 5 or 7
-if fn.has('win32') == true then
-  opt.shell = { fn.executable('pwsh') == 1 and 'pwsh' or 'powershell' }
-end
 
+cmd[[
+if has('win32')
+  if executable('pwsh')
+    set shell=pwsh
+  else
+    set shell=powershell
+  endif
+endif
+]]
+-- for toggleterm.nvim
+if fn.has('win32') then
+  opt.shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;"
+  opt.shellredir = "-RedirectStandardOutput %s -NoNewWindow -Wait"
+  opt.shellpipe = "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode"
+  opt.shellquote = ""
+  opt.shellxquote = ""
+end
