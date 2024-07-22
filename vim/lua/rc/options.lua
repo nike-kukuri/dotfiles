@@ -42,9 +42,11 @@ endif
 ]]
 -- for toggleterm.nvim
 if fn.has('win32') then
-  opt.shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;"
-  opt.shellredir = "-RedirectStandardOutput %s -NoNewWindow -Wait"
-  opt.shellpipe = "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode"
-  opt.shellquote = ""
-  opt.shellxquote = ""
+  if not fn.has('wsl') then
+    opt.shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;"
+    opt.shellredir = "-RedirectStandardOutput %s -NoNewWindow -Wait"
+    opt.shellpipe = "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode"
+    opt.shellquote = ""
+    opt.shellxquote = ""
+  end
 end
