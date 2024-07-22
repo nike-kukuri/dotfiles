@@ -151,24 +151,26 @@ local lsp_config = function()
             },
           },
         }
-      --elseif ls == 'rust_analyzer' then
-      --  opts = {
-      --    settings = {
-      --      ["rust-analyzer"] = {
-      --        cargo = {
-      --          features = 'all'
-      --        },
-      --        check = {
-      --          command = "clippy"
-      --        },
-      --        diagnostics = {
-      --          experimental = {
-      --            enable = true,
-      --          }
-      --        }
-      --      }
-      --    }
-      --  }
+      elseif ls == 'rust_analyzer' then
+        if fn.has('win32') then
+          opts = {
+            settings = {
+              ["rust-analyzer"] = {
+                cargo = {
+                  features = 'all'
+                },
+                check = {
+                  command = "clippy"
+                },
+                diagnostics = {
+                  experimental = {
+                    enable = true,
+                  }
+                }
+              }
+            }
+          }
+        end
       end
 
       opts['on_attach'] = Lsp_on_attach
