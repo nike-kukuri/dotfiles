@@ -25,6 +25,7 @@ opt.showtabline  = 1
 opt.tabstop      = 2
 opt.shiftwidth   = 2
 opt.softtabstop  = 2
+opt.fileformats  = 'unix,dos'
 opt.grepprg      = 'rg --vimgrep'
 opt.grepformat   = '%f:%l:%c:%m'
 opt.mouse        = 'a'
