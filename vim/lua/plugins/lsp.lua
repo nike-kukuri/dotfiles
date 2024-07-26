@@ -84,7 +84,7 @@ local lsp_config = function()
     'yamlls',
     'jsonls',
     'vimls',
-    'pylsp',
+    'pyright',
     'clangd',
   }
 
@@ -172,7 +172,12 @@ local lsp_config = function()
             }
           }
         end
+      elseif ls == 'pyright' then
+        lspconfig.pyright.setup({
+          singlle_file_mode = true,
+        })
       end
+
 
       opts['on_attach'] = Lsp_on_attach
 
