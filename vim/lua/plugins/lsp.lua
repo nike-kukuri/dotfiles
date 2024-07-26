@@ -126,13 +126,15 @@ local lsp_config = function()
           },
         }
       elseif ls == 'tsserver' then
-        if not is_node_repo then
-          return
-        end
-
-        opts = {
-          root_dir = lspconfig.util.root_pattern('package.json', 'node_modules'),
-        }
+        lspconfig.tsserver.setup({
+          filetypes = {
+            "javascript",
+            "javascriptreact",
+            "typescript",
+            "typescriptreact",
+          },
+          root_dir = lspconfig.util.root_pattern('package.json', 'tsconfig.json'),
+        })
       elseif ls == 'lua_ls' then
         opts = {
           settings = {
