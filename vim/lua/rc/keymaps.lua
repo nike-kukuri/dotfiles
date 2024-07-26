@@ -125,8 +125,6 @@ nmap('sl', '<C-w>l')
 
 nmap('[b', '<Cmd>bnext<CR>')
 nmap(']b', '<Cmd>bprevious<CR>')
-nmap('[ ', 'O<ESC>cc<ESC>')
-nmap('] ', 'o<ESC>cc<ESC>')
 nmap('<', '<<')
 nmap('>', '>>')
 omap('H', '^')
@@ -139,3 +137,28 @@ tmap('<C-]>', [[<C-\><C-n>]])
 vmap('H', '^')
 vmap('L', 'g_')
 vmap('<Tab>', '%')
+
+-- 
+vim.cmd[[
+function! s:blank_above(type = '') abort
+  if a:type == ''
+    set operatorfunc=function('s:blank_above')
+    return 'g@ '
+  endif
+
+  put! =repeat(nr2char(10), v:count1)
+  normal! '[
+endfunction
+
+function! s:blank_below(type = '') abort
+  if a:type == ''
+    set operatorfunc=function('s:blank_below')
+    return 'g@ '
+  endif
+
+  put =repeat(nr2char(10), v:count1)
+endfunction
+
+nnoremap <expr> ]<Space> <sid>blank_below()
+nnoremap <expr> [<Space> <sid>blank_above()
+]]
