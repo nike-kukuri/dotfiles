@@ -138,7 +138,8 @@ local lsp_config = function()
           settings = {
             Lua = {
               runtime = {
-                version = 'LuaJIT'
+                version = 'LuaJIT',
+                checkThirdParty = false,
               },
               diagnostics = {
                 -- Get the language server to recognize the `vim` global
