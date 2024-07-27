@@ -102,6 +102,7 @@ nnoremap sh <C-w>h
 nnoremap ss :<C-u>sp<CR><C-w>j
 nnoremap sv :<C-u>vs<CR><C-w>l
 
+" Repeatable add blank line
 " https://zenn.dev/vim_jp/articles/8de697fc88e63c
 function! s:blank_above(type = '') abort
   if a:type == ''
