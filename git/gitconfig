@@ -1,6 +1,7 @@
 [user]
 		name = nikekukuri
 		email = nikekukuri0327@gmail.com
+	signingkey = /home/guy/.ssh/signing-key.pub
 [core]
 		editor = nvim
 		autocrlf = input
@@ -28,3 +29,7 @@
 [diff]
     colorMoved = default
 [safe]
+[commit]
+	gpgsign = true
+[gpg]
+	format = ssh
