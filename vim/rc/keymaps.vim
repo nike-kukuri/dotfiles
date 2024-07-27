@@ -51,11 +51,6 @@ nnoremap <Tab><Leader> %
 nnoremap < <<
 nnoremap > >>
 
-" swap ; and :
-" nnoremap ; :
-" nnoremap : ;
-" vnoremap ; :
-" vnoremap : ;
 nnoremap ' :
 vnoremap ' :
 
