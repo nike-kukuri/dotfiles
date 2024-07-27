@@ -12,7 +12,8 @@ set smartcase
 set wildmenu
 set showmatch
 set matchtime=1
-set completeopt=menu,menuone,preview
+set complete=.,w,b,u
+set completeopt=menu,menuone,noselect,preview
 set matchpairs& matchpairs+=<:>
 set noshowmode
 set undolevels=1000

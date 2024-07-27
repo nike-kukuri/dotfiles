@@ -125,3 +125,9 @@ endfunction
 
 nnoremap <expr> ]<Space> <sid>blank_below()
 nnoremap <expr> [<Space> <sid>blank_above()
+
+" https://zenn.dev/kawarimidoll/articles/54e38aa7f55aff
+inoremap <expr> /
+      \ complete_info(['mode']).mode == 'files' && complete_info(['selected']).selected >= 0
+      \   ? '<c-x><c-f>'
+      \   : '/'
