@@ -22,11 +22,11 @@ endtry
 hi Visual ctermfg=159 ctermbg=23 guifg=#b3c3cc guibg=#384851
 
 " Cursor shape in different modes in Windows
-if has('win32')
-  let &t_SI = "\<Esc>[6 q"
-  let &t_SR = "\<Esc>[4 q"
-  let &t_EI = "\<Esc>[2 q"
-endif
+"if has('win32') || has('wsl')
+let &t_SI = "\e[5 q"
+let &t_SR = "\e[3 q"
+let &t_EI = "\e[1 q"
+"endif
 
 " Better <C-n>/<C-p> in Command
 cnoremap <expr> <C-p> pumvisible() ? '<C-p>' : '<Up>'
