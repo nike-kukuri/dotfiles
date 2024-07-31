@@ -17,6 +17,10 @@ local file_indents = {
     pattern = { 'javascript', 'typescriptreact', 'typescript', 'vim', 'lua', 'yaml', 'json', 'sh', 'zsh', 'markdown' },
     command = 'setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab'
   },
+  {
+    pattern = { 'markdown' },
+    command = 'setlocal comments=b:*,b:-,b:+,b:1.,nb:> formatoptions-=c formatoptions+=jro'
+  }
 }
 
 -- grep window
