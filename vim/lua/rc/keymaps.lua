@@ -162,3 +162,20 @@ endfunction
 nnoremap <expr> ]<Space> <sid>blank_below()
 nnoremap <expr> [<Space> <sid>blank_above()
 ]]
+
+
+nmap('<Leader><Leader>', '<Cmd>call ToggleCheckBox()<CR>')
+vmap('<Leader><Leader>', '<Cmd>call ToggleCheckBox()<CR>')
+
+cmd[[
+function! ToggleCheckBox()
+  let l:line = getline('.')
+  if l:line =~ '\-\s\[\s\]'
+    let l:result = substitute(l:line, '-\s\[\s\]', '- [x]', '')
+    call setline('.', l:result)
+  elseif l:line =~ '\-\s\[x\]'
+    let l:result = substitute(l:line, '-\s\[x\]', '- [ ]', '')
+    call setline('.', l:result)
+  end
+endfunction
+]]
