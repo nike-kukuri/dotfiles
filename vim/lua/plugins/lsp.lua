@@ -1,4 +1,4 @@
-Lsp_on_attach = function(client, bufnr)
+local lsp_on_attach = function(client, bufnr)
   -- Enable completion triggered by <c-x><c-o>
   client.server_capabilities.semanticTokensProvider = nil
   --api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -181,7 +181,7 @@ local lsp_config = function()
       end
 
 
-      opts['on_attach'] = Lsp_on_attach
+      opts['on_attach'] = lsp_on_attach
 
       lspconfig[ls].setup(opts)
     end)()

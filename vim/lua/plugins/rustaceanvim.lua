@@ -1,4 +1,4 @@
-Lsp_on_attach = function(client, bufnr)
+lsp_on_attach = function(client, bufnr)
   -- Enable completion triggered by <c-x><c-o>
   client.server_capabilities.semanticTokensProvider = nil
   --api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -11,7 +11,7 @@ Lsp_on_attach = function(client, bufnr)
   nmap('[d', vim.diagnostic.goto_prev, bufopts)
   nmap('<C-g><C-d>', vim.diagnostic.open_float, bufopts)
 
-  map({ 'n', 'x' }, 'ma', vim.lsp.buf.code_action, bufopts)
+  map({ 'n', 'x' }, 'ma', vim.lsp.buf.code_action(), bufopts)
   nmap('<Leader>gl', vim.lsp.codelens.run, bufopts)
   -- auto format when save the file
   local organize_import = function() end
@@ -42,7 +42,7 @@ vim.g.rustaceanvim = {
   },
   -- LSP configuration
   server = {
-    on_attach = Lsp_on_attach,
+    on_attach = lsp_on_attach,
     default_settings = {
       -- rust-analyzer language server configuration
       ['rust-analyzer'] = {
