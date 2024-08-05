@@ -19,7 +19,6 @@ local lsp_on_attach = function(client, bufnr)
   map({ 'n', 'x' }, 'ma', vim.lsp.buf.code_action, bufopts)
   nmap('<Leader>gl', vim.lsp.codelens.run, bufopts)
 
-  -- auto format when save the file
   local organize_import = function() end
   local actions = vim.tbl_get(client.server_capabilities, 'codeActionProvider', "codeActionKinds")
   if actions ~= nil and vim.tbl_contains(actions, "source.organizeImports") then
@@ -28,6 +27,14 @@ local lsp_on_attach = function(client, bufnr)
     end
   end
   nmap('mi', organize_import)
+
+  -- format on save
+  local format_sync_grp = vim.api.nvim_create_augroup("RustaceanFormat", {})
+  vim.api.nvim_create_autocmd("BufWritePre", {
+    buffer = bufnr,
+    callback = function() vim.lsp.buf.format() end,
+    group = format_sync_grp,
+  })
 
   if client.supports_method("textDocument/formatting") then
     nmap(']f', vim.lsp.buf.format, { buffer = bufnr })
