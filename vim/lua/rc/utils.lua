@@ -7,7 +7,7 @@ function M.create_cmd(name, impl, options)
   vim.api.nvim_create_user_command(name, impl, options)
 end
 
-function M.is_wsl()
+function M.is_other_than_win()
   if vim.fn.has('wsl') then
     return true
   else

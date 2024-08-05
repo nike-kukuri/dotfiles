@@ -89,10 +89,11 @@ return {
     ft = { 'rust' },
     config = config,
     enabled = function()
-      if vim.fn.has('win32') then
-        return false
-      else
+      local is_other_than_win = require('rc.utils').is_other_than_win
+      if is_other_than_win then
         return true
+      else
+        return false
       end
     end,
   },
