@@ -29,7 +29,7 @@ local lsp_on_attach = function(client, bufnr)
   nmap('mi', organize_import)
 
   -- format on save
-  local format_sync_grp = vim.api.nvim_create_augroup("RustaceanFormat", {})
+  local format_sync_grp = vim.api.nvim_create_augroup("FormatOnSave", {})
   vim.api.nvim_create_autocmd("BufWritePre", {
     buffer = bufnr,
     callback = function() vim.lsp.buf.format() end,
@@ -100,9 +100,8 @@ local lsp_config = function()
 
   for _, ls in pairs(lss) do
     (function()
-
       local opts = {}
-      
+
       -- use rustacean.nvim to setup other than Windows
       if ls == 'rust_analyzer' then
         if not vim.fn.has('win32') then
