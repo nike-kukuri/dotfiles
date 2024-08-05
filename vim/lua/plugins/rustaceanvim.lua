@@ -40,8 +40,8 @@ local lsp_on_attach = function(client, bufnr)
   vim.lsp.inlay_hint.enable()
   -- toggle inlay_hint
   nmap('<Leader>gi', function()
-      return vim.lsp.inlay_hint.enable(0, not vim.lsp.inlay_hint.is_enabled())
-    end, { expr = true })
+    return vim.lsp.inlay_hint.enable(0, not vim.lsp.inlay_hint.is_enabled())
+  end, { expr = true })
 end
 
 vim.g.rustaceanvim = {
@@ -100,7 +100,7 @@ return {
     'saecki/crates.nvim',
     tag = 'stable',
     config = function()
-        require('crates').setup()
+      require('crates').setup()
     end,
     opts = {
       completion = {
