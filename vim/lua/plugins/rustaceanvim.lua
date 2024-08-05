@@ -23,6 +23,14 @@ local lsp_on_attach = function(client, bufnr)
   end
   nmap('mi', organize_import)
 
+  -- format on save: https://github.com/mrcjkb/rustaceanvim/issues/28#issuecomment-2054117845
+  local format_sync_grp = vim.api.nvim_create_augroup("RustaceanFormat", {})
+  vim.api.nvim_create_autocmd("BufWritePre", {
+    buffer = bufnr,
+    callback = function() vim.lsp.buf.format() end,
+    group = format_sync_grp,
+  })
+
   if client.supports_method("textDocument/formatting") then
     nmap(']f', vim.lsp.buf.format, { buffer = bufnr })
   end
