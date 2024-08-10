@@ -28,6 +28,13 @@ local lsp_on_attach = function(client, bufnr)
   end
   nmap('mi', organize_import)
 
+  -- inlay hint default enable
+  vim.lsp.inlay_hint.enable(bufnr, true)
+  -- inlay hint toggle
+  nmap('<Leader>gi', function()
+    return vim.lsp.inlay_hint.enable(0, not vim.lsp.inlay_hint.is_enabled())
+  end, { expr = true })
+
   -- format on save
   local format_sync_grp = vim.api.nvim_create_augroup("FormatOnSave", {})
   vim.api.nvim_create_autocmd("BufWritePre", {
@@ -98,16 +105,18 @@ local lsp_config = function()
   local node_root_dir = lspconfig.util.root_pattern("package.json")
   local is_node_repo = node_root_dir(fn.getcwd()) ~= nil
 
+  local is_other_than_win = require("rc.utils").is_other_than_win
+
   for _, ls in pairs(lss) do
     (function()
       local opts = {}
 
       -- use rustacean.nvim to setup other than Windows
-      if ls == 'rust_analyzer' then
-        if not vim.fn.has('win32') then
-          return
-        end
-      end
+      -- if ls == 'rust_analyzer' then
+      --   if is_other_than_win then
+      --     return
+      --   end
+      -- end
 
       if ls == 'denols' then
         -- dont start LS in nodejs repository
@@ -161,25 +170,28 @@ local lsp_config = function()
           },
         }
       elseif ls == 'rust_analyzer' then
-        if fn.has('win32') then
-          opts = {
-            settings = {
-              ["rust-analyzer"] = {
-                cargo = {
-                  features = 'all'
+        opts = {
+          settings = {
+            ["rust-analyzer"] = {
+              cargo = {
+                features = 'all'
+              },
+              check = {
+                command = "clippy"
+              },
+              completion = {
+                autoimport = {
+                  enabled = true
                 },
-                check = {
-                  command = "clippy"
-                },
-                diagnostics = {
-                  experimental = {
-                    enable = true,
-                  }
+              },
+              diagnostics = {
+                experimental = {
+                  enable = true,
                 }
               }
             }
           }
-        end
+        }
       elseif ls == 'pyright' then
         lspconfig.pyright.setup({
           singlle_file_mode = true,

@@ -37,7 +37,7 @@ local lsp_on_attach = function(client, bufnr)
 
 
   -- inlay hint default enable
-  vim.lsp.inlay_hint.enable()
+  vim.lsp.inlay_hint.enable(bufnr, true)
   -- toggle inlay_hint
   nmap('<Leader>gi', function()
     return vim.lsp.inlay_hint.enable(0, not vim.lsp.inlay_hint.is_enabled())
@@ -91,7 +91,7 @@ return {
     enabled = function()
       local is_other_than_win = require('rc.utils').is_other_than_win
       if is_other_than_win then
-        return true
+        return false
       else
         return false
       end
