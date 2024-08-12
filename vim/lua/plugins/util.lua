@@ -11,20 +11,20 @@ return {
   },
   {
     'MeanderingProgrammer/markdown.nvim',
-    name = 'render-markdown', -- Only needed if you have another plugin named markdown.nvim
+    name = 'render-markdown',                             -- Only needed if you have another plugin named markdown.nvim
     dependencies = { 'nvim-treesitter/nvim-treesitter' }, -- if you use the mini.nvim suite
     -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
     -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
     config = function()
-        require('render-markdown').setup({
-          heading = { '#', '##', '###', '####', '#####', '######' },
-          checkbox = { '[ ]', '[x]' },
-        })
+      require('render-markdown').setup({
+        heading = { '#', '##', '###', '####', '#####', '######' },
+        checkbox = { '[ ]', '[x]' },
+      })
     end,
   },
   {
     "akinsho/toggleterm.nvim",
-		event = "VimEnter",
+    event = "VimEnter",
     config = function()
       require("toggleterm").setup({
         -- size can be a number or function which is passed the current terminal
@@ -39,13 +39,13 @@ return {
         hide_numbers = true, -- hide the number column in toggleterm buffers
         shade_filetypes = {},
         shade_terminals = true,
-        shading_factor = "1", -- the degree by which to darken to terminal colour, default: 1 for dark backgrounds, 3 for light
+        shading_factor = "1",   -- the degree by which to darken to terminal colour, default: 1 for dark backgrounds, 3 for light
         start_in_insert = false,
         insert_mappings = true, -- whether or not the open mapping applies in insert mode
         persist_size = false,
         direction = "float",
         close_on_exit = false, -- close the terminal window when the process exits
-        shell = vim.o.shell, -- change the default shell
+        shell = vim.o.shell,   -- change the default shell
         -- This field is only relevant if direction is set to 'float'
         float_opts = {
           -- The border key is *almost* the same as 'nvim_win_open'
@@ -82,43 +82,6 @@ return {
   },
   {
     'tani/vim-artemis'
-  },
-  {
-    'lambdalisue/gin.vim'
-  },
-  {
-    'lambdalisue/gina.vim',
-    config = function()
-      local gina_keymaps = {
-        { map = 'nmap', buffer = 'status', lhs = 'gp', rhs = '<Cmd>Gina push<CR>' },
-        { map = 'nmap', buffer = 'status', lhs = 'gr', rhs = '<Cmd>terminal gh pr create<CR>' },
-        { map = 'nmap', buffer = 'status', lhs = 'gl', rhs = '<Cmd>Gina pull<CR>' },
-        { map = 'nmap', buffer = 'status', lhs = 'cm', rhs = '<Cmd>Gina commit<CR>' },
-        { map = 'nmap', buffer = 'status', lhs = 'ca', rhs = '<Cmd>Gina commit --amend<CR>' },
-        { map = 'nmap', buffer = 'status', lhs = 'dp', rhs = '<Plug>(gina-patch-oneside-tab)' },
-        { map = 'nmap', buffer = 'status', lhs = 'ga', rhs = '--' },
-        { map = 'vmap', buffer = 'status', lhs = 'ga', rhs = '--' },
-        { map = 'nmap', buffer = 'log', lhs = 'dd', rhs = '<Plug>(gina-changes-of)' },
-        { map = 'nmap', buffer = 'branch', lhs = 'n', rhs = '<Plug>(gina-branch-new)' },
-        { map = 'nmap', buffer = 'branch', lhs = 'D', rhs = '<Plug>(gina-branch-delete)' },
-        { map = 'nmap', buffer = 'branch', lhs = 'p', rhs = '<Cmd>terminal gh pr create<CR>' },
-        { map = 'nmap', buffer = 'branch', lhs = 'P', rhs = '<Cmd>terminal gh pr create<CR>' },
-        { map = 'nmap', buffer = '/.*', lhs = 'q', rhs = '<Cmd>bw<CR>' },
-      }
-      for _, m in pairs(gina_keymaps) do
-        fn['gina#custom#mapping#' .. m.map](m.buffer, m.lhs, m.rhs, { silent = true })
-      end
-
-      fn['gina#custom#command#option']('log', '--opener', 'new')
-      fn['gina#custom#command#option']('status', '--opener', 'new')
-      fn['gina#custom#command#option']('branch', '--opener', 'new')
-      nmap('gs', '<Cmd>Gina status --short<CR>')
-      nmap('gl', '<Cmd>Gina log<CR>')
-      nmap('gm', '<Cmd>Gina blame<CR>')
-      nmap('gb', '<Cmd>Gina branch<CR>')
-      nmap('gu', ':Gina browse --exact --yank :<CR>')
-      vmap('gu', ':Gina browse --exact --yank :<CR>')
-    end,
   },
   {
     'lambdalisue/kensaku.vim'
