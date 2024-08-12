@@ -24,11 +24,18 @@ vmap('<M-w>', '"+y')
 nmap('<M-v>', '"+P')
 imap('<M-h>', '<C-w>')
 
--- disable auto comment 
+-- disable auto comment
 imap('<C-;>', '<C-o>cc')
 
 nmap('\'', ':', {})
 xmap('\'', ':', {})
+
+-- Open in VSCode
+nmap('<Leader>o', function()
+  local current_file = fn.expand('%:p')
+  local current_line = fn.line('.')
+  fn.system('code --goto ' .. current_file .. ':' .. current_line)
+end, { expr = true })
 
 xmap("*",
   table.concat {
@@ -89,12 +96,12 @@ nmap('ZQ', '<Nop>')
 -- Disalbe 's' to substitute character on cursor
 nmap('s', '<Nop>')
 
-nmap('j', 'gj')  -- move to visual line
-nmap('k', 'gk')  -- move to visual line
+nmap('j', 'gj') -- move to visual line
+nmap('k', 'gk') -- move to visual line
 nmap('H', '^')  -- move to first character
-nmap('L', 'g_')  -- move to last character in visual line
-nmap('R', 'gR')  -- virtual replace
-nmap('*', '*N')  -- search under cursor word and return cursor to original position
+nmap('L', 'g_') -- move to last character in visual line
+nmap('R', 'gR') -- virtual replace
+nmap('*', '*N') -- search under cursor word and return cursor to original position
 
 -- Do NOT add register by using black hole register
 nmap('x', '"_x')
@@ -138,8 +145,8 @@ vmap('H', '^')
 vmap('L', 'g_')
 vmap('<Tab>', '%')
 
--- 
-vim.cmd[[
+--
+vim.cmd [[
 function! s:blank_above(type = '') abort
   if a:type == ''
     set operatorfunc=function('s:blank_above')
@@ -167,7 +174,7 @@ nnoremap <expr> [<Space> <sid>blank_above()
 nmap('<Leader><Leader>', '<Cmd>call ToggleCheckBox()<CR>')
 vmap('<Leader><Leader>', '<Cmd>call ToggleCheckBox()<CR>')
 
-cmd[[
+cmd [[
 function! ToggleCheckBox()
   let l:line = getline('.')
   if l:line =~ '\-\s\[\s\]'
