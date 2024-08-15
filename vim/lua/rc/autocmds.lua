@@ -54,7 +54,7 @@ api.nvim_create_autocmd('BufReadPost',
     if line("'\"") > 0 && line("'\"") <= line("$")
       exe "normal! g'\""
     endif
-    ]] )
+    ]])
     end,
     group = api.nvim_create_augroup('restoreCursorline', { clear = true })
   })
@@ -94,3 +94,14 @@ api.nvim_create_autocmd('BufWritePre', {
   group = api.nvim_create_augroup('autoMkdir', { clear = true })
 })
 
+-- https://blog.atusy.net/2023/07/24/vim-clean-history/
+vim.api.nvim_create_autocmd("ModeChanged", {
+  pattern = "c:*",
+  group = utils.augroup,
+  callback = function()
+    local cmd = vim.fn.histget(":", -1)
+    if cmd == "x" or cmd == "xa" or cmd:match("^w?q?a?!?$") then
+      vim.fn.histdel(":", -1)
+    end
+  end,
+})
