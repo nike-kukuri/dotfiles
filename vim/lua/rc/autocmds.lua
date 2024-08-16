@@ -97,7 +97,7 @@ api.nvim_create_autocmd('BufWritePre', {
 -- https://blog.atusy.net/2023/07/24/vim-clean-history/
 vim.api.nvim_create_autocmd("ModeChanged", {
   pattern = "c:*",
-  group = utils.augroup,
+  group = api.nvim_create_augroup("DeleteSimpleCommandHistory", { clear = true }),
   callback = function()
     local cmd = vim.fn.histget(":", -1)
     if cmd == "x" or cmd == "xa" or cmd:match("^w?q?a?!?$") then
