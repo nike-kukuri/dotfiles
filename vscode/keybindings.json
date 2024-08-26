@@ -10,11 +10,11 @@
     "when": "editorTextFocus"
   },
   {
-    "key": "Ctrl+`",
+    "key": "Ctrl+Shift+[",
     "command": "workbench.action.terminal.focus"
   },
   {
-    "key": "Ctrl+`",
+    "key": "Ctrl+Shift+[",
     "command": "workbench.action.focusActiveEditorGroup",
     "when": "terminalFocus"
   }
