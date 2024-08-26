@@ -1,0 +1,11 @@
+{
+    "editor.fontFamily": "Cica, Ricty Diminished, Consolas, 'Courier New', monospace",
+    "editor.fontSize": 16,
+    "terminal.integrated.fontSize": 14,
+    "terminal.integrated.lineHeight": 1.2,
+    "terminal.integrated.letterSpacing": 1,
+    "workbench.colorTheme": "GitHub Dark",
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "git.openRepositoryInParentFolders": "never",
+    "rust-analyzer.workspace.discoverConfig": null
+}
