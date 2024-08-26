@@ -1,0 +1,21 @@
+[
+  {
+    "key": "alt+.",
+    "command": "editor.action.revealDefinition",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "alt+,",
+    "command": "workbench.action.navigateBack",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "Ctrl+`",
+    "command": "workbench.action.terminal.focus"
+  },
+  {
+    "key": "Ctrl+`",
+    "command": "workbench.action.focusActiveEditorGroup",
+    "when": "terminalFocus"
+  }
+]
