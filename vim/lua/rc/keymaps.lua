@@ -83,10 +83,11 @@ api.nvim_create_autocmd('FileType', {
 map({ 'c', 'i' }, '<C-v>', 'printf("<C-r><C-o>%s", v:register)', { expr = true })
 
 -- other keymap
-if vim.fn.has('win32') then
-  nmap('<Leader>.', ':tabnew ~/AppData/Local/nvim<CR>')
-else
+local is_other_than_win = require('rc.utils').is_other_than_win()
+if is_other_than_win then
   nmap('<Leader>.', ':tabnew ~/.config/nvim/init.lua<CR>')
+else
+  nmap('<Leader>.', ':tabnew ~/AppData/Local/nvim<CR>')
 end
 
 -- Disable "ZZ" & "ZQ" to quit
