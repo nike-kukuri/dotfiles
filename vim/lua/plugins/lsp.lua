@@ -73,12 +73,7 @@ local lsp_config = function()
   end
 
   require('mason-lspconfig').setup({
-    automatic_installation = {
-      exclude = {
-        'gopls',
-        'denols',
-      }
-    }
+    automatic_installation = true,
   })
 
   local lspconfig = require("lspconfig")
@@ -92,7 +87,7 @@ local lsp_config = function()
     'volar',
     'lua_ls',
     'golangci_lint_ls',
-    'eslint',
+    -- 'eslint',
     'graphql',
     'bashls',
     'yamlls',
@@ -206,6 +201,21 @@ local lsp_config = function()
   end
 end
 
+local none_ls_config = function()
+  local null_ls = require('null-ls')
+  -- sources setup
+  local sources = {
+    null_ls.builtins.formatting.prettier,
+    -- Lua
+    null_ls.builtins.formatting.stylua,
+    null_ls.builtins.formatting.fish_indent,
+    null_ls.builtins.diagnostics.fish,
+  }
+  null_ls.setup({
+    sources = sources,
+  })
+end
+
 return {
   {
     'williamboman/mason-lspconfig.nvim',
@@ -222,4 +232,9 @@ return {
     },
     config = lsp_config,
   },
+  {
+    'nvimtools/none-ls.nvim',
+    config = none_ls_config,
+    dependencies = { 'williamboman/mason.nvim' }
+  }
 }
