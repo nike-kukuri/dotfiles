@@ -7,6 +7,12 @@ g['quickrun_config'] = {
 
 return {
   {
+    'numToStr/Comment.nvim',
+    opts = {
+      -- add any options here
+    }
+  },
+  {
     'windwp/nvim-ts-autotag',
     config = function()
       require('nvim-ts-autotag').setup({})
