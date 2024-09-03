@@ -24,8 +24,8 @@ vmap('<M-w>', '"+y')
 nmap('<M-v>', '"+P')
 imap('<M-h>', '<C-w>')
 
--- disable auto comment
-imap('<C-;>', '<C-o>cc')
+-- toggle comment
+vim.api.nvim_set_keymap('i', '<C-q>', '<C-o>gcc', {})
 
 nmap('\'', ':', {})
 xmap('\'', ':', {})
