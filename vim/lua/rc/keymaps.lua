@@ -106,7 +106,6 @@ nmap('*', '*N') -- search under cursor word and return cursor to original positi
 
 -- Do NOT add register by using black hole register
 nmap('x', '"_x')
-nmap('s', '"_s')
 nmap('c', '"_c')
 
 nmap('<Esc><Esc>', '<Cmd>nohlsearch<CR>')
