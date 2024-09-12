@@ -5,6 +5,12 @@ g['quickrun_config'] = {
   },
 }
 
+function UpdateFontSize(size)
+  local current_size = tonumber(string.sub(vim.opt.guifont["_value"], -2))
+  local updated_size = current_size + size
+  cmd('GuiFont! Cica:h' .. updated_size)
+end
+
 return {
   {
     'numToStr/Comment.nvim',
@@ -162,8 +168,11 @@ return {
   {
     'equalsraf/neovim-gui-shim',
     config = function()
-      cmd [[GuiFont! Cica:h18]]
+      cmd [[GuiFont! Cica:h22]]
+      nmap('<C-ScrollWheelUp>', '<Cmd>lua UpdateFontSize(1)<CR>')
+      nmap('<C-ScrollWheelDown>', '<Cmd>lua UpdateFontSize(-1)<CR>')
     end,
     lazy = false,
+    enaled = vim.fn.has('gui_running'),
   }
 }
