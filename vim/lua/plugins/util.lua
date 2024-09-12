@@ -8,9 +8,9 @@ g['quickrun_config'] = {
 return {
   {
     'numToStr/Comment.nvim',
-    opts = {
-      -- add any options here
-    }
+    config = function()
+      require('Comment').setup()
+    end,
   },
   {
     'windwp/nvim-ts-autotag',
@@ -158,5 +158,12 @@ return {
   },
   {
     'kat0h/bufpreview.vim'
+  },
+  {
+    'equalsraf/neovim-gui-shim',
+    config = function()
+      cmd [[GuiFont! Cica:h18]]
+    end,
+    lazy = false,
   }
 }
