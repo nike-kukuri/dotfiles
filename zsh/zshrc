@@ -157,7 +157,6 @@ alias gl='git log'
 alias gln='git log --name-status --oneline'
 alias gch='git checkout'
 
-
 # for Mac
 if [[ $(uname) = "Darwin" ]]; then
   alias ldd="echo ldd is not on OSX. use otool -L."
@@ -167,6 +166,7 @@ if [[ $(uname) = "Darwin" ]]; then
 else
   alias vi='/usr/local/bin/vim'
   alias vim='/usr/local/bin/vim'
+  alias nvim='nvim-qt'
 fi
  
 # sudo の後のコマンドでエイリアスを有効にする
