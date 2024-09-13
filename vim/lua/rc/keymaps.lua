@@ -109,6 +109,10 @@ nmap('x', '"_x')
 nmap('c', '"_c')
 vmap('c', '"_c')
 
+-- select WORD by i<Space> insted fo iW
+omap('i<Space>', 'iW')
+xmap('i<Space>', 'iW')
+
 -- Disable highlight search by <Esc><Esc>
 nmap('<Esc><Esc>', '<Cmd>nohlsearch<CR>')
 
