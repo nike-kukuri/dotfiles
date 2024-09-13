@@ -32,7 +32,7 @@ opt.mouse       = 'a'
 opt.clipboard:append({ fn.has('mac') == 1 and 'unnamed' or 'unnamedplus' })
 opt.termguicolors = true
 
-if not fn.has('wsl')then
+if fn.has('wsl') then
   vim.g.clipboard = {
     name = "win32yank-wsl",
     copy = {
