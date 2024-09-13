@@ -134,8 +134,6 @@ nmap('sl', '<C-w>l')
 
 nmap('[b', '<Cmd>bnext<CR>')
 nmap(']b', '<Cmd>bprevious<CR>')
-nmap('<', '<<')
-nmap('>', '>>')
 omap('H', '^')
 omap('L', 'g_')
 omap('<Tab>', '%')
