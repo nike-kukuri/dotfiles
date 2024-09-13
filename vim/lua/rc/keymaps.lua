@@ -109,6 +109,7 @@ nmap('x', '"_x')
 nmap('c', '"_c')
 vmap('c', '"_c')
 
+-- Disable highlight search by <Esc><Esc>
 nmap('<Esc><Esc>', '<Cmd>nohlsearch<CR>')
 
 -- Do NOT add jumplist to move by <C-d>, <C-u>, { and }
