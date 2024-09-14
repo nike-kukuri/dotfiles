@@ -1,6 +1,6 @@
 g.mapleader     = " "
 opt.breakindent = true
-opt.number      = false
+opt.number      = true
 opt.incsearch   = true
 opt.ignorecase  = true
 opt.smartcase   = true
