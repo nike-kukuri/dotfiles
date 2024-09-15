@@ -40,6 +40,10 @@ cnoremap <C-f> <Right>
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 
+" https://github.com/yuki-yano/dotfiles/blob/c56b219116de1693c45c20b03b109497896d5b16/.vimrc#L602-L605
+nnoremap <expr> i len(getline('.')) ? 'i' : '"_cc'
+nnoremap <expr> A len(getline('.')) ? 'A' : '"_cc'
+
 nnoremap x "_x
 nnoremap s "_s
 nnoremap c "_c
