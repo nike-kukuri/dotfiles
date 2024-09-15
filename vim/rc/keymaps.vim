@@ -69,6 +69,10 @@ onoremap [ i[
 onoremap { i{
 onoremap a9 a(
 
+" select WORD by i<Space>
+onoremap i<Space> iW
+xnoremap i<Space> iW
+
 nnoremap v9 vi(
 nnoremap v[ vi[
 nnoremap v{ vi{
