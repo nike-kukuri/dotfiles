@@ -40,6 +40,12 @@ cnoremap <C-f> <Right>
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 
+" Better <C-n>/<C-p> in Command
+cnoremap <expr> <C-p> pumvisible() ? '<C-p>' : '<Up>'
+cnoremap <expr> <C-n> pumvisible() ? '<C-n>' : '<Down>'
+cnoremap <Up> <C-p>
+cnoremap <Down> <C-n>
+
 " https://github.com/yuki-yano/dotfiles/blob/c56b219116de1693c45c20b03b109497896d5b16/.vimrc#L602-L605
 nnoremap <expr> i len(getline('.')) ? 'i' : '"_cc'
 nnoremap <expr> A len(getline('.')) ? 'A' : '"_cc'

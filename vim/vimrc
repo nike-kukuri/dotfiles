@@ -27,9 +27,3 @@ let &t_SI = "\e[5 q"
 let &t_SR = "\e[3 q"
 let &t_EI = "\e[1 q"
 "endif
-
-" Better <C-n>/<C-p> in Command
-cnoremap <expr> <C-p> pumvisible() ? '<C-p>' : '<Up>'
-cnoremap <expr> <C-n> pumvisible() ? '<C-n>' : '<Down>'
-cnoremap <Up> <C-p>
-cnoremap <Down> <C-n>
