@@ -31,6 +31,7 @@ opt.grepformat  = '%f:%l:%c:%m'
 opt.mouse       = 'a'
 opt.clipboard:append({ fn.has('mac') == 1 and 'unnamed' or 'unnamedplus' })
 opt.termguicolors = true
+opt.shortmess:append('I')
 
 if fn.has('wsl') then
   vim.g.clipboard = {
