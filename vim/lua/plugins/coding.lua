@@ -16,7 +16,7 @@ end
 local has_words_before = function()
   if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then return false end
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  return col ~= 0 and vim.api.nvim_buf_get_text(0, line-1, 0, line-1, col, {})[1]:match("^%s*$") == nil
+  return col ~= 0 and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match("^%s*$") == nil
 end
 
 local nvim_cmp_config = function()
@@ -70,19 +70,23 @@ local nvim_cmp_config = function()
     }),
     sources = {
       { name = 'nvim_lsp', priority = 100 },
-      { name = 'luasnip', priority = 50 },
-      { name = 'buffer', option = {
-        get_bufnrs = function()
-          local bufs = {}
-          for _, win in ipairs(api.nvim_list_wins()) do
-            bufs[api.nvim_win_get_buf(win)] = true
+      { name = 'luasnip',  priority = 50 },
+      {
+        name = 'buffer',
+        option = {
+          get_bufnrs = function()
+            local bufs = {}
+            for _, win in ipairs(api.nvim_list_wins()) do
+              bufs[api.nvim_win_get_buf(win)] = true
+            end
+            return vim.tbl_keys(bufs)
           end
-          return vim.tbl_keys(bufs)
-        end
-      }, priority = 40 },
-      { name = 'path', priority = 90 },
+        },
+        priority = 40
+      },
+      { name = 'path',    priority = 90 },
       { name = 'copilot', priority = 90 },
-      { name = 'crates', priority = 80 },
+      { name = 'crates',  priority = 80 },
     },
     snippet = {
       expand = function(args)
@@ -180,7 +184,7 @@ return {
               TypeParameter = "T",
               Copilot = "",
             },
-        })
+          })
         end
       },
     },
@@ -251,14 +255,13 @@ return {
 
         --vim.fn["skkeleton#initialize"]()
       end)
-
     end
   },
   {
     "delphinus/skkeleton_indicator.nvim",
 
     init = function()
-      require("skkeleton_indicator").setup{
+      require("skkeleton_indicator").setup {
         nord = function(colors)
           api.set_hl(0, "SkkeletonIndicatorEiji", { fg = colors.cyan, bg = colors.dark_black, bold = true })
           api.set_hl(0, "SkkeletonIndicatorHira", { fg = colors.dark_black, bg = colors.green, bold = true })
@@ -283,11 +286,11 @@ return {
     end,
   },
   {
-		"L3MON4D3/LuaSnip",
-		event = "VimEnter",
-		build = "make install_jsregexp",
-		config = function()
-			require("luasnip").setup({})
-		end,
+    "L3MON4D3/LuaSnip",
+    event = "VimEnter",
+    build = "make install_jsregexp",
+    config = function()
+      require("luasnip").setup({})
+    end,
   },
 }
