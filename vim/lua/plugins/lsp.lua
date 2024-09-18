@@ -46,22 +46,6 @@ local lsp_on_attach = function(client, bufnr)
   if client.supports_method("textDocument/formatting") then
     nmap(']f', vim.lsp.buf.format, { buffer = bufnr })
   end
-
-  -- local augroup = api.nvim_create_augroup("LspFormatting", { clear = false })
-  -- if client.supports_method("textDocument/formatting") then
-  --   nmap(']f', vim.lsp.buf.format, { buffer = bufnr })
-  --   if client.name == 'sumneko_lua' then
-  --     return
-  --   end
-  --   api.nvim_create_autocmd("BufWritePre", {
-  --     callback = function()
-  --       organize_import()
-  --       vim.lsp.buf.format()
-  --     end,
-  --     group = augroup,
-  --     buffer = bufnr,
-  --   })
-  -- end
 end
 
 -- lsp config
@@ -236,5 +220,5 @@ return {
     'nvimtools/none-ls.nvim',
     config = none_ls_config,
     dependencies = { 'williamboman/mason.nvim' }
-  }
+  },
 }
